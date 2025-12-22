@@ -1,6 +1,9 @@
 import PageLayout from "@/components/PageLayout";
+import { TeachingCard } from "@/components/TeachingCard";
+import { LoadingGrid, ErrorMessage, EmptyState } from "@/components/LoadingStates";
 import { BookOpen, Users, GraduationCap, Heart, Cross, Church } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTeachings } from "@/hooks/useTeachings";
 import teachingImage from "@/assets/teaching-priest.jpg";
 
 const categories = [
@@ -42,28 +45,20 @@ const categories = [
   },
 ];
 
-const recentTeachings = [
-  {
-    title: "Le Carême : temps de conversion et de grâce",
-    author: "Père Jean-Marie Kouassi",
-    date: "15 Décembre 2025",
-    duration: "45 min",
-  },
-  {
-    title: "La miséricorde divine dans l'Évangile de Luc",
-    author: "Père Aimé Brou",
-    date: "10 Décembre 2025",
-    duration: "1h 20min",
-  },
-  {
-    title: "Marie, Mère de l'Église et notre Mère",
-    author: "Sœur Marie-Claire",
-    date: "5 Décembre 2025",
-    duration: "55 min",
-  },
-];
-
 const Enseignements = () => {
+  // Récupérer les enseignements depuis WordPress via GraphQL
+  const { teachings, loading, error, hasNextPage, loadMore } = useTeachings({ first: 9 });
+
+  const handlePlay = (id: string) => {
+    console.log('Play teaching:', id);
+    // TODO: Implémenter le lecteur audio
+  };
+
+  const handleDownload = (id: string) => {
+    console.log('Download teaching:', id);
+    // TODO: Implémenter le téléchargement
+  };
+
   return (
     <PageLayout 
       title="Enseignements" 
@@ -104,37 +99,55 @@ const Enseignements = () => {
             </div>
           </div>
 
-          {/* Recent Teachings */}
+          {/* Recent Teachings - GraphQL Data */}
           <div>
             <h2 className="font-display text-3xl font-bold text-foreground mb-8 text-center">
               Derniers Enseignements
             </h2>
-            <div className="space-y-4 max-w-4xl mx-auto">
-              {recentTeachings.map((teaching, index) => (
-                <div
-                  key={index}
-                  className="bg-card rounded-xl p-6 shadow-card hover:shadow-elegant transition-all duration-300 border border-border hover:border-primary/30 flex flex-col md:flex-row md:items-center gap-4"
-                >
-                  <div className="flex-1">
-                    <h3 className="font-display text-lg font-bold text-foreground mb-2 hover:text-primary transition-colors cursor-pointer">
-                      {teaching.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm">
-                      Par {teaching.author}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <span>{teaching.date}</span>
-                    <span className="px-3 py-1 bg-secondary/10 text-secondary rounded-full font-medium">
-                      {teaching.duration}
-                    </span>
-                  </div>
-                  <Button variant="burgundy" size="sm">
-                    Écouter
-                  </Button>
+            
+            {/* Loading State */}
+            {loading && <LoadingGrid count={9} type="teaching" />}
+            
+            {/* Error State */}
+            {error && (
+              <ErrorMessage 
+                message="Impossible de charger les enseignements. Veuillez réessayer."
+                onRetry={() => window.location.reload()}
+              />
+            )}
+            
+            {/* Empty State */}
+            {!loading && !error && teachings.length === 0 && (
+              <EmptyState 
+                message="Aucun enseignement disponible pour le moment."
+                icon={<BookOpen className="w-16 h-16 mx-auto" />}
+              />
+            )}
+            
+            {/* Teachings Grid */}
+            {!loading && !error && teachings.length > 0 && (
+              <>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {teachings.map((teaching) => (
+                    <TeachingCard 
+                      key={teaching.id} 
+                      teaching={teaching}
+                      onPlay={handlePlay}
+                      onDownload={handleDownload}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
+                
+                {/* Load More Button */}
+                {hasNextPage && (
+                  <div className="text-center mt-12">
+                    <Button variant="outline" size="lg" onClick={loadMore}>
+                      Charger plus d'enseignements
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
       </section>

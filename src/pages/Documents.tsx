@@ -1,7 +1,11 @@
 import PageLayout from "@/components/PageLayout";
+import { DocumentCard } from "@/components/DocumentCard";
+import { LoadingGrid, ErrorMessage, EmptyState } from "@/components/LoadingStates";
 import { FileText, Download, Eye, Calendar, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useDocuments } from "@/hooks/useDocuments";
+import { useState } from "react";
 
 const documentCategories = [
   { name: "Tous", count: 156 },
@@ -11,52 +15,42 @@ const documentCategories = [
   { name: "Homélies", count: 55 },
 ];
 
-const documents = [
-  {
-    title: "Lettre Pastorale sur l'Évangélisation en Afrique",
-    category: "Lettres Pastorales",
-    date: "10 Décembre 2025",
-    size: "2.4 MB",
-    type: "PDF",
-  },
-  {
-    title: "Décret sur la Formation des Catéchistes",
-    category: "Décrets",
-    date: "28 Novembre 2025",
-    size: "1.8 MB",
-    type: "PDF",
-  },
-  {
-    title: "Homélie de la Fête de Noël 2024",
-    category: "Homélies",
-    date: "25 Décembre 2024",
-    size: "890 KB",
-    type: "PDF",
-  },
-  {
-    title: "Instruction sur la Liturgie en Langue Vernaculaire",
-    category: "Décrets",
-    date: "15 Novembre 2025",
-    size: "3.1 MB",
-    type: "PDF",
-  },
-  {
-    title: "Message pour la Journée Mondiale de la Jeunesse",
-    category: "Lettres Pastorales",
-    date: "1 Novembre 2025",
-    size: "1.2 MB",
-    type: "PDF",
-  },
-  {
-    title: "Réflexion sur la Doctrine Sociale de l'Église",
-    category: "Encycliques",
-    date: "20 Octobre 2025",
-    size: "4.5 MB",
-    type: "PDF",
-  },
-];
-
 const Documents = () => {
+  // Récupérer les documents depuis WordPress via GraphQL
+  const { documents, loading, error, hasNextPage, loadMore } = useDocuments({ first: 12 });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(0);
+
+  const handleDownload = (url: string, title: string) => {
+    // Valider l'URL
+    if (!url || !url.startsWith('http')) {
+      console.error('Invalid download URL');
+      return;
+    }
+
+    // Nettoyer le titre pour éviter XSS
+    const sanitizedTitle = title
+      .replace(/[<>:"\/\\|?*\x00-\x1F]/g, '') // Supprimer les caractères dangereux
+      .trim()
+      .substring(0, 255); // Limiter la longueur
+
+    // Télécharger le document
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = sanitizedTitle;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer'; // Sécurité
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Filtrer les documents selon la recherche
+  const filteredDocuments = documents.filter((doc) => {
+    const matchesSearch = doc.title.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesSearch;
+  });
+
   return (
     <PageLayout 
       title="Documents Officiels" 
@@ -72,6 +66,8 @@ const Documents = () => {
                 <Input 
                   placeholder="Rechercher un document..." 
                   className="pl-12 h-14 text-lg rounded-xl border-border focus:border-primary"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
             </div>
@@ -81,8 +77,9 @@ const Documents = () => {
               {documentCategories.map((cat, index) => (
                 <button
                   key={index}
+                  onClick={() => setSelectedCategory(index)}
                   className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    index === 0
+                    index === selectedCategory
                       ? "bg-primary text-primary-foreground"
                       : "bg-card border border-border text-muted-foreground hover:border-primary hover:text-primary"
                   }`}
@@ -93,56 +90,48 @@ const Documents = () => {
             </div>
           </div>
 
+          {/* Loading State */}
+          {loading && <LoadingGrid count={12} type="document" />}
+          
+          {/* Error State */}
+          {error && (
+            <ErrorMessage 
+              message="Impossible de charger les documents. Veuillez réessayer."
+              onRetry={() => window.location.reload()}
+            />
+          )}
+          
+          {/* Empty State */}
+          {!loading && !error && filteredDocuments.length === 0 && (
+            <EmptyState 
+              message={searchQuery ? "Aucun document ne correspond à votre recherche." : "Aucun document disponible pour le moment."}
+              icon={<FileText className="w-16 h-16 mx-auto" />}
+            />
+          )}
+
           {/* Documents Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {documents.map((doc, index) => (
-              <div
-                key={index}
-                className="bg-card rounded-xl p-6 shadow-card hover:shadow-elegant transition-all duration-300 border border-border hover:border-primary/30 group"
-              >
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-gradient-burgundy transition-all">
-                    <FileText className="w-6 h-6 text-primary group-hover:text-primary-foreground" />
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-xs font-medium text-secondary uppercase tracking-wider">
-                      {doc.category}
-                    </span>
-                  </div>
-                </div>
-                
-                <h3 className="font-display text-lg font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                  {doc.title}
-                </h3>
-                
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    {doc.date}
-                  </span>
-                  <span>{doc.size}</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" className="flex-1 gap-2">
-                    <Eye className="w-4 h-4" />
-                    Voir
-                  </Button>
-                  <Button variant="burgundy" size="sm" className="flex-1 gap-2">
-                    <Download className="w-4 h-4" />
-                    Télécharger
-                  </Button>
-                </div>
+          {!loading && !error && filteredDocuments.length > 0 && (
+            <>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredDocuments.map((doc) => (
+                  <DocumentCard 
+                    key={doc.id} 
+                    document={doc}
+                    onDownload={handleDownload}
+                  />
+                ))}
               </div>
-            ))}
-          </div>
 
-          {/* Load More */}
-          <div className="text-center mt-12">
-            <Button variant="outline" size="lg">
-              Charger plus de documents
-            </Button>
-          </div>
+              {/* Load More */}
+              {hasNextPage && (
+                <div className="text-center mt-12">
+                  <Button variant="outline" size="lg" onClick={loadMore}>
+                    Charger plus de documents
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </section>
     </PageLayout>

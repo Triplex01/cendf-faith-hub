@@ -1,7 +1,10 @@
 import PageLayout from "@/components/PageLayout";
 import HeroCarousel from "@/components/HeroCarousel";
+import { NewsCard } from "@/components/NewsCard";
+import { LoadingGrid, ErrorMessage } from "@/components/LoadingStates";
 import { Calendar, MapPin, Users, ArrowRight, Church, Heart, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNews } from "@/hooks/useNews";
 import heroImage from "@/assets/hero-church.jpg";
 import teachingImage from "@/assets/teaching-priest.jpg";
 import archivesImage from "@/assets/archives.jpg";
@@ -27,23 +30,6 @@ const carouselSlides = [
     image: radioImage,
     title: "Lancement de la Web Radio",
     subtitle: "La foi maintenant accessible en streaming 24h/24 sur internet",
-  },
-];
-
-const featuredNews = [
-  {
-    title: "Message de Noël de Monseigneur l'Évêque",
-    excerpt: "Un appel à la paix et à la réconciliation pour toute la communauté ivoirienne en cette période de fêtes.",
-    date: "20 Décembre 2025",
-    category: "Message",
-    image: heroImage,
-  },
-  {
-    title: "Ordination de 5 nouveaux prêtres",
-    excerpt: "Une célébration joyeuse qui renforce le clergé diocésain et témoigne de la vitalité des vocations.",
-    date: "15 Décembre 2025",
-    category: "Célébration",
-    image: teachingImage,
   },
 ];
 
@@ -97,6 +83,9 @@ const missions = [
 ];
 
 const Actualites = () => {
+  // Récupérer les actualités depuis WordPress via GraphQL
+  const { news, loading, error, hasNextPage, loadMore } = useNews({ first: 6 });
+
   return (
     <PageLayout 
       title="Actualités & Missions" 
@@ -139,49 +128,46 @@ const Actualites = () => {
 
           {/* Featured News and Events Grid */}
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Featured News */}
+            {/* Featured News - GraphQL Data */}
             <div className="lg:col-span-2">
               <h2 className="font-display text-2xl font-bold text-foreground mb-6">
                 À la Une
               </h2>
-              <div className="space-y-6">
-                {featuredNews.map((news, index) => (
-                  <article
-                    key={index}
-                    className="bg-card rounded-xl overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 border border-border hover:border-primary/30 group"
-                  >
-                    <div className="flex flex-col md:flex-row">
-                      <div className="md:w-1/3 h-48 md:h-auto overflow-hidden">
-                        <img
-                          src={news.image}
-                          alt={news.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-                      <div className="flex-1 p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                          <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
-                            {news.category}
-                          </span>
-                          <span className="text-muted-foreground text-sm flex items-center gap-1">
-                            <Calendar className="w-4 h-4" />
-                            {news.date}
-                          </span>
-                        </div>
-                        <h3 className="font-display text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                          {news.title}
-                        </h3>
-                        <p className="text-muted-foreground mb-4">
-                          {news.excerpt}
-                        </p>
-                        <Button variant="link" className="p-0 h-auto text-primary gap-2">
-                          Lire la suite <ArrowRight className="w-4 h-4" />
-                        </Button>
-                      </div>
+              
+              {/* Loading State */}
+              {loading && <LoadingGrid count={4} type="news" />}
+              
+              {/* Error State */}
+              {error && (
+                <ErrorMessage 
+                  message="Impossible de charger les actualités. Veuillez réessayer."
+                  onRetry={() => window.location.reload()}
+                />
+              )}
+              
+              {/* News Grid */}
+              {!loading && !error && (
+                <>
+                  <div className="grid gap-6">
+                    {news.slice(0, 4).map((post) => (
+                      <NewsCard 
+                        key={post.id} 
+                        post={post}
+                        onReadMore={(slug) => console.log('Navigate to:', slug)}
+                      />
+                    ))}
+                  </div>
+                  
+                  {/* Load More Button */}
+                  {hasNextPage && (
+                    <div className="text-center mt-6">
+                      <Button variant="outline" onClick={loadMore}>
+                        Charger plus d'actualités
+                      </Button>
                     </div>
-                  </article>
-                ))}
-              </div>
+                  )}
+                </>
+              )}
             </div>
 
             {/* Upcoming Events */}
