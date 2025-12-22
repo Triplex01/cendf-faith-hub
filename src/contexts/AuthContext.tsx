@@ -107,8 +107,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Définir l'utilisateur
         setUser(userData);
       }
-    } catch (err: any) {
-      const errorMessage = err.message || 'Erreur lors de la connexion';
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la connexion';
       setError(errorMessage);
       console.error('Erreur de connexion:', err);
       throw new Error(errorMessage);

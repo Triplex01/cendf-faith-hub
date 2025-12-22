@@ -10,7 +10,7 @@ interface UseRadioProgramsOptions {
 interface UseRadioProgramsResult {
   programs: RadioProgram[];
   loading: boolean;
-  error: any;
+  error: Error | undefined;
   refetch: () => void;
 }
 

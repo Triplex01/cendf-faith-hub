@@ -10,7 +10,7 @@ interface UseTeachingsOptions {
 interface UseTeachingsResult {
   teachings: Teaching[];
   loading: boolean;
-  error: any;
+  error: Error | undefined;
   hasNextPage: boolean;
   endCursor: string | null;
   loadMore: () => void;

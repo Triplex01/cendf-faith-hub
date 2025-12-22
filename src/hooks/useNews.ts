@@ -10,7 +10,7 @@ interface UseNewsOptions {
 interface UseNewsResult {
   news: Post[];
   loading: boolean;
-  error: any;
+  error: Error | undefined;
   hasNextPage: boolean;
   endCursor: string | null;
   loadMore: () => void;
