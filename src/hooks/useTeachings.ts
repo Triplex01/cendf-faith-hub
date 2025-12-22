@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { GET_TEACHINGS } from '@/graphql/queries';
 import type { GetTeachingsResponse, Teaching } from '@/graphql/types';
 

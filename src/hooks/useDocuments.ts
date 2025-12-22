@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { GET_DOCUMENTS } from '@/graphql/queries';
 import type { GetDocumentsResponse, Document } from '@/graphql/types';
 

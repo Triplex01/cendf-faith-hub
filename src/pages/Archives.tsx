@@ -1,7 +1,13 @@
 import PageLayout from "@/components/PageLayout";
+import { NewsCard } from "@/components/NewsCard";
+import { LoadingGrid, ErrorMessage, EmptyState } from "@/components/LoadingStates";
 import { Archive, Calendar, Book, Video, Image, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useQuery } from "@apollo/client/react";
+import { GET_ARCHIVES } from "@/graphql/queries";
+import { useState } from "react";
+import type { GetArchivesResponse } from "@/graphql/types";
 import archivesImage from "@/assets/archives.jpg";
 
 const archiveCategories = [
@@ -64,6 +70,34 @@ const timelineEvents = [
 ];
 
 const Archives = () => {
+  const [selectedYear, setSelectedYear] = useState<number | undefined>(undefined);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Récupérer les archives depuis WordPress via GraphQL
+  const { data, loading, error, fetchMore } = useQuery<GetArchivesResponse>(GET_ARCHIVES, {
+    variables: { year: selectedYear, first: 12 },
+  });
+
+  const archives = data?.posts?.nodes || [];
+  const pageInfo = data?.posts?.pageInfo;
+
+  const loadMore = () => {
+    if (!pageInfo?.hasNextPage || loading) return;
+
+    fetchMore({
+      variables: {
+        year: selectedYear,
+        first: 12,
+        after: pageInfo.endCursor,
+      },
+    });
+  };
+
+  // Filtrer par recherche
+  const filteredArchives = archives.filter((post) => {
+    return post.title.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   return (
     <PageLayout 
       title="Archives" 
@@ -79,6 +113,8 @@ const Archives = () => {
               <Input 
                 placeholder="Rechercher dans les archives..." 
                 className="pl-12 h-14 text-lg rounded-xl border-border focus:border-primary"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
@@ -109,7 +145,7 @@ const Archives = () => {
           </div>
 
           {/* Timeline */}
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto mb-20">
             <h2 className="font-display text-3xl font-bold text-foreground mb-12 text-center">
               Chronologie Historique
             </h2>
@@ -132,9 +168,12 @@ const Archives = () => {
                     index % 2 === 0 ? "md:pr-16 md:text-right" : "md:pl-16"
                   }`}>
                     <div className="bg-card rounded-xl p-6 shadow-card border border-border hover:border-primary/30 transition-all">
-                      <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-bold mb-3">
+                      <button
+                        onClick={() => setSelectedYear(parseInt(event.year))}
+                        className="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-bold mb-3 hover:bg-secondary hover:text-secondary-foreground transition-colors"
+                      >
                         {event.year}
-                      </span>
+                      </button>
                       <h3 className="font-display text-xl font-bold text-foreground mb-2">
                         {event.title}
                       </h3>
@@ -147,6 +186,66 @@ const Archives = () => {
               ))}
             </div>
           </div>
+
+          {/* Archives by Year */}
+          {selectedYear && (
+            <div className="max-w-6xl mx-auto">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="font-display text-3xl font-bold text-foreground">
+                  Archives de {selectedYear}
+                </h2>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setSelectedYear(undefined)}
+                >
+                  Voir toutes les archives
+                </Button>
+              </div>
+
+              {/* Loading State */}
+              {loading && <LoadingGrid count={12} type="news" />}
+              
+              {/* Error State */}
+              {error && (
+                <ErrorMessage 
+                  message="Impossible de charger les archives. Veuillez réessayer."
+                  onRetry={() => window.location.reload()}
+                />
+              )}
+              
+              {/* Empty State */}
+              {!loading && !error && filteredArchives.length === 0 && (
+                <EmptyState 
+                  message={`Aucune archive disponible pour l'année ${selectedYear}.`}
+                  icon={<Archive className="w-16 h-16 mx-auto" />}
+                />
+              )}
+
+              {/* Archives Grid */}
+              {!loading && !error && filteredArchives.length > 0 && (
+                <>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredArchives.map((post) => (
+                      <NewsCard 
+                        key={post.id} 
+                        post={post}
+                        onReadMore={(slug) => console.log('Navigate to:', slug)}
+                      />
+                    ))}
+                  </div>
+                  
+                  {/* Load More */}
+                  {pageInfo?.hasNextPage && (
+                    <div className="text-center mt-12">
+                      <Button variant="outline" size="lg" onClick={loadMore}>
+                        Charger plus d'archives
+                      </Button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
         </div>
       </section>
     </PageLayout>

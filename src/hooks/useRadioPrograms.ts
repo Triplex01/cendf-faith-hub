@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { GET_RADIO_PROGRAMS } from '@/graphql/queries';
 import type { GetRadioProgramsResponse, RadioProgram } from '@/graphql/types';
 

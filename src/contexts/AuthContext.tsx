@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client/react';
 import { LOGIN_MUTATION, REFRESH_TOKEN_MUTATION } from '@/graphql/mutations';
 import { GET_CURRENT_USER } from '@/graphql/queries';
 import { 

@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { GET_NEWS } from '@/graphql/queries';
 import type { GetNewsResponse, Post } from '@/graphql/types';
 
