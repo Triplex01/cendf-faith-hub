@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
-  { name: "Accueil", href: "#accueil" },
-  { name: "Enseignements", href: "#enseignements" },
-  { name: "Documents", href: "#documents" },
-  { name: "Archives", href: "#archives" },
-  { name: "Radio & Podcasts", href: "#radio" },
-  { name: "À propos", href: "#apropos" },
+  { name: "Accueil", href: "/" },
+  { name: "Actualités", href: "/actualites" },
+  { name: "Enseignements", href: "/enseignements" },
+  { name: "Documents", href: "/documents" },
+  { name: "Archives", href: "/archives" },
+  { name: "Radio & Podcasts", href: "/radio" },
 ];
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +24,8 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const isActive = (href: string) => location.pathname === href;
 
   return (
     <header
@@ -34,8 +38,8 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#accueil" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 bg-gradient-gold rounded-full flex items-center justify-center shadow-gold group-hover:scale-105 transition-transform">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-12 h-12 bg-gradient-burgundy rounded-full flex items-center justify-center shadow-burgundy group-hover:scale-105 transition-transform">
               <span className="text-primary-foreground font-bold text-lg">✝</span>
             </div>
             <div>
@@ -50,35 +54,41 @@ const Header = () => {
                 Doctrine de la Foi
               </p>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:bg-primary/10 ${
-                  isScrolled
-                    ? "text-foreground hover:text-primary"
-                    : "text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                to={link.href}
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                  isActive(link.href)
+                    ? isScrolled 
+                      ? "bg-primary/10 text-primary" 
+                      : "bg-primary-foreground/20 text-primary-foreground"
+                    : isScrolled
+                      ? "text-foreground hover:text-primary hover:bg-primary/10"
+                      : "text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
                 }`}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* Radio Live Button */}
           <div className="hidden md:flex items-center gap-3">
-            <Button 
-              variant={isScrolled ? "gold" : "hero"} 
-              size="sm"
-              className="gap-2"
-            >
-              <Radio className="w-4 h-4 animate-pulse" />
-              Radio en direct
-            </Button>
+            <Link to="/radio">
+              <Button 
+                variant={isScrolled ? "burgundy" : "hero"} 
+                size="sm"
+                className="gap-2"
+              >
+                <Radio className="w-4 h-4 animate-pulse" />
+                Radio en direct
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -99,19 +109,25 @@ const Header = () => {
           <div className="lg:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-md border-b border-border shadow-elegant animate-slide-up">
             <nav className="container mx-auto px-4 py-6 flex flex-col gap-2">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="px-4 py-3 text-foreground font-medium rounded-lg hover:bg-primary/10 hover:text-primary transition-colors"
+                  className={`px-4 py-3 font-medium rounded-lg transition-colors ${
+                    isActive(link.href)
+                      ? "bg-primary/10 text-primary"
+                      : "text-foreground hover:bg-primary/10 hover:text-primary"
+                  }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
-              <Button variant="gold" className="mt-4 gap-2">
-                <Radio className="w-4 h-4 animate-pulse" />
-                Radio en direct
-              </Button>
+              <Link to="/radio" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="burgundy" className="mt-4 w-full gap-2">
+                  <Radio className="w-4 h-4 animate-pulse" />
+                  Radio en direct
+                </Button>
+              </Link>
             </nav>
           </div>
         )}

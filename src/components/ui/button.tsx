@@ -16,11 +16,11 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         // CENDF Custom Variants
-        hero: "bg-primary text-primary-foreground font-semibold shadow-gold hover:shadow-lg hover:scale-105 border-2 border-primary-foreground/20",
+        hero: "bg-secondary text-secondary-foreground font-semibold shadow-gold hover:shadow-lg hover:scale-105 border-2 border-secondary-foreground/20",
         heroOutline: "bg-transparent text-primary-foreground border-2 border-primary-foreground/60 hover:bg-primary-foreground/10 hover:border-primary-foreground font-semibold",
-        burgundy: "bg-secondary text-secondary-foreground shadow-md hover:bg-secondary/90 hover:shadow-lg",
-        gold: "bg-gradient-to-r from-primary to-primary-glow text-primary-foreground font-semibold shadow-gold hover:shadow-lg hover:scale-[1.02]",
-        goldOutline: "bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-primary-foreground font-medium",
+        burgundy: "bg-gradient-burgundy text-primary-foreground shadow-md hover:shadow-lg hover:scale-[1.02]",
+        gold: "bg-gradient-gold text-secondary-foreground font-semibold shadow-gold hover:shadow-lg hover:scale-[1.02]",
+        goldOutline: "bg-transparent text-secondary border-2 border-secondary hover:bg-secondary hover:text-secondary-foreground font-medium",
       },
       size: {
         default: "h-10 px-4 py-2",
