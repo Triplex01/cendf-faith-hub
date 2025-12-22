@@ -11,6 +11,9 @@ interface UseRadioProgramsResult {
   programs: RadioProgram[];
   loading: boolean;
   error: Error | undefined;
+  hasNextPage: boolean;
+  endCursor: string | null;
+  loadMore: () => void;
   refetch: () => void;
 }
 
@@ -20,17 +23,32 @@ interface UseRadioProgramsResult {
 export const useRadioPrograms = (options: UseRadioProgramsOptions = {}): UseRadioProgramsResult => {
   const { first = 10, skip = false } = options;
 
-  const { data, loading, error, refetch } = useQuery<GetRadioProgramsResponse>(GET_RADIO_PROGRAMS, {
+  const { data, loading, error, fetchMore, refetch } = useQuery<GetRadioProgramsResponse>(GET_RADIO_PROGRAMS, {
     variables: { first },
     skip,
   });
 
   const programs = data?.radioPrograms?.nodes || [];
+  const pageInfo = data?.radioPrograms?.pageInfo;
+
+  const loadMore = () => {
+    if (!pageInfo?.hasNextPage || loading) return;
+
+    fetchMore({
+      variables: {
+        first,
+        after: pageInfo.endCursor,
+      },
+    });
+  };
 
   return {
     programs,
     loading,
     error,
+    hasNextPage: pageInfo?.hasNextPage || false,
+    endCursor: pageInfo?.endCursor || null,
+    loadMore,
     refetch,
   };
 };

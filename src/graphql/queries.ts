@@ -145,8 +145,12 @@ export const GET_DOCUMENTS = gql`
  * Query pour récupérer les programmes radio (custom post type)
  */
 export const GET_RADIO_PROGRAMS = gql`
-  query GetRadioPrograms($first: Int = 10) {
-    radioPrograms(first: $first) {
+  query GetRadioPrograms($first: Int = 10, $after: String) {
+    radioPrograms(first: $first, after: $after) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       nodes {
         id
         title

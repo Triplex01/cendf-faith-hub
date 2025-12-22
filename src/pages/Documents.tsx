@@ -22,11 +22,24 @@ const Documents = () => {
   const [selectedCategory, setSelectedCategory] = useState(0);
 
   const handleDownload = (url: string, title: string) => {
+    // Valider l'URL
+    if (!url || !url.startsWith('http')) {
+      console.error('Invalid download URL');
+      return;
+    }
+
+    // Nettoyer le titre pour éviter XSS
+    const sanitizedTitle = title
+      .replace(/[<>:"\/\\|?*\x00-\x1F]/g, '') // Supprimer les caractères dangereux
+      .trim()
+      .substring(0, 255); // Limiter la longueur
+
     // Télécharger le document
     const link = document.createElement('a');
     link.href = url;
-    link.download = title;
+    link.download = sanitizedTitle;
     link.target = '_blank';
+    link.rel = 'noopener noreferrer'; // Sécurité
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

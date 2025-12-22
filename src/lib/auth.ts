@@ -18,21 +18,43 @@ const REFRESH_TOKEN_KEY = 'refreshToken';
  * Récupère le token JWT depuis le localStorage
  */
 export const getToken = (): string | null => {
-  return localStorage.getItem(AUTH_TOKEN_KEY);
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return null;
+  }
+  try {
+    return localStorage.getItem(AUTH_TOKEN_KEY);
+  } catch (error) {
+    console.error('Error accessing localStorage:', error);
+    return null;
+  }
 };
 
 /**
  * Stocke le token JWT dans le localStorage
  */
 export const setToken = (token: string): void => {
-  localStorage.setItem(AUTH_TOKEN_KEY, token);
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return;
+  }
+  try {
+    localStorage.setItem(AUTH_TOKEN_KEY, token);
+  } catch (error) {
+    console.error('Error setting token in localStorage:', error);
+  }
 };
 
 /**
  * Supprime le token JWT du localStorage
  */
 export const removeToken = (): void => {
-  localStorage.removeItem(AUTH_TOKEN_KEY);
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return;
+  }
+  try {
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+  } catch (error) {
+    console.error('Error removing token from localStorage:', error);
+  }
 };
 
 /**

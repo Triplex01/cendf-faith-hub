@@ -41,16 +41,22 @@ export const AudioPlayer = ({ src, title, artist, className = '' }: AudioPlayerP
   }, []);
 
   // Toggle play/pause
-  const togglePlay = () => {
+  const togglePlay = async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
+    try {
+      if (isPlaying) {
+        audio.pause();
+        setIsPlaying(false);
+      } else {
+        await audio.play();
+        setIsPlaying(true);
+      }
+    } catch (error) {
+      console.error('Error playing audio:', error);
+      // L'utilisateur n'a peut-être pas encore interagi avec la page
     }
-    setIsPlaying(!isPlaying);
   };
 
   // Changer le temps de lecture

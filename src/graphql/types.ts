@@ -102,6 +102,7 @@ export interface RadioProgram {
 }
 
 export interface RadioProgramsConnection {
+  pageInfo: PageInfo;
   nodes: RadioProgram[];
 }
 
