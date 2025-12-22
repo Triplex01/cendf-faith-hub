@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    /* CENDF Brand Colors - Golden faith, Burgundy sacrifice, Noble black */
+    /* CENDF Brand Colors - Burgundy sacrifice (Primary), Golden faith (Secondary) */
     --background: 40 20% 98%;
     --foreground: 0 0% 8%;
 
@@ -16,14 +16,15 @@
     --popover: 40 30% 99%;
     --popover-foreground: 0 0% 8%;
 
-    /* Primary: Sacred Gold - CD9804 */
-    --primary: 43 93% 41%;
+    /* Primary: Burgundy Red - A90B0C */
+    --primary: 0 88% 35%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 43 93% 55%;
+    --primary-glow: 0 70% 45%;
 
-    /* Secondary: Burgundy Red - A90B0C */
-    --secondary: 0 88% 35%;
+    /* Secondary: Sacred Gold - CD9804 */
+    --secondary: 43 93% 41%;
     --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 43 93% 55%;
 
     --muted: 40 15% 92%;
     --muted-foreground: 0 0% 40%;
@@ -37,13 +38,15 @@
 
     --border: 40 20% 88%;
     --input: 40 20% 88%;
-    --ring: 43 93% 41%;
+    --ring: 0 88% 35%;
 
     --radius: 0.5rem;
 
     /* Custom CENDF tokens */
     --gold: 43 93% 41%;
+    --gold-glow: 43 93% 55%;
     --burgundy: 0 88% 35%;
+    --burgundy-glow: 0 70% 45%;
     --deep-black: 0 0% 8%;
     --warm-cream: 40 30% 97%;
     --soft-beige: 35 25% 93%;
@@ -51,22 +54,23 @@
     /* Gradients */
     --gradient-gold: linear-gradient(135deg, hsl(43 93% 41%), hsl(43 93% 55%));
     --gradient-burgundy: linear-gradient(135deg, hsl(0 88% 35%), hsl(0 70% 45%));
-    --gradient-divine: linear-gradient(180deg, hsl(43 93% 41% / 0.1), hsl(0 88% 35% / 0.05));
+    --gradient-divine: linear-gradient(180deg, hsl(0 88% 35% / 0.1), hsl(43 93% 41% / 0.05));
     --gradient-hero: linear-gradient(135deg, hsl(0 0% 8% / 0.85), hsl(0 88% 35% / 0.7));
 
     /* Shadows */
     --shadow-gold: 0 4px 20px -4px hsl(43 93% 41% / 0.3);
+    --shadow-burgundy: 0 4px 20px -4px hsl(0 88% 35% / 0.3);
     --shadow-elegant: 0 10px 40px -10px hsl(0 0% 0% / 0.15);
     --shadow-card: 0 4px 24px -4px hsl(0 0% 0% / 0.08);
 
     --sidebar-background: 40 20% 98%;
     --sidebar-foreground: 0 0% 8%;
-    --sidebar-primary: 43 93% 41%;
+    --sidebar-primary: 0 88% 35%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 40 15% 92%;
     --sidebar-accent-foreground: 0 0% 8%;
     --sidebar-border: 40 20% 88%;
-    --sidebar-ring: 43 93% 41%;
+    --sidebar-ring: 0 88% 35%;
   }
 
   .dark {
@@ -79,11 +83,11 @@
     --popover: 0 0% 10%;
     --popover-foreground: 40 20% 95%;
 
-    --primary: 43 93% 50%;
-    --primary-foreground: 0 0% 8%;
+    --primary: 0 70% 45%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 70% 45%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 43 93% 50%;
+    --secondary-foreground: 0 0% 8%;
 
     --muted: 0 0% 15%;
     --muted-foreground: 40 15% 65%;
@@ -96,16 +100,16 @@
 
     --border: 0 0% 18%;
     --input: 0 0% 18%;
-    --ring: 43 93% 50%;
+    --ring: 0 70% 45%;
 
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 40 20% 95%;
-    --sidebar-primary: 43 93% 50%;
-    --sidebar-primary-foreground: 0 0% 8%;
+    --sidebar-primary: 0 70% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 15%;
     --sidebar-accent-foreground: 40 20% 95%;
     --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 43 93% 50%;
+    --sidebar-ring: 0 70% 45%;
   }
 }
 
