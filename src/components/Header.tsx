@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoCendf from "@/assets/logo-cendf.png";
 
 const navLinks = [
   { name: "Accueil", href: "/" },
@@ -38,22 +39,12 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 bg-gradient-burgundy rounded-full flex items-center justify-center shadow-burgundy group-hover:scale-105 transition-transform">
-              <span className="text-primary-foreground font-bold text-lg">✝</span>
-            </div>
-            <div>
-              <h1 className={`font-display font-bold text-xl tracking-tight transition-colors ${
-                isScrolled ? "text-foreground" : "text-primary-foreground"
-              }`}>
-                CENDF
-              </h1>
-              <p className={`text-xs font-medium transition-colors ${
-                isScrolled ? "text-muted-foreground" : "text-primary-foreground/80"
-              }`}>
-                Doctrine de la Foi
-              </p>
-            </div>
+          <Link to="/" className="flex items-center group">
+            <img 
+              src={logoCendf} 
+              alt="CENDF - Commission Episcopale pour la Doctrine de la Foi" 
+              className="h-14 md:h-16 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}

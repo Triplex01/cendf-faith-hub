@@ -9,6 +9,7 @@ import Documents from "./pages/Documents";
 import Archives from "./pages/Archives";
 import Radio from "./pages/Radio";
 import Actualites from "./pages/Actualites";
+import ArticleDetail from "./pages/ArticleDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/archives" element={<Archives />} />
           <Route path="/radio" element={<Radio />} />
           <Route path="/actualites" element={<Actualites />} />
+          <Route path="/actualites/:slug" element={<ArticleDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

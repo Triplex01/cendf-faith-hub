@@ -1,49 +1,69 @@
+import { Link } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 import HeroCarousel from "@/components/HeroCarousel";
 import { Calendar, MapPin, Users, ArrowRight, Church, Heart, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-church.jpg";
-import teachingImage from "@/assets/teaching-priest.jpg";
-import archivesImage from "@/assets/archives.jpg";
-import radioImage from "@/assets/radio-studio.jpg";
+import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
+import basiliqueRome from "@/assets/basilique-rome.jpg";
+import basiliqueNotredame from "@/assets/basilique-notredame.jpg";
+import reunionEglise from "@/assets/reunion-eglise.jpg";
+import interieurBasilique from "@/assets/interieur-basilique.jpg";
 
 const carouselSlides = [
   {
-    image: heroImage,
-    title: "Grande Messe de Noël 2025",
-    subtitle: "Célébration solennelle à la Cathédrale avec toute la communauté diocésaine",
+    image: basiliqueYamoussoukro,
+    title: "Basilique Notre-Dame de la Paix",
+    subtitle: "Yamoussoukro, joyau de l'architecture chrétienne en Afrique",
   },
   {
-    image: teachingImage,
-    title: "Retraite Spirituelle de l'Avent",
-    subtitle: "Trois jours de prière et de méditation pour préparer nos cœurs à Noël",
+    image: basiliqueRome,
+    title: "Communion avec Rome",
+    subtitle: "L'Église de Côte d'Ivoire unie au Saint-Père et à l'Église universelle",
   },
   {
-    image: archivesImage,
-    title: "Inauguration du Nouveau Centre Pastoral",
-    subtitle: "Un espace moderne dédié à la formation et à la vie communautaire",
+    image: interieurBasilique,
+    title: "Beauté de la Liturgie",
+    subtitle: "Célébrer la gloire de Dieu à travers l'art sacré et les vitraux",
   },
   {
-    image: radioImage,
-    title: "Lancement de la Web Radio",
-    subtitle: "La foi maintenant accessible en streaming 24h/24 sur internet",
+    image: reunionEglise,
+    title: "L'Église en Mission",
+    subtitle: "Formation et engagement pastoral au service du peuple de Dieu",
   },
 ];
 
 const featuredNews = [
   {
+    id: "message-noel-eveque",
     title: "Message de Noël de Monseigneur l'Évêque",
     excerpt: "Un appel à la paix et à la réconciliation pour toute la communauté ivoirienne en cette période de fêtes.",
     date: "20 Décembre 2025",
     category: "Message",
-    image: heroImage,
+    image: basiliqueYamoussoukro,
   },
   {
+    id: "ordination-pretres",
     title: "Ordination de 5 nouveaux prêtres",
     excerpt: "Une célébration joyeuse qui renforce le clergé diocésain et témoigne de la vitalité des vocations.",
     date: "15 Décembre 2025",
     category: "Célébration",
-    image: teachingImage,
+    image: reunionEglise,
+  },
+  {
+    id: "formation-catechistes",
+    title: "Formation annuelle des catéchistes",
+    excerpt: "Plus de 200 catéchistes se forment pour mieux transmettre la foi aux nouvelles générations.",
+    date: "10 Décembre 2025",
+    category: "Formation",
+    image: interieurBasilique,
+  },
+  {
+    id: "action-caritative-noel",
+    title: "Grande action caritative de Noël",
+    excerpt: "L'Église mobilise ses forces pour apporter joie et réconfort aux plus démunis.",
+    date: "18 Décembre 2025",
+    category: "Charité",
+    image: basiliqueNotredame,
   },
 ];
 
@@ -174,9 +194,11 @@ const Actualites = () => {
                         <p className="text-muted-foreground mb-4">
                           {news.excerpt}
                         </p>
-                        <Button variant="link" className="p-0 h-auto text-primary gap-2">
-                          Lire la suite <ArrowRight className="w-4 h-4" />
-                        </Button>
+                        <Link to={`/actualites/${news.id}`}>
+                          <Button variant="link" className="p-0 h-auto text-primary gap-2">
+                            Lire la suite <ArrowRight className="w-4 h-4" />
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   </article>
