@@ -1,19 +1,79 @@
-import { ChevronDown, Play } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { ChevronDown, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-church.jpg";
+import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
+import basiliqueRome from "@/assets/basilique-rome.jpg";
+import basiliqueNotredame from "@/assets/basilique-notredame.jpg";
+import interieurBasilique from "@/assets/interieur-basilique.jpg";
+
+const heroSlides = [
+  { image: basiliqueYamoussoukro, alt: "Basilique Notre-Dame de la Paix de Yamoussoukro" },
+  { image: basiliqueRome, alt: "Basilique Saint-Pierre de Rome" },
+  { image: basiliqueNotredame, alt: "Vue de la Basilique Notre-Dame" },
+  { image: interieurBasilique, alt: "Intérieur de la Basilique avec vitraux" },
+];
 
 const Hero = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 6000);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
   return (
-    <section id="accueil" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
+    <section id="accueil" className="relative h-[85vh] min-h-[600px] max-h-[800px] flex items-center justify-center overflow-hidden">
+      {/* Background Image Carousel */}
       <div className="absolute inset-0">
-        <img
-          src={heroImage}
-          alt="Communauté catholique en prière en Côte d'Ivoire"
-          className="w-full h-full object-cover"
-        />
+        {heroSlides.map((slide, index) => (
+          <img
+            key={index}
+            src={slide.image}
+            alt={slide.alt}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+              index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
+      </div>
+
+      {/* Carousel Navigation */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm border border-primary-foreground/20 flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all"
+      >
+        <ChevronLeft className="w-5 h-5" />
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm border border-primary-foreground/20 flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all"
+      >
+        <ChevronRight className="w-5 h-5" />
+      </button>
+
+      {/* Dots */}
+      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+        {heroSlides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              index === currentSlide
+                ? "w-8 bg-secondary"
+                : "w-2 bg-primary-foreground/40 hover:bg-primary-foreground/60"
+            }`}
+          />
+        ))}
       </div>
 
       {/* Content */}

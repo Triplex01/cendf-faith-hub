@@ -30,7 +30,7 @@ const HeroCarousel = ({ slides, autoPlayInterval = 5000 }: HeroCarouselProps) =>
   }, [nextSlide, autoPlayInterval]);
 
   return (
-    <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden rounded-2xl">
+    <div className="relative w-full h-[350px] md:h-[450px] overflow-hidden rounded-2xl">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div

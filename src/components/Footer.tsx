@@ -1,4 +1,5 @@
 import { MapPin, Phone, Mail, Clock, Facebook, Twitter, Youtube, Instagram } from "lucide-react";
+import logoCendf from "@/assets/logo-cendf.png";
 
 const Footer = () => {
   return (
@@ -8,17 +9,15 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* About */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-gold rounded-full flex items-center justify-center shadow-gold">
-                <span className="text-primary-foreground font-bold text-lg">✝</span>
-              </div>
-              <div>
-                <h3 className="font-display font-bold text-xl">CENDF</h3>
-                <p className="text-xs text-primary-foreground/60">Doctrine de la Foi</p>
-              </div>
+            <div className="mb-6">
+              <img 
+                src={logoCendf} 
+                alt="CENDF - Commission Episcopale pour la Doctrine de la Foi" 
+                className="h-16 w-auto object-contain bg-primary-foreground/90 rounded-lg p-2"
+              />
             </div>
             <p className="text-sm text-primary-foreground/70 leading-relaxed mb-6">
-              Centre d'Enseignement de la Doctrine de la Foi - Au service de la communauté 
+              Commission Episcopale pour la Doctrine de la Foi - Au service de la communauté 
               catholique en Côte d'Ivoire pour la promotion et la sauvegarde de la foi.
             </p>
             <div className="flex items-center gap-3">
