@@ -30,11 +30,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-background/95 backdrop-blur-md shadow-elegant border-b border-border"
-          : "bg-transparent"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 bg-background shadow-elegant border-b border-border"
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
@@ -55,12 +51,8 @@ const Header = () => {
                 to={link.href}
                 className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
                   isActive(link.href)
-                    ? isScrolled 
-                      ? "bg-primary/10 text-primary" 
-                      : "bg-primary-foreground/20 text-primary-foreground"
-                    : isScrolled
-                      ? "text-foreground hover:text-primary hover:bg-primary/10"
-                      : "text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                    ? "bg-primary/10 text-primary"
+                    : "text-foreground hover:text-primary hover:bg-primary/10"
                 }`}
               >
                 {link.name}
@@ -72,7 +64,7 @@ const Header = () => {
           <div className="hidden md:flex items-center gap-3">
             <Link to="/radio">
               <Button 
-                variant={isScrolled ? "burgundy" : "hero"} 
+                variant="burgundy"
                 size="sm"
                 className="gap-2"
               >
@@ -88,9 +80,9 @@ const Header = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
-              <X className={`w-6 h-6 ${isScrolled ? "text-foreground" : "text-primary-foreground"}`} />
+              <X className="w-6 h-6 text-foreground" />
             ) : (
-              <Menu className={`w-6 h-6 ${isScrolled ? "text-foreground" : "text-primary-foreground"}`} />
+              <Menu className="w-6 h-6 text-foreground" />
             )}
           </button>
         </div>

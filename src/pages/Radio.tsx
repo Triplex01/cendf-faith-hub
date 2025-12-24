@@ -1,8 +1,8 @@
 import PageLayout from "@/components/PageLayout";
-import { Radio as RadioIcon, Play, Pause, Volume2, Headphones, Clock, Calendar } from "lucide-react";
+import { Play, Headphones, Clock, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import radioImage from "@/assets/radio-studio.jpg";
+import RadioPlayer from "@/components/RadioPlayer";
 
 const schedule = [
   { time: "06:00", program: "Prière du Matin", type: "En direct" },
@@ -54,54 +54,17 @@ const podcasts = [
 ];
 
 const Radio = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-
   return (
     <PageLayout 
       title="Radio & Podcasts" 
-      subtitle="La foi à portée d'écoute, 24h/24"
+      subtitle="La foi à portée d'écoute, 24h/24 sur 102.8 FM"
       backgroundImage={radioImage}
     >
       <section className="py-20">
         <div className="container mx-auto px-4">
           {/* Live Radio Player */}
           <div className="max-w-4xl mx-auto mb-20">
-            <div className="bg-gradient-to-br from-primary to-primary-glow rounded-2xl p-8 shadow-elegant text-primary-foreground">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-3 h-3 bg-secondary rounded-full animate-pulse" />
-                <span className="text-sm font-medium uppercase tracking-wider">En Direct</span>
-              </div>
-              
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                <button 
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  className="w-24 h-24 rounded-full bg-primary-foreground/20 backdrop-blur-sm flex items-center justify-center hover:bg-primary-foreground/30 transition-all group"
-                >
-                  {isPlaying ? (
-                    <Pause className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform" />
-                  ) : (
-                    <Play className="w-10 h-10 text-primary-foreground ml-1 group-hover:scale-110 transition-transform" />
-                  )}
-                </button>
-                
-                <div className="flex-1 text-center md:text-left">
-                  <h2 className="font-display text-3xl font-bold mb-2">Radio CENDF</h2>
-                  <p className="text-primary-foreground/80 text-lg mb-1">
-                    Programme en cours : <strong>Les Échos de la Foi</strong>
-                  </p>
-                  <p className="text-primary-foreground/60 text-sm">
-                    Animé par Père Thomas Adjobi
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 bg-primary-foreground/10 rounded-full px-6 py-3">
-                  <Volume2 className="w-5 h-5" />
-                  <div className="w-24 h-2 bg-primary-foreground/30 rounded-full">
-                    <div className="w-3/4 h-full bg-secondary rounded-full" />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <RadioPlayer variant="full" />
           </div>
 
           {/* Schedule and Podcasts */}
