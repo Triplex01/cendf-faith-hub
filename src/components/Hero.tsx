@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { ChevronDown, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, Play, ChevronLeft, ChevronRight, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRadioPlayer } from "@/hooks/useRadioPlayer";
 import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
 import basiliqueRome from "@/assets/basilique-rome.jpg";
 import basiliqueNotredame from "@/assets/basilique-notredame.jpg";
@@ -15,6 +16,7 @@ const heroSlides = [
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { isPlaying, toggle } = useRadioPlayer();
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -105,8 +107,14 @@ const Hero = () => {
               <Play className="w-5 h-5 group-hover:scale-110 transition-transform" />
               Découvrir nos enseignements
             </Button>
-            <Button variant="heroOutline" size="xl">
-              Explorer les archives
+            <Button 
+              variant="heroOutline" 
+              size="xl"
+              onClick={toggle}
+              className="group"
+            >
+              <Radio className={`w-5 h-5 ${isPlaying ? "animate-pulse text-secondary" : ""}`} />
+              {isPlaying ? "Radio en cours..." : "Écouter la Radio"}
             </Button>
           </div>
 
