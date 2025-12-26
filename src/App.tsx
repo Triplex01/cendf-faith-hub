@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import PageLoader from "@/components/PageLoader";
 import Index from "./pages/Index";
 import Enseignements from "./pages/Enseignements";
 import Documents from "./pages/Documents";
@@ -14,22 +16,44 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Composant pour gérer le loader lors des changements de route
+const AppRoutes = () => {
+  const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800); // Animation de chargement de 800ms
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
+  return (
+    <>
+      <PageLoader isLoading={isLoading} />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/enseignements" element={<Enseignements />} />
+        <Route path="/documents" element={<Documents />} />
+        <Route path="/archives" element={<Archives />} />
+        <Route path="/radio" element={<Radio />} />
+        <Route path="/actualites" element={<Actualites />} />
+        <Route path="/actualites/:slug" element={<ArticleDetail />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/enseignements" element={<Enseignements />} />
-          <Route path="/documents" element={<Documents />} />
-          <Route path="/archives" element={<Archives />} />
-          <Route path="/radio" element={<Radio />} />
-          <Route path="/actualites" element={<Actualites />} />
-          <Route path="/actualites/:slug" element={<ArticleDetail />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
