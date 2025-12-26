@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 
-// Simulated radio stream URL - In production, replace with actual stream URL
-const RADIO_STREAM_URL = "https://stream.zeno.fm/placeholder"; // Placeholder for 102.8 MHz simulation
+// Radio Espoir 102.8 MHz - Flux réel
+const RADIO_STREAM_URL = "https://dc1.serverse.com/proxy/radioespoir/stream";
 
 export interface RadioPlayerState {
   isPlaying: boolean;
@@ -73,18 +73,13 @@ export const useRadioPlayer = () => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     
     try {
-      // For simulation purposes, we'll just toggle the state
-      // In production with a real stream, uncomment the line below
-      // await audioRef.current.play();
-      
-      // Simulation: Toggle playing state after a short delay
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await audioRef.current.play();
       setState(prev => ({ ...prev, isPlaying: true, isLoading: false }));
     } catch (error) {
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error: "Impossible de démarrer la lecture.",
+        error: "Impossible de démarrer la lecture. Vérifiez votre connexion.",
       }));
     }
   }, []);
@@ -92,7 +87,7 @@ export const useRadioPlayer = () => {
   const pause = useCallback(() => {
     if (!audioRef.current) return;
     
-    // audioRef.current.pause(); // Uncomment for production
+    audioRef.current.pause();
     setState(prev => ({ ...prev, isPlaying: false }));
   }, []);
 
