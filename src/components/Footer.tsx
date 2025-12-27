@@ -1,5 +1,15 @@
 import { MapPin, Phone, Mail, Clock, Facebook, Twitter, Youtube, Instagram } from "lucide-react";
+import { Link } from "react-router-dom";
 import logoCendf from "@/assets/logo-cendf.png";
+
+const quickLinks = [
+  { name: "Enseignements", href: "/enseignements" },
+  { name: "Documents", href: "/documents" },
+  { name: "Archives", href: "/archives" },
+  { name: "Radio Live", href: "/radio" },
+  { name: "Podcasts", href: "/radio" },
+  { name: "Actualités", href: "/actualites" },
+];
 
 const Footer = () => {
   return (
@@ -37,11 +47,11 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-bold text-lg mb-6">Liens Rapides</h4>
             <ul className="space-y-3">
-              {["Enseignements", "Documents", "Archives", "Radio Live", "Podcasts", "Actualités"].map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-sm text-primary-foreground/70 hover:text-primary transition-colors">
-                    {link}
-                  </a>
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link to={link.href} className="text-sm text-primary-foreground/70 hover:text-primary transition-colors">
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>

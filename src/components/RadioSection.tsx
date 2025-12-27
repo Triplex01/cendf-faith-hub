@@ -1,7 +1,8 @@
 import { Radio, Headphones, Play, Pause, Volume2, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import radioImage from "@/assets/radio-studio.jpg";
+import { useRadioPlayer } from "@/hooks/useRadioPlayer";
+import { Link } from "react-router-dom";
 
 const podcasts = [
   {
@@ -25,7 +26,7 @@ const podcasts = [
 ];
 
 const RadioSection = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { isPlaying, isLoading, toggle, volume, setVolume } = useRadioPlayer();
 
   return (
     <section id="radio" className="py-24 bg-deep-black text-primary-foreground">
@@ -53,25 +54,33 @@ const RadioSection = () => {
                 </div>
                 <div className="flex items-center gap-2 text-primary-foreground/60">
                   <Volume2 className="w-4 h-4" />
-                  <div className="w-20 h-1 bg-primary-foreground/20 rounded-full">
-                    <div className="w-3/4 h-full bg-primary rounded-full" />
+                  <div className="w-20 h-1 bg-primary-foreground/20 rounded-full cursor-pointer" onClick={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const newVolume = Math.max(0, Math.min(1, x / rect.width));
+                    setVolume(newVolume);
+                  }}>
+                    <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${volume * 100}%` }} />
                   </div>
                 </div>
               </div>
               
               <div className="flex items-center gap-4">
                 <button
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  className="w-16 h-16 bg-gradient-gold rounded-full flex items-center justify-center shadow-gold hover:scale-105 transition-transform"
+                  onClick={toggle}
+                  disabled={isLoading}
+                  className="w-16 h-16 bg-gradient-gold rounded-full flex items-center justify-center shadow-gold hover:scale-105 transition-transform disabled:opacity-50"
                 >
-                  {isPlaying ? (
+                  {isLoading ? (
+                    <div className="w-7 h-7 border-3 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                  ) : isPlaying ? (
                     <Pause className="w-7 h-7 text-primary-foreground" />
                   ) : (
                     <Play className="w-7 h-7 text-primary-foreground ml-1" />
                   )}
                 </button>
                 <div>
-                  <h4 className="font-display font-bold text-lg">Radio CENDF</h4>
+                  <h4 className="font-display font-bold text-lg">Radio Espoir</h4>
                   <p className="text-primary-foreground/60 text-sm">
                     Actuellement : Chapelet du Rosaire
                   </p>
@@ -110,9 +119,11 @@ const RadioSection = () => {
               ))}
             </div>
 
-            <Button variant="goldOutline" size="lg" className="mt-6 w-full">
-              Voir tous les podcasts
-            </Button>
+            <Link to="/radio">
+              <Button variant="goldOutline" size="lg" className="mt-6 w-full">
+                Voir tous les podcasts
+              </Button>
+            </Link>
           </div>
 
           {/* Image */}
@@ -121,7 +132,7 @@ const RadioSection = () => {
             <div className="relative rounded-2xl overflow-hidden shadow-elegant">
               <img
                 src={radioImage}
-                alt="Studio de Radio CENDF"
+                alt="Studio de Radio Espoir"
                 className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-deep-black/80 via-deep-black/20 to-transparent" />
