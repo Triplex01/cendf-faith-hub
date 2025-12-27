@@ -1,5 +1,6 @@
 import { FileText, Download, Calendar, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const documents = [
   {
@@ -42,10 +43,12 @@ const DocumentsSection = () => {
               Textes <span className="text-secondary">Magistériels</span>
             </h2>
           </div>
-          <Button variant="goldOutline" className="gap-2 self-start md:self-auto">
-            Voir tous les documents
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+          <Link to="/documents">
+            <Button variant="goldOutline" className="gap-2 self-start md:self-auto">
+              Voir tous les documents
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
         </div>
 
         {/* Documents Grid */}

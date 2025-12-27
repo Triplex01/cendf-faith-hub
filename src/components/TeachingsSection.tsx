@@ -1,4 +1,5 @@
 import { BookOpen, Cross, Heart, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 import teachingImage from "@/assets/teaching-priest.jpg";
 
 const teachings = [
@@ -66,7 +67,8 @@ const TeachingsSection = () => {
           {/* Teaching Cards */}
           <div className="grid sm:grid-cols-2 gap-6">
             {teachings.map((teaching, index) => (
-              <div
+              <Link
+                to="/enseignements"
                 key={index}
                 className="group p-6 bg-card rounded-xl border border-border shadow-card hover:shadow-elegant hover:border-primary/30 transition-all duration-300 cursor-pointer"
                 style={{ animationDelay: `${index * 0.1}s` }}
@@ -80,7 +82,7 @@ const TeachingsSection = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {teaching.description}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import logoCendf from "@/assets/logo-cendf.png";
 
 interface PageLoaderProps {
   isLoading: boolean;
@@ -22,13 +23,21 @@ const PageLoader = ({ isLoading }: PageLoaderProps) => {
               transition={{ duration: 0.5 }}
               className="relative"
             >
-              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary"
+              <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center p-2">
+                <motion.img
+                  src={logoCendf}
+                  alt="CENDF Logo"
+                  className="w-full h-full object-contain"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 />
               </div>
+              {/* Cercle de chargement autour du logo */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 w-24 h-24 rounded-full border-4 border-primary/20 border-t-primary"
+              />
             </motion.div>
 
             {/* Texte de chargement */}
@@ -38,9 +47,6 @@ const PageLoader = ({ isLoading }: PageLoaderProps) => {
               transition={{ delay: 0.3, duration: 0.5 }}
               className="text-center"
             >
-              <h2 className="text-xl font-montserrat font-semibold text-foreground mb-2">
-                CENDF
-              </h2>
               <div className="flex items-center gap-1">
                 <span className="text-sm text-muted-foreground">Chargement</span>
                 <motion.span

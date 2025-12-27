@@ -89,7 +89,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-md border-b border-border shadow-elegant animate-slide-up">
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-elegant animate-slide-up">
             <nav className="container mx-auto px-4 py-6 flex flex-col gap-2">
               {navLinks.map((link) => (
                 <Link

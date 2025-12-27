@@ -1,6 +1,7 @@
 import { Archive, Search, Filter, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import archivesImage from "@/assets/archives.jpg";
+import { Link } from "react-router-dom";
 
 const archiveCategories = [
   { name: "Lettres apostoliques", count: 156 },
@@ -63,10 +64,12 @@ const ArchivesSection = () => {
               ))}
             </div>
 
-            <Button variant="burgundy" size="lg" className="mt-8 gap-2">
-              Explorer toutes les archives
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+            <Link to="/archives">
+              <Button variant="burgundy" size="lg" className="mt-8 gap-2">
+                Explorer toutes les archives
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
           </div>
 
           {/* Image */}
