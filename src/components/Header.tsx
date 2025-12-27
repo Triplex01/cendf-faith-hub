@@ -1,8 +1,46 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Radio } from "lucide-react";
+import { Menu, X, Radio, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoCendf from "@/assets/logo-cendf.png";
+
+// Cart Context for sharing cart state across components
+export interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+interface CartContextType {
+  cart: CartItem[];
+  addToCart: (item: Omit<CartItem, "quantity">) => void;
+  removeFromCart: (id: number) => void;
+  updateQuantity: (id: number, quantity: number) => void;
+  clearCart: () => void;
+  cartCount: number;
+  cartTotal: number;
+}
+
+export const CartContext = createContext<CartContextType | null>(null);
+
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if (!context) {
+    // Return a default context for components not wrapped in CartProvider
+    return {
+      cart: [],
+      addToCart: () => {},
+      removeFromCart: () => {},
+      updateQuantity: () => {},
+      clearCart: () => {},
+      cartCount: 0,
+      cartTotal: 0,
+    };
+  }
+  return context;
+};
 
 const navLinks = [
   { name: "Accueil", href: "/" },
@@ -19,6 +57,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { cartCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,9 +70,7 @@ const Header = () => {
   const isActive = (href: string) => location.pathname === href;
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 bg-background shadow-elegant border-b border-border"
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background shadow-elegant border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -51,7 +88,7 @@ const Header = () => {
               <Link
                 key={link.name}
                 to={link.href}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
                   isActive(link.href)
                     ? "bg-primary/10 text-primary"
                     : "text-foreground hover:text-primary hover:bg-primary/10"
@@ -62,14 +99,22 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Radio Live Button */}
+          {/* Right Actions */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Cart Button */}
+            <Link to="/boutique" className="relative">
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingCart className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-burgundy text-primary-foreground text-xs font-bold rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+            
             <Link to="/radio">
-              <Button 
-                variant="burgundy"
-                size="sm"
-                className="gap-2"
-              >
+              <Button variant="burgundy" size="sm" className="gap-2">
                 <Radio className="w-4 h-4 animate-pulse" />
                 Radio en direct
               </Button>
@@ -77,16 +122,30 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6 text-foreground" />
-            ) : (
-              <Menu className="w-6 h-6 text-foreground" />
-            )}
-          </button>
+          <div className="flex items-center gap-2 lg:hidden">
+            {/* Mobile Cart */}
+            <Link to="/boutique" className="relative">
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingCart className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-burgundy text-primary-foreground text-xs font-bold rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+            
+            <button
+              className="p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6 text-foreground" />
+              ) : (
+                <Menu className="w-6 h-6 text-foreground" />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
