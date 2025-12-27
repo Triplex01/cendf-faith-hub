@@ -57,7 +57,7 @@ const NewsTicker = ({ speed = 50, className = "" }: NewsTickerProps) => {
 
   return (
     <div 
-      className={`relative bg-primary overflow-hidden ${className}`}
+      className={`fixed top-20 left-0 right-0 z-40 bg-primary overflow-hidden shadow-md ${className}`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
