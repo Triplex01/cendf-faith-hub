@@ -150,6 +150,24 @@ function cendf_register_custom_post_types() {
         'menu_icon' => 'dashicons-book-alt',
         'rewrite' => ['slug' => 'enseignements'],
     ]);
+
+    // 8. Produits Boutique
+    register_post_type('products', [
+        'labels' => [
+            'name' => 'Produits',
+            'singular_name' => 'Produit',
+            'add_new' => 'Ajouter',
+            'add_new_item' => 'Ajouter un produit',
+            'edit_item' => 'Modifier le produit',
+        ],
+        'public' => true,
+        'has_archive' => true,
+        'show_in_rest' => true,
+        'rest_base' => 'products',
+        'supports' => ['title', 'editor', 'thumbnail'],
+        'menu_icon' => 'dashicons-cart',
+        'rewrite' => ['slug' => 'boutique'],
+    ]);
 }
 
 /**
@@ -475,6 +493,52 @@ function cendf_register_acf_fields() {
                     'param' => 'post_type',
                     'operator' => '==',
                     'value' => 'teachings',
+                ],
+            ],
+        ],
+    ]);
+
+    // Champs pour Produits Boutique
+    acf_add_local_field_group([
+        'key' => 'group_products',
+        'title' => 'Détails du produit',
+        'fields' => [
+            [
+                'key' => 'field_product_price',
+                'label' => 'Prix (FCFA)',
+                'name' => 'price',
+                'type' => 'number',
+                'required' => 1,
+            ],
+            [
+                'key' => 'field_product_category',
+                'label' => 'Catégorie',
+                'name' => 'category',
+                'type' => 'select',
+                'choices' => [
+                    'Chapelets' => 'Chapelets',
+                    'Livres' => 'Livres',
+                    'Médailles' => 'Médailles',
+                    'Décoration' => 'Décoration',
+                    'Encens' => 'Encens',
+                    'Icônes' => 'Icônes',
+                ],
+            ],
+            [
+                'key' => 'field_product_stock',
+                'label' => 'En stock',
+                'name' => 'in_stock',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+            ],
+        ],
+        'location' => [
+            [
+                [
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'products',
                 ],
             ],
         ],

@@ -11,6 +11,8 @@ const navLinks = [
   { name: "Documents", href: "/documents" },
   { name: "Archives", href: "/archives" },
   { name: "Radio & Podcasts", href: "/radio" },
+  { name: "Boutique", href: "/boutique" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const Header = () => {
