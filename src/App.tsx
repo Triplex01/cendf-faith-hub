@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { CartProvider } from "@/contexts/CartContext";
 import PageLoader from "@/components/PageLoader";
 import Index from "./pages/Index";
 import Enseignements from "./pages/Enseignements";
@@ -14,11 +15,14 @@ import Actualites from "./pages/Actualites";
 import ArticleDetail from "./pages/ArticleDetail";
 import Contact from "./pages/Contact";
 import Boutique from "./pages/Boutique";
+import BibleEnLigne from "./pages/BibleEnLigne";
+import SaintDuJour from "./pages/SaintDuJour";
+import Prieres from "./pages/Prieres";
+import CalendrierLiturgique from "./pages/CalendrierLiturgique";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Composant pour gérer le loader lors des changements de route
 const AppRoutes = () => {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,8 +31,7 @@ const AppRoutes = () => {
     setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 800); // Animation de chargement de 800ms
-
+    }, 800);
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
@@ -45,6 +48,10 @@ const AppRoutes = () => {
         <Route path="/actualites/:slug" element={<ArticleDetail />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/boutique" element={<Boutique />} />
+        <Route path="/bible" element={<BibleEnLigne />} />
+        <Route path="/saint-du-jour" element={<SaintDuJour />} />
+        <Route path="/prieres" element={<Prieres />} />
+        <Route path="/calendrier-liturgique" element={<CalendrierLiturgique />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
@@ -53,13 +60,15 @@ const AppRoutes = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </TooltipProvider>
+    <CartProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </TooltipProvider>
+    </CartProvider>
   </QueryClientProvider>
 );
 
