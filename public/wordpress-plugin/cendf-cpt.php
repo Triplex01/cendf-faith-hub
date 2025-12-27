@@ -479,6 +479,59 @@ function cendf_register_acf_fields() {
             ],
         ],
     ]);
+
+    // Champs pour le Bandeau Défilant (News Ticker)
+    acf_add_local_field_group([
+        'key' => 'group_news_ticker',
+        'title' => 'Textes du bandeau défilant',
+        'fields' => [
+            [
+                'key' => 'field_ticker_items',
+                'label' => 'Messages défilants',
+                'name' => 'ticker_items',
+                'type' => 'repeater',
+                'min' => 1,
+                'max' => 20,
+                'layout' => 'table',
+                'button_label' => 'Ajouter un message',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_ticker_text',
+                        'label' => 'Texte',
+                        'name' => 'text',
+                        'type' => 'text',
+                        'required' => 1,
+                        'placeholder' => 'Ex: 🎄 Messe de minuit le 24 décembre',
+                    ],
+                    [
+                        'key' => 'field_ticker_link',
+                        'label' => 'Lien',
+                        'name' => 'link',
+                        'type' => 'url',
+                        'placeholder' => 'https://...',
+                    ],
+                    [
+                        'key' => 'field_ticker_active',
+                        'label' => 'Actif',
+                        'name' => 'active',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                    ],
+                ],
+            ],
+        ],
+        'location' => [
+            [
+                [
+                    'param' => 'options_page',
+                    'operator' => '==',
+                    'value' => 'cendf-ticker-settings',
+                ],
+            ],
+        ],
+    ]);
+}
 }
 
 /**
@@ -563,6 +616,16 @@ add_action('admin_menu', function() {
         'dashicons-admin-site',
         100
     );
+    
+    // Sous-menu pour le bandeau défilant
+    add_submenu_page(
+        'cendf-integration',
+        'Bandeau Défilant',
+        'Bandeau Défilant',
+        'manage_options',
+        'cendf-ticker-settings',
+        'cendf_ticker_settings_page'
+    );
 });
 
 function cendf_admin_page() {
@@ -616,3 +679,235 @@ function cendf_admin_page() {
     </div>
     <?php
 }
+
+/**
+ * =====================================================
+ * ÉTAPE 6 : BANDEAU DÉFILANT (TICKER) SETTINGS
+ * =====================================================
+ */
+
+// Page de configuration du ticker
+function cendf_ticker_settings_page() {
+    ?>
+    <div class="wrap">
+        <h1>📢 Bandeau Défilant - Configuration</h1>
+        
+        <div class="card" style="max-width: 800px; padding: 20px; margin-top: 20px;">
+            <h2>Configuration du bandeau d'informations</h2>
+            <p>Gérez les messages qui défilent sur la page d'accueil de votre site.</p>
+            
+            <h3>📋 Méthode 1 : Via ACF (Recommandé)</h3>
+            <p>Si vous avez <strong>ACF Pro</strong>, les champs apparaîtront automatiquement ici.</p>
+            
+            <h3>📋 Méthode 2 : Via GoPiPlus (Alternative)</h3>
+            <p>Pour utiliser le plugin <strong>GoPiPlus Horizontal Scrolling News Ticker</strong> :</p>
+            <ol style="margin-left: 20px;">
+                <li>Installez le plugin <a href="https://wordpress.org/plugins/jeevo-developer-developer-developer/" target="_blank">GoPiPlus News Ticker</a></li>
+                <li>Créez vos textes défilants dans le plugin</li>
+                <li>Utilisez l'endpoint API ci-dessous pour récupérer les données</li>
+            </ol>
+            
+            <h3>🔌 API Endpoint :</h3>
+            <pre style="background: #f1f1f1; padding: 10px; border-radius: 5px;"><?php echo get_site_url(); ?>/wp-json/cendf/v1/ticker</pre>
+            
+            <h3>📝 Shortcode GoPiPlus compatible :</h3>
+            <p>Ce plugin crée un endpoint REST compatible avec GoPiPlus pour récupérer les textes.</p>
+            <pre style="background: #f1f1f1; padding: 10px; border-radius: 5px;">[jeevo-developer-news speed="50" direction="left"]</pre>
+        </div>
+    </div>
+    <?php
+}
+
+/**
+ * =====================================================
+ * ÉTAPE 7 : API REST POUR LE BANDEAU DÉFILANT
+ * =====================================================
+ */
+
+add_action('rest_api_init', function() {
+    // Endpoint pour récupérer les textes du ticker
+    register_rest_route('cendf/v1', '/ticker', [
+        'methods' => 'GET',
+        'callback' => 'cendf_get_ticker_items',
+        'permission_callback' => '__return_true',
+    ]);
+    
+    // Endpoint pour les données GoPiPlus
+    register_rest_route('cendf/v1', '/gopiplus', [
+        'methods' => 'GET',
+        'callback' => 'cendf_get_gopiplus_data',
+        'permission_callback' => '__return_true',
+    ]);
+});
+
+function cendf_get_ticker_items() {
+    // Option 1: Essayer de récupérer depuis ACF Options
+    if (function_exists('get_field')) {
+        $ticker_items = get_field('ticker_items', 'option');
+        if ($ticker_items && is_array($ticker_items)) {
+            $items = [];
+            foreach ($ticker_items as $index => $item) {
+                if (!empty($item['active'])) {
+                    $items[] = [
+                        'id' => $index + 1,
+                        'text' => $item['text'],
+                        'link' => $item['link'] ?? '',
+                    ];
+                }
+            }
+            return rest_ensure_response($items);
+        }
+    }
+    
+    // Option 2: Récupérer depuis les options WordPress standard
+    $ticker_option = get_option('cendf_ticker_items', []);
+    if (!empty($ticker_option)) {
+        return rest_ensure_response($ticker_option);
+    }
+    
+    // Option 3: Récupérer depuis la table GoPiPlus si elle existe
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'jeevo_developer_developer_developer';
+    
+    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
+        $results = $wpdb->get_results("SELECT * FROM $table_name WHERE jeevo_developer_developer_developer_status = 1 ORDER BY jeevo_developer_developer_developer_order ASC", ARRAY_A);
+        
+        if ($results) {
+            $items = [];
+            foreach ($results as $index => $row) {
+                $items[] = [
+                    'id' => (int) $row['jeevo_developer_developer_developer_id'],
+                    'text' => $row['jeevo_developer_developer_developer_title'],
+                    'link' => $row['jeevo_developer_developer_developer_link'] ?? '',
+                ];
+            }
+            return rest_ensure_response($items);
+        }
+    }
+    
+    // Données par défaut si rien n'est configuré
+    return rest_ensure_response([
+        ['id' => 1, 'text' => '🎄 Bienvenue sur Radio Espoir - La voix de la foi', 'link' => '/'],
+        ['id' => 2, 'text' => '📻 Écoutez-nous 24h/24', 'link' => '/radio'],
+        ['id' => 3, 'text' => '📚 Découvrez nos enseignements', 'link' => '/enseignements'],
+    ]);
+}
+
+function cendf_get_gopiplus_data() {
+    global $wpdb;
+    
+    // Vérifier si la table GoPiPlus existe
+    $table_name = $wpdb->prefix . 'jeevo_developer_developer_developer';
+    
+    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+        return rest_ensure_response([
+            'success' => false,
+            'message' => 'Plugin GoPiPlus non installé. Utilisez ACF ou les options WordPress.',
+            'data' => []
+        ]);
+    }
+    
+    $results = $wpdb->get_results("SELECT * FROM $table_name WHERE jeevo_developer_developer_developer_status = 1 ORDER BY jeevo_developer_developer_developer_order ASC", ARRAY_A);
+    
+    return rest_ensure_response([
+        'success' => true,
+        'plugin' => 'GoPiPlus',
+        'data' => $results
+    ]);
+}
+
+/**
+ * =====================================================
+ * ÉTAPE 8 : OPTIONS PAGE POUR ACF (si Pro)
+ * =====================================================
+ */
+
+add_action('acf/init', function() {
+    if (function_exists('acf_add_options_page')) {
+        acf_add_options_sub_page([
+            'page_title' => 'Bandeau Défilant',
+            'menu_title' => 'Bandeau (ACF)',
+            'parent_slug' => 'cendf-integration',
+            'capability' => 'manage_options',
+            'menu_slug' => 'cendf-ticker-settings',
+        ]);
+    }
+});
+
+/**
+ * =====================================================
+ * ÉTAPE 9 : FORMULAIRE SIMPLE POUR GÉRER LE TICKER
+ * =====================================================
+ */
+
+// Sauvegarder les options du ticker via formulaire simple
+add_action('admin_init', function() {
+    if (isset($_POST['cendf_save_ticker']) && wp_verify_nonce($_POST['cendf_ticker_nonce'], 'cendf_save_ticker')) {
+        $items = [];
+        
+        if (!empty($_POST['ticker_text']) && is_array($_POST['ticker_text'])) {
+            foreach ($_POST['ticker_text'] as $index => $text) {
+                if (!empty(trim($text))) {
+                    $items[] = [
+                        'id' => $index + 1,
+                        'text' => sanitize_text_field($text),
+                        'link' => sanitize_url($_POST['ticker_link'][$index] ?? ''),
+                    ];
+                }
+            }
+        }
+        
+        update_option('cendf_ticker_items', $items);
+        add_action('admin_notices', function() {
+            echo '<div class="notice notice-success"><p>Messages du bandeau mis à jour !</p></div>';
+        });
+    }
+});
+
+// Ajouter le formulaire à la page ticker settings
+add_action('admin_footer', function() {
+    $screen = get_current_screen();
+    if ($screen && $screen->id === 'cendf_page_cendf-ticker-settings') {
+        $items = get_option('cendf_ticker_items', []);
+        if (empty($items)) {
+            $items = [
+                ['id' => 1, 'text' => '', 'link' => ''],
+            ];
+        }
+        ?>
+        <div class="card" style="max-width: 800px; padding: 20px; margin-top: 20px;">
+            <h2>📝 Gérer les messages (sans ACF)</h2>
+            <form method="post">
+                <?php wp_nonce_field('cendf_save_ticker', 'cendf_ticker_nonce'); ?>
+                
+                <table class="widefat" style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Texte du message</th>
+                            <th>Lien (optionnel)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ticker-items">
+                        <?php foreach ($items as $index => $item): ?>
+                        <tr>
+                            <td><input type="text" name="ticker_text[]" value="<?php echo esc_attr($item['text']); ?>" style="width: 100%;" placeholder="Ex: 🎄 Messe de minuit le 24 décembre" /></td>
+                            <td><input type="url" name="ticker_link[]" value="<?php echo esc_url($item['link']); ?>" style="width: 100%;" placeholder="/actualites" /></td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php for ($i = count($items); $i < 10; $i++): ?>
+                        <tr>
+                            <td><input type="text" name="ticker_text[]" value="" style="width: 100%;" placeholder="Ex: 📻 Écoutez Radio Espoir 24h/24" /></td>
+                            <td><input type="url" name="ticker_link[]" value="" style="width: 100%;" placeholder="/radio" /></td>
+                        </tr>
+                        <?php endfor; ?>
+                    </tbody>
+                </table>
+                
+                <p style="margin-top: 15px;">
+                    <button type="submit" name="cendf_save_ticker" class="button button-primary">💾 Enregistrer les messages</button>
+                </p>
+            </form>
+        </div>
+        <?php
+    }
+});
