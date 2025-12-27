@@ -16,9 +16,8 @@ const PageLayout = ({ children, title, subtitle, backgroundImage }: PageLayoutPr
       <Header />
       
       {/* News Ticker - Fixed for all pages */}
-      <div className="pt-20">
-        <NewsTicker />
-      </div>
+      <NewsTicker />
+      <div className="pt-12" />
       
       {/* Page Hero */}
       <section className="relative py-16 overflow-hidden">

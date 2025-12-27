@@ -45,7 +45,7 @@ const Hero = () => {
   }, [nextSlide]);
 
   return (
-    <section id="accueil" className="relative h-[60vh] min-h-[450px] max-h-[550px] flex items-center justify-center overflow-hidden">
+    <section id="accueil" className="relative h-[50vh] md:h-[60vh] min-h-[350px] md:min-h-[450px] max-h-[450px] md:max-h-[550px] flex items-center justify-center overflow-hidden">
       {/* Cross Decorative Element */}
       <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20 opacity-30">
         <svg width="40" height="60" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,9 +133,15 @@ const Hero = () => {
                 Découvrir les enseignements
               </Button>
             </Link>
-            <Button variant="heroOutline" size="lg" onClick={toggle} className="group border-gold/50 text-gold hover:bg-gold/10">
-              <Radio className={`w-4 h-4 ${isPlaying ? "animate-pulse text-gold" : ""}`} />
-              {isPlaying ? "Radio en cours..." : "Écouter la Radio"}
+            <Button 
+              variant="gold" 
+              size="lg" 
+              onClick={toggle} 
+              className="group relative overflow-hidden shadow-lg shadow-secondary/50 animate-pulse-soft hover:shadow-xl hover:shadow-secondary/60 transition-all duration-300"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-secondary-glow/20 to-transparent animate-pulse" />
+              <Radio className={`w-5 h-5 relative z-10 ${isPlaying ? "animate-pulse" : ""}`} />
+              <span className="relative z-10 font-semibold">{isPlaying ? "Radio en cours..." : "🎧 Écouter la Radio"}</span>
             </Button>
           </div>
         </div>
