@@ -201,6 +201,8 @@ export const useSearch = (query: string, type?: string) => {
 export const resolveWordPressUrl = (url?: string | null): string | null => {
   if (!url) return null;
 
+  const baseUrl = WORDPRESS_CONFIG.baseUrl.replace(/\/$/, "");
+
   // URL protocol-relative: //example.com/img.jpg
   if (url.startsWith("//")) {
     return `${window.location.protocol}${url}`;
@@ -208,8 +210,23 @@ export const resolveWordPressUrl = (url?: string | null): string | null => {
 
   // URL relative: /wp-content/uploads/...
   if (url.startsWith("/")) {
-    const base = WORDPRESS_CONFIG.baseUrl.replace(/\/$/, "");
-    return `${base}${url}`;
+    return `${baseUrl}${url}`;
+  }
+
+  // Remplacer l'ancienne URL WordPress par la nouvelle (migration local -> prod)
+  // Cela gère les cas où les URLs sont hardcodées dans la base
+  const oldUrls = [
+    "http://cendf-ci.local",
+    "https://cendf-ci.local",
+    "http://cedfci.org",
+    "https://cedfci.org",
+  ];
+  
+  for (const oldUrl of oldUrls) {
+    if (url.startsWith(oldUrl)) {
+      const path = url.replace(oldUrl, "");
+      return `${baseUrl}${path}`;
+    }
   }
 
   // Corriger le mix-content fréquent (WP en http mais site en https)
@@ -220,10 +237,42 @@ export const resolveWordPressUrl = (url?: string | null): string | null => {
   return url;
 };
 
-// Hook utilitaire pour extraire l'image à la une
+// Hook utilitaire pour extraire l'image à la une (avec fallback amélioré)
 export const getFeaturedImage = (post: WPPost | WPEvent | WPPodcast | WPAnimator): string | null => {
-  const raw = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
-  return resolveWordPressUrl(raw);
+  // Méthode 1: Image à la une via _embedded
+  const embeddedMedia = post._embedded?.["wp:featuredmedia"]?.[0] as {
+    source_url?: string;
+    alt_text?: string;
+    media_details?: {
+      sizes?: Record<string, { source_url: string }>;
+    };
+  } | undefined;
+  
+  if (embeddedMedia?.source_url) {
+    return resolveWordPressUrl(embeddedMedia.source_url);
+  }
+  
+  // Méthode 2: Tenter différentes tailles d'image
+  if (embeddedMedia?.media_details?.sizes) {
+    const sizes = embeddedMedia.media_details.sizes;
+    const preferredSizes = ["large", "medium_large", "medium", "full", "thumbnail"];
+    for (const size of preferredSizes) {
+      if (sizes[size]?.source_url) {
+        return resolveWordPressUrl(sizes[size].source_url);
+      }
+    }
+  }
+
+  // Méthode 3: Extraire la première image du contenu (fallback)
+  const content = (post as WPPost)?.content?.rendered;
+  if (content) {
+    const imgMatch = content.match(/<img[^>]+src=["']([^"']+)["']/i);
+    if (imgMatch?.[1]) {
+      return resolveWordPressUrl(imgMatch[1]);
+    }
+  }
+
+  return null;
 };
 
 // Utilitaire: réparer les <img src> dans le HTML rendu par WordPress

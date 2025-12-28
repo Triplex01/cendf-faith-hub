@@ -1,8 +1,47 @@
 // Configuration WordPress API
-// Remplacez cette URL par l'URL de votre site WordPress
+// ========================================
+// Configuration flexible : local vs production
+// ========================================
+
+// URLs préconfigurées
+const WORDPRESS_URLS = {
+  local: "http://cendf-ci.local",
+  production: "https://cedfci.org",
+};
+
+// Détection automatique de l'environnement
+const detectEnvironment = (): "local" | "production" => {
+  // En développement Vite (localhost:xxxx ou preview.lovable)
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname;
+    if (host === "localhost" || host.includes("lovable") || host.includes("127.0.0.1")) {
+      return "local";
+    }
+  }
+  // En production
+  return "production";
+};
+
+// URL WordPress actuelle basée sur l'environnement
+const getWordPressUrl = (): string => {
+  // Priorité 1: Variable d'environnement explicite
+  if (import.meta.env.VITE_WORDPRESS_URL) {
+    return import.meta.env.VITE_WORDPRESS_URL;
+  }
+  // Priorité 2: Détection automatique
+  const env = detectEnvironment();
+  return WORDPRESS_URLS[env];
+};
+
 export const WORDPRESS_CONFIG = {
-  // URL de base de l'API WordPress REST
-  baseUrl: import.meta.env.VITE_WORDPRESS_URL || "https://votre-site-wordpress.com",
+  // URL de base de l'API WordPress REST (automatique)
+  baseUrl: getWordPressUrl(),
+  
+  // URLs préconfigurées pour référence/debug
+  urls: WORDPRESS_URLS,
+  
+  // Environnement détecté
+  environment: detectEnvironment(),
   
   // Endpoints de l'API
   endpoints: {
@@ -27,6 +66,14 @@ export const WORDPRESS_CONFIG = {
     _embed: true, // Inclure les médias et auteurs
   },
 };
+
+// Debug: afficher la config en développement
+if (import.meta.env.DEV) {
+  console.log("[WordPress Config]", {
+    environment: WORDPRESS_CONFIG.environment,
+    baseUrl: WORDPRESS_CONFIG.baseUrl,
+  });
+}
 
 // Types pour les données WordPress
 export interface WPPost {
