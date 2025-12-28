@@ -40,7 +40,7 @@ const PageLayout = ({ children, title, subtitle, backgroundImage }: PageLayoutPr
         )}
 
         <div className="relative z-10 container mx-auto px-4">
-          <div className="min-h-[220px] md:min-h-[260px] lg:min-h-[300px] flex flex-col items-center justify-center text-center">
+          <div className="min-h-[260px] md:min-h-[320px] lg:min-h-[360px] py-10 md:py-12 flex flex-col items-center justify-center text-center">
             <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-3">
               {title}
             </h1>
