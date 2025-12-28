@@ -20,7 +20,7 @@ const PageLayout = ({ children, title, subtitle, backgroundImage }: PageLayoutPr
       <div className="pt-12" />
       
       {/* Page Hero */}
-      <section className="relative py-16 overflow-hidden">
+      <section className="relative overflow-hidden">
         {backgroundImage && (
           <>
             <div className="absolute inset-0">
@@ -28,6 +28,8 @@ const PageLayout = ({ children, title, subtitle, backgroundImage }: PageLayoutPr
                 src={backgroundImage}
                 alt={title}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-hero" />
             </div>
@@ -36,16 +38,18 @@ const PageLayout = ({ children, title, subtitle, backgroundImage }: PageLayoutPr
         {!backgroundImage && (
           <div className="absolute inset-0 bg-gradient-burgundy opacity-90" />
         )}
-        
-        <div className="relative z-10 container mx-auto px-4 text-center">
-          <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-3">
-            {title}
-          </h1>
-          {subtitle && (
-            <p className="font-secondary text-base md:text-lg text-primary-foreground/80 max-w-2xl mx-auto">
-              {subtitle}
-            </p>
-          )}
+
+        <div className="relative z-10 container mx-auto px-4">
+          <div className="min-h-[220px] md:min-h-[260px] lg:min-h-[300px] flex flex-col items-center justify-center text-center">
+            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-3">
+              {title}
+            </h1>
+            {subtitle && (
+              <p className="font-secondary text-base md:text-lg text-primary-foreground/80 max-w-2xl">
+                {subtitle}
+              </p>
+            )}
+          </div>
         </div>
       </section>
 

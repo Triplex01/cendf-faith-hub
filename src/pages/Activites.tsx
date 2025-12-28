@@ -104,6 +104,12 @@ const upcomingEvents = [
   }
 ];
 
+const youtubeChannelUrl = "https://www.youtube.com";
+
+const featuredYoutubeVideos: Array<{ id: string; title: string }> = [];
+
+const activityPhotos = [reunionEglise, interieurBasilique, basilique, teachingPriest, radioStudio];
+
 const Activites = () => {
   return (
     <PageLayout title="Nos Activités" subtitle="Une communauté vivante au service de la foi et de la fraternité">
@@ -214,6 +220,103 @@ const Activites = () => {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+
+      {/* YouTube + Photos */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
+            <motion.article
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="bg-card border border-border rounded-2xl p-6 md:p-8"
+            >
+              <header className="mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+                  Chaîne YouTube
+                </h2>
+                <p className="text-muted-foreground mt-2">
+                  Retrouvez les activités enregistrées, enseignements et temps forts en vidéo.
+                </p>
+              </header>
+
+              {featuredYoutubeVideos.length > 0 ? (
+                <div className="grid gap-4">
+                  {featuredYoutubeVideos.slice(0, 2).map((v) => (
+                    <div key={v.id} className="rounded-xl overflow-hidden border border-border">
+                      <div className="aspect-video bg-muted">
+                        <iframe
+                          className="w-full h-full"
+                          src={`https://www.youtube-nocookie.com/embed/${v.id}`}
+                          title={v.title}
+                          loading="lazy"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                      <div className="p-4">
+                        <p className="font-medium text-foreground">{v.title}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-xl border border-dashed border-border p-6 text-center">
+                  <p className="text-foreground font-medium">Aucune vidéo sélectionnée</p>
+                  <p className="text-muted-foreground mt-1">
+                    Ajoutez vos vidéos YouTube (IDs) dans cette page pour les mettre en avant.
+                  </p>
+                </div>
+              )}
+
+              <div className="mt-6">
+                <Button asChild variant="secondary">
+                  <a href={youtubeChannelUrl} target="_blank" rel="noreferrer">
+                    Ouvrir la chaîne YouTube
+                  </a>
+                </Button>
+              </div>
+            </motion.article>
+
+            <motion.article
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              viewport={{ once: true }}
+              className="bg-card border border-border rounded-2xl p-6 md:p-8"
+            >
+              <header className="mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+                  Photos d’activités
+                </h2>
+                <p className="text-muted-foreground mt-2">
+                  Moments de fraternité, prière et service au sein de la communauté.
+                </p>
+              </header>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {activityPhotos.map((src, i) => (
+                  <div
+                    key={`${src}-${i}`}
+                    className="relative rounded-xl overflow-hidden border border-border bg-muted"
+                  >
+                    <img
+                      src={src}
+                      alt={`Photo d’activité CENDF ${i + 1}`}
+                      className="w-full h-full object-cover aspect-square"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                ))}
+              </div>
+            </motion.article>
           </div>
         </div>
       </section>
