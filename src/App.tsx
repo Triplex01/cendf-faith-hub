@@ -19,6 +19,8 @@ import BibleEnLigne from "./pages/BibleEnLigne";
 import SaintDuJour from "./pages/SaintDuJour";
 import Prieres from "./pages/Prieres";
 import CalendrierLiturgique from "./pages/CalendrierLiturgique";
+import Missions from "./pages/Missions";
+import Activites from "./pages/Activites";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +54,8 @@ const AppRoutes = () => {
         <Route path="/saint-du-jour" element={<SaintDuJour />} />
         <Route path="/prieres" element={<Prieres />} />
         <Route path="/calendrier-liturgique" element={<CalendrierLiturgique />} />
+        <Route path="/missions" element={<Missions />} />
+        <Route path="/activites" element={<Activites />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
