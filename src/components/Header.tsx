@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Radio, ShoppingCart } from "lucide-react";
+import { Menu, X, Radio, ShoppingCart, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoCendf from "@/assets/logo-cendf.png";
 
@@ -42,12 +42,25 @@ export const useCart = () => {
   return context;
 };
 
-const navLinks = [
+interface NavLink {
+  name: string;
+  href: string;
+  subLinks?: { name: string; href: string }[];
+}
+
+const navLinks: NavLink[] = [
   { name: "Accueil", href: "/" },
   { name: "Actualités", href: "/actualites" },
+  { 
+    name: "Missions", 
+    href: "/missions",
+    subLinks: [
+      { name: "Nos Missions", href: "/missions" },
+      { name: "Activités", href: "/activites" }
+    ]
+  },
   { name: "Enseignements", href: "/enseignements" },
   { name: "Documents", href: "/documents" },
-  { name: "Archives", href: "/archives" },
   { name: "Radio & Podcasts", href: "/radio" },
   { name: "Boutique", href: "/boutique" },
   { name: "Contact", href: "/contact" },
@@ -56,6 +69,7 @@ const navLinks = [
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const location = useLocation();
   const { cartCount } = useCart();
 
@@ -68,6 +82,12 @@ const Header = () => {
   }, []);
 
   const isActive = (href: string) => location.pathname === href;
+  const isParentActive = (link: NavLink) => {
+    if (link.subLinks) {
+      return link.subLinks.some(sub => location.pathname === sub.href);
+    }
+    return isActive(link.href);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background shadow-elegant border-b border-border">
@@ -85,17 +105,58 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.href}
-                className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
-                  isActive(link.href)
-                    ? "bg-primary/10 text-primary"
-                    : "text-foreground hover:text-primary hover:bg-primary/10"
-                }`}
-              >
-                {link.name}
-              </Link>
+              <div key={link.name} className="relative group">
+                {link.subLinks ? (
+                  <>
+                    <button
+                      className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                        isParentActive(link)
+                          ? "bg-primary/10 text-primary"
+                          : "text-foreground hover:text-primary hover:bg-primary/10"
+                      }`}
+                      onMouseEnter={() => setOpenDropdown(link.name)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
+                      {link.name}
+                      <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                    </button>
+                    
+                    {/* Dropdown Menu */}
+                    <div 
+                      className={`absolute top-full left-0 mt-1 bg-card border border-border rounded-lg shadow-xl py-2 min-w-[180px] transition-all duration-200 ${
+                        openDropdown === link.name ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                      }`}
+                      onMouseEnter={() => setOpenDropdown(link.name)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
+                      {link.subLinks.map((subLink) => (
+                        <Link
+                          key={subLink.name}
+                          to={subLink.href}
+                          className={`block px-4 py-2 text-sm font-medium transition-colors ${
+                            isActive(subLink.href)
+                              ? "bg-primary/10 text-primary"
+                              : "text-foreground hover:bg-primary/5 hover:text-primary"
+                          }`}
+                        >
+                          {subLink.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <Link
+                    to={link.href}
+                    className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                      isActive(link.href)
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground hover:text-primary hover:bg-primary/10"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                )}
+              </div>
             ))}
           </nav>
 
@@ -153,18 +214,45 @@ const Header = () => {
           <div className="lg:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-elegant animate-slide-up">
             <nav className="container mx-auto px-4 py-6 flex flex-col gap-2">
               {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`px-4 py-3 font-medium rounded-lg transition-colors ${
-                    isActive(link.href)
-                      ? "bg-primary/10 text-primary"
-                      : "text-foreground hover:bg-primary/10 hover:text-primary"
-                  }`}
-                >
-                  {link.name}
-                </Link>
+                <div key={link.name}>
+                  {link.subLinks ? (
+                    <div className="space-y-1">
+                      <div
+                        className={`px-4 py-3 font-medium rounded-lg ${
+                          isParentActive(link) ? "text-primary" : "text-foreground"
+                        }`}
+                      >
+                        {link.name}
+                      </div>
+                      {link.subLinks.map((subLink) => (
+                        <Link
+                          key={subLink.name}
+                          to={subLink.href}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`block px-6 py-2 text-sm font-medium rounded-lg transition-colors ${
+                            isActive(subLink.href)
+                              ? "bg-primary/10 text-primary"
+                              : "text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                          }`}
+                        >
+                          {subLink.name}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`px-4 py-3 font-medium rounded-lg transition-colors block ${
+                        isActive(link.href)
+                          ? "bg-primary/10 text-primary"
+                          : "text-foreground hover:bg-primary/10 hover:text-primary"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </div>
               ))}
               <Link to="/radio" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button variant="burgundy" className="mt-4 w-full gap-2">
