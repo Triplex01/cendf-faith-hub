@@ -104,7 +104,7 @@ const Missions = () => {
                 La CENDF : Une Famille Unie dans la Foi
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                La Communauté Évangélique Notre Dame de Fatima (CENDF) est une communauté catholique 
+                La Commission Épiscopale pour la Doctrine de la Foi (CENDF) est une institution catholique 
                 dynamique dédiée à l'évangélisation et au service de l'Église en Côte d'Ivoire. 
                 Fondée sur les valeurs de foi, de charité et de communion fraternelle, nous œuvrons 
                 ensemble pour annoncer la Bonne Nouvelle du Christ.
