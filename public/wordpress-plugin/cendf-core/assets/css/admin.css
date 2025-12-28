@@ -1,0 +1,240 @@
+/**
+ * CENDF Admin Styles
+ */
+
+/* Variables */
+:root {
+    --cendf-primary: #8B1538;
+    --cendf-gold: #FFD700;
+    --cendf-dark: #1a1a2e;
+}
+
+/* Dashboard */
+.cendf-dashboard,
+.cendf-settings,
+.cendf-ticker {
+    max-width: 1200px;
+}
+
+/* Sections */
+.cendf-settings-section,
+.cendf-ticker-section,
+.cendf-quick-links,
+.cendf-api-info,
+.cendf-ticker-preview {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px 25px;
+    margin: 20px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.cendf-settings-section h2,
+.cendf-ticker-section h2 {
+    margin-top: 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--cendf-primary);
+    color: var(--cendf-primary);
+    font-size: 18px;
+}
+
+/* Form Tables */
+.cendf-settings .form-table th {
+    width: 200px;
+    padding-left: 0;
+}
+
+.cendf-settings .form-table td {
+    padding-left: 0;
+}
+
+/* Buttons */
+.cendf-settings .button-primary,
+.cendf-ticker .button-primary {
+    background: var(--cendf-primary);
+    border-color: var(--cendf-primary);
+}
+
+.cendf-settings .button-primary:hover,
+.cendf-ticker .button-primary:hover {
+    background: #6B0F2A;
+    border-color: #6B0F2A;
+}
+
+/* Welcome Box */
+.cendf-welcome {
+    background: linear-gradient(135deg, var(--cendf-primary) 0%, #6B0F2A 100%);
+    color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.cendf-welcome h2 {
+    color: #fff;
+    margin: 0 0 10px;
+    font-size: 24px;
+}
+
+.cendf-welcome p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+/* Stats Grid */
+.cendf-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.cendf-stat-box {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.2s;
+}
+
+.cendf-stat-box:hover {
+    border-color: var(--cendf-primary);
+    box-shadow: 0 4px 12px rgba(139, 21, 56, 0.1);
+}
+
+.cendf-stat-box .dashicons {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: var(--cendf-primary);
+}
+
+.cendf-stat-content h3 {
+    font-size: 32px;
+    margin: 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.cendf-stat-content p {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Quick Links */
+.cendf-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.cendf-quick-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.cendf-quick-link:hover {
+    background: var(--cendf-primary);
+    color: #fff;
+    border-color: var(--cendf-primary);
+}
+
+.cendf-quick-link .dashicons {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+/* API Info Table */
+.cendf-api-info table {
+    margin-top: 15px;
+}
+
+.cendf-api-info code {
+    background: #f0f0f0;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--cendf-primary);
+}
+
+/* Ticker */
+.ticker-message-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.ticker-active {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.ticker-text {
+    flex: 1;
+}
+
+.ticker-remove {
+    color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+.ticker-remove:hover {
+    background: #dc3545 !important;
+    color: #fff !important;
+}
+
+/* Preview */
+.ticker-preview-container {
+    background: var(--cendf-primary);
+    color: var(--cendf-gold);
+    padding: 12px 20px;
+    border-radius: 6px;
+    overflow: hidden;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+    .cendf-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .cendf-links-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ticker-message-row {
+        flex-wrap: wrap;
+    }
+    
+    .ticker-text {
+        width: 100%;
+        order: 3;
+        margin-top: 10px;
+    }
+}
