@@ -1,442 +1,327 @@
-# Guide d'intégration WordPress - CENDF/Radio Espoir
+# Guide d'Intégration Complète WordPress + React CENDF
+
+## 🎯 Vue d'ensemble
+
+Ce guide explique comment intégrer le frontend React comme template WordPress natif.
+
+---
+
+## 📁 Structure des fichiers
+
+```
+wp-content/
+├── plugins/
+│   └── cendf-core/          ← Plugin (CPT + API + ACF)
+└── themes/
+    └── cendf-theme/         ← Thème qui sert React
+        ├── dist/            ← Build React (créé automatiquement)
+        ├── index.php
+        ├── functions.php
+        └── style.css
+```
+
+---
+
+## 🚀 Installation Automatique
+
+### Étape 1 : Build du projet React
+
+```bash
+# Dans le dossier du projet Lovable (local ou après git clone)
+npm install
+npm run build
+```
+
+Cela crée le dossier `dist/` avec tous les assets compilés.
+
+### Étape 2 : Déploiement sur WordPress
+
+**Option A : Script automatique (recommandé)**
+
+Créez ce script `deploy-to-wordpress.sh` :
+
+```bash
+#!/bin/bash
+
+# Configuration - MODIFIEZ CES CHEMINS
+WP_PATH="/chemin/vers/wordpress"  # ex: /var/www/html/wordpress
+PROJECT_PATH="."                   # chemin du projet React
+
+# Couleurs
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+echo "🚀 Déploiement CENDF vers WordPress..."
+
+# 1. Build React
+echo "📦 Build du projet React..."
+cd "$PROJECT_PATH"
+npm run build
+
+if [ ! -d "dist" ]; then
+    echo -e "${RED}❌ Erreur: Le dossier dist/ n'existe pas${NC}"
+    exit 1
+fi
+
+# 2. Copier le plugin
+echo "🔌 Installation du plugin cendf-core..."
+mkdir -p "$WP_PATH/wp-content/plugins/cendf-core"
+cp -r public/wordpress-plugin/cendf-core/* "$WP_PATH/wp-content/plugins/cendf-core/"
+
+# 3. Copier le thème
+echo "🎨 Installation du thème cendf-theme..."
+mkdir -p "$WP_PATH/wp-content/themes/cendf-theme"
+cp -r public/wordpress-theme/cendf-theme/* "$WP_PATH/wp-content/themes/cendf-theme/"
+
+# 4. Copier le build React dans le thème
+echo "📁 Copie du build React..."
+mkdir -p "$WP_PATH/wp-content/themes/cendf-theme/dist"
+cp -r dist/* "$WP_PATH/wp-content/themes/cendf-theme/dist/"
+
+echo -e "${GREEN}✅ Déploiement terminé !${NC}"
+echo ""
+echo "📋 Actions restantes dans WordPress Admin :"
+echo "   1. Activer le plugin 'CENDF Core'"
+echo "   2. Activer le thème 'CENDF Theme'"
+echo "   3. Aller dans Réglages → Permaliens → 'Nom de l'article'"
+echo "   4. Vider le cache si nécessaire"
+```
+
+**Option B : Déploiement manuel**
+
+```bash
+# 1. Build
+npm run build
+
+# 2. Copier le plugin
+cp -r public/wordpress-plugin/cendf-core/ /var/www/html/wordpress/wp-content/plugins/
+
+# 3. Copier le thème
+cp -r public/wordpress-theme/cendf-theme/ /var/www/html/wordpress/wp-content/themes/
+
+# 4. Copier le build React dans le thème
+cp -r dist/ /var/www/html/wordpress/wp-content/themes/cendf-theme/dist/
+```
+
+---
+
+## ⚙️ Configuration des URLs
+
+### Configuration automatique
+
+Le projet détecte automatiquement l'environnement :
+
+| Contexte | URL WordPress utilisée |
+|----------|------------------------|
+| Développement (localhost, lovable.dev) | `http://cendf-ci.local` |
+| Production | `https://cedfci.org` |
+
+### Configuration manuelle (optionnelle)
+
+Si vos URLs sont différentes, créez un fichier `.env` :
+
+```env
+# Pour développement local
+VITE_WORDPRESS_URL=http://cendf-ci.local
+
+# Pour production (dans le serveur de build)
+VITE_WORDPRESS_URL=https://cedfci.org
+```
+
+---
+
+## 🔧 Configuration WordPress
+
+### 1. Activer le plugin et thème
+
+```
+WordPress Admin → Extensions → Activer "CENDF Core"
+WordPress Admin → Apparence → Thèmes → Activer "CENDF Theme"
+```
+
+### 2. Configurer les permaliens
+
+```
+WordPress Admin → Réglages → Permaliens → "Nom de l'article"
+```
+
+### 3. Configuration CORS (si API externe)
+
+Le plugin gère automatiquement les CORS. Si problèmes, ajoutez dans `wp-config.php` :
+
+```php
+// Autoriser CORS pour le développement
+define('CENDF_CORS_ORIGINS', 'http://localhost:8080,https://votre-preview.lovable.app');
+```
+
+---
+
+## 🔄 Migration Local → Production
+
+### Étape 1 : Exporter la base de données
+
+```bash
+# Via WP-CLI
+wp db export cendf_local.sql
+
+# Ou via phpMyAdmin : Exporter la base de données complète
+```
+
+### Étape 2 : Rechercher/Remplacer les URLs
+
+```bash
+# Via WP-CLI (recommandé)
+wp search-replace 'http://cendf-ci.local' 'https://cedfci.org' --all-tables
+
+# Ou utiliser le plugin "Better Search Replace"
+```
+
+### Étape 3 : Rebuild avec l'URL de production
+
+```bash
+# Créer .env.production
+echo "VITE_WORDPRESS_URL=https://cedfci.org" > .env.production
+
+# Build pour production
+npm run build
+```
+
+### Étape 4 : Déployer
+
+```bash
+# Upload via FTP/SFTP
+# - wp-content/plugins/cendf-core/
+# - wp-content/themes/cendf-theme/ (avec dist/)
+```
+
+---
+
+## 🖼️ Problèmes d'images courants
+
+### Les images ne s'affichent pas
+
+1. **Vérifier les permaliens** : Réglages → Permaliens → Enregistrer
+
+2. **Vérifier l'URL WordPress** :
+   ```javascript
+   // Dans la console du navigateur
+   console.log("[WordPress Config]"); // Voir les logs automatiques
+   ```
+
+3. **Images avec URL locale en production** :
+   ```bash
+   # Rechercher/remplacer dans la base
+   wp search-replace 'http://cendf-ci.local' 'https://cedfci.org' --all-tables
+   ```
+
+4. **Vérifier les permissions** :
+   ```bash
+   chmod -R 755 wp-content/uploads/
+   ```
+
+---
+
+## 📋 Checklist de déploiement
+
+- [ ] `npm run build` exécuté avec succès
+- [ ] Plugin `cendf-core` copié dans `wp-content/plugins/`
+- [ ] Thème `cendf-theme` copié dans `wp-content/themes/`
+- [ ] Dossier `dist/` copié dans `cendf-theme/dist/`
+- [ ] Plugin activé dans WordPress
+- [ ] Thème activé dans WordPress
+- [ ] Permaliens configurés sur "Nom de l'article"
+- [ ] CORS configurés si nécessaire
+- [ ] Images testées et fonctionnelles
+- [ ] Navigation SPA fonctionnelle
+
+---
+
+## 🆘 Dépannage
+
+### Page blanche
+
+```bash
+# Vérifier que dist/ existe
+ls wp-content/themes/cendf-theme/dist/
+
+# Vérifier les logs PHP
+tail -f /var/log/apache2/error.log  # ou nginx
+```
+
+### Erreurs 404 sur les routes React
+
+```apache
+# .htaccess dans le dossier WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/wp-admin
+RewriteCond %{REQUEST_URI} !^/wp-json
+RewriteRule . /index.html [L]
+</IfModule>
+```
+
+### API WordPress non accessible
+
+```php
+// Dans wp-config.php, vérifier que REST API n'est pas désactivée
+// Supprimer ou commenter ces lignes si présentes :
+// add_filter('rest_enabled', '__return_false');
+// add_filter('rest_jsonp_enabled', '__return_false');
+```
+
+---
 
 ## 🔒 Sécurité Renforcée
 
-### 1. Configuration CORS sécurisée (functions.php)
+### Configuration CORS sécurisée (dans le plugin)
+
+Le plugin `cendf-core` gère automatiquement :
+- CORS sécurisés avec liste blanche de domaines
+- Rate limiting (100 requêtes/minute par IP)
+- Protection contre l'énumération des utilisateurs
+- Validation des entrées
+
+### Ajouter des domaines autorisés
+
+Dans `wp-config.php` :
 
 ```php
-<?php
-// Ajouter dans functions.php de votre thème WordPress
-
-// Configuration CORS sécurisée - Remplacez par votre domaine
-define('ALLOWED_ORIGINS', [
-    'https://votre-domaine.com',
-    'https://www.votre-domaine.com',
-    'http://localhost:5173', // Dev seulement - À retirer en production
-]);
-
-add_action('rest_api_init', function() {
-    remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
-    add_filter('rest_pre_serve_request', function($value) {
-        $origin = get_http_origin();
-        
-        if (in_array($origin, ALLOWED_ORIGINS)) {
-            header('Access-Control-Allow-Origin: ' . esc_url($origin));
-            header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-            header('Access-Control-Allow-Credentials: true');
-            header('Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce');
-        }
-        
-        return $value;
-    });
-}, 15);
-
-// Protection contre les injections
-add_filter('rest_pre_dispatch', function($result, $server, $request) {
-    // Limiter le taux de requêtes
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $transient_key = 'rate_limit_' . md5($ip);
-    $requests = get_transient($transient_key) ?: 0;
-    
-    if ($requests > 100) { // 100 requêtes par minute max
-        return new WP_Error('rate_limit_exceeded', 'Trop de requêtes', ['status' => 429]);
-    }
-    
-    set_transient($transient_key, $requests + 1, 60);
-    
-    return $result;
-}, 10, 3);
-
-// Désactiver l'énumération des utilisateurs via l'API
-add_filter('rest_endpoints', function($endpoints) {
-    if (isset($endpoints['/wp/v2/users'])) {
-        unset($endpoints['/wp/v2/users']);
-    }
-    if (isset($endpoints['/wp/v2/users/(?P<id>[\d]+)'])) {
-        unset($endpoints['/wp/v2/users/(?P<id>[\d]+)']);
-    }
-    return $endpoints;
-});
-```
-
-### 2. Validation des entrées (functions.php)
-
-```php
-<?php
-// Fonction de sanitization pour les données entrantes
-function cendf_sanitize_input($data) {
-    if (is_array($data)) {
-        return array_map('cendf_sanitize_input', $data);
-    }
-    return sanitize_text_field(wp_unslash($data));
-}
-
-// Validation des emails
-function cendf_validate_email($email) {
-    $email = sanitize_email($email);
-    if (!is_email($email)) {
-        return false;
-    }
-    return $email;
-}
+define('CENDF_CORS_ORIGINS', 'https://cedfci.org,https://www.cedfci.org');
 ```
 
 ---
 
 ## 📧 Configuration Email Contact
 
-### Plugin Contact Form (functions.php ou plugin séparé)
+Le plugin inclut un endpoint `/wp-json/cendf/v1/contact` pour le formulaire de contact.
 
-```php
-<?php
-// Endpoint API pour le formulaire de contact
-add_action('rest_api_init', function() {
-    register_rest_route('cendf/v1', '/contact', [
-        'methods' => 'POST',
-        'callback' => 'cendf_handle_contact_form',
-        'permission_callback' => '__return_true',
-    ]);
-});
-
-function cendf_handle_contact_form($request) {
-    // Récupérer et valider les données
-    $name = sanitize_text_field($request->get_param('name'));
-    $email = sanitize_email($request->get_param('email'));
-    $subject = sanitize_text_field($request->get_param('subject'));
-    $message = sanitize_textarea_field($request->get_param('message'));
-    
-    // Validation
-    if (empty($name) || strlen($name) < 2 || strlen($name) > 100) {
-        return new WP_Error('invalid_name', 'Nom invalide', ['status' => 400]);
-    }
-    
-    if (!is_email($email)) {
-        return new WP_Error('invalid_email', 'Email invalide', ['status' => 400]);
-    }
-    
-    if (empty($message) || strlen($message) < 10 || strlen($message) > 2000) {
-        return new WP_Error('invalid_message', 'Message invalide', ['status' => 400]);
-    }
-    
-    // Protection anti-spam (honeypot)
-    if (!empty($request->get_param('website'))) {
-        return new WP_Error('spam_detected', 'Spam détecté', ['status' => 403]);
-    }
-    
-    // Envoi de l'email
-    $to = 'contact@cendf-ci.org';
-    $email_subject = '[CENDF Contact] ' . $subject;
-    $email_body = "Nouveau message de contact:\n\n";
-    $email_body .= "Nom: $name\n";
-    $email_body .= "Email: $email\n";
-    $email_body .= "Sujet: $subject\n\n";
-    $email_body .= "Message:\n$message";
-    
-    $headers = [
-        'From: CENDF Website <noreply@cendf-ci.org>',
-        'Reply-To: ' . $name . ' <' . $email . '>',
-        'Content-Type: text/plain; charset=UTF-8',
-    ];
-    
-    $sent = wp_mail($to, $email_subject, $email_body, $headers);
-    
-    if ($sent) {
-        return ['success' => true, 'message' => 'Message envoyé avec succès'];
-    }
-    
-    return new WP_Error('email_failed', 'Erreur lors de l\'envoi', ['status' => 500]);
-}
+Configurez l'email destinataire dans :
+```
+WordPress Admin → CENDF → Paramètres → Email de contact
 ```
 
 ---
 
-## 🛒 Intégration Boutique avec Paiement Mobile
+## 🛒 Intégration Paiements Mobiles
 
-### Plugin WooCommerce + Orange Money/Wave
+Les endpoints de paiement sont inclus dans le plugin :
+- `/wp-json/cendf/v1/payment/initiate`
+- `/wp-json/cendf/v1/payment/verify`
 
-```php
-<?php
-/**
- * Plugin Name: CENDF Mobile Payments
- * Description: Intégration Orange Money et Wave pour CENDF
- * Version: 1.0.0
- */
-
-// Endpoint pour initier un paiement
-add_action('rest_api_init', function() {
-    register_rest_route('cendf/v1', '/payment/initiate', [
-        'methods' => 'POST',
-        'callback' => 'cendf_initiate_payment',
-        'permission_callback' => '__return_true',
-    ]);
-    
-    register_rest_route('cendf/v1', '/payment/verify', [
-        'methods' => 'POST',
-        'callback' => 'cendf_verify_payment',
-        'permission_callback' => '__return_true',
-    ]);
-});
-
-function cendf_initiate_payment($request) {
-    $amount = absint($request->get_param('amount'));
-    $method = sanitize_text_field($request->get_param('method')); // 'orange' ou 'wave'
-    $phone = sanitize_text_field($request->get_param('phone'));
-    $order_id = sanitize_text_field($request->get_param('order_id'));
-    
-    // Validation
-    if ($amount < 100 || $amount > 10000000) {
-        return new WP_Error('invalid_amount', 'Montant invalide', ['status' => 400]);
-    }
-    
-    if (!preg_match('/^[0-9]{10}$/', $phone)) {
-        return new WP_Error('invalid_phone', 'Numéro de téléphone invalide', ['status' => 400]);
-    }
-    
-    // Configuration API (à stocker dans wp_options de manière sécurisée)
-    $api_config = [
-        'orange' => [
-            'merchant_key' => get_option('cendf_orange_merchant_key'),
-            'api_url' => 'https://api.orange.com/orange-money-webpay/ci/v1/webpayment',
-        ],
-        'wave' => [
-            'api_key' => get_option('cendf_wave_api_key'),
-            'api_url' => 'https://api.wave.com/v1/checkout/sessions',
-        ],
-    ];
-    
-    // Créer l'enregistrement de commande
-    $payment_data = [
-        'order_id' => $order_id,
-        'amount' => $amount,
-        'method' => $method,
-        'phone' => $phone,
-        'status' => 'pending',
-        'created_at' => current_time('mysql'),
-    ];
-    
-    // Sauvegarder dans la base de données
-    global $wpdb;
-    $wpdb->insert($wpdb->prefix . 'cendf_payments', $payment_data);
-    
-    return [
-        'success' => true,
-        'payment_id' => $wpdb->insert_id,
-        'message' => 'Paiement initié. Veuillez confirmer sur votre téléphone.',
-    ];
-}
-
-// Créer la table des paiements lors de l'activation
-register_activation_hook(__FILE__, function() {
-    global $wpdb;
-    $charset_collate = $wpdb->get_charset_collate();
-    
-    $sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}cendf_payments (
-        id bigint(20) NOT NULL AUTO_INCREMENT,
-        order_id varchar(50) NOT NULL,
-        amount bigint(20) NOT NULL,
-        method varchar(20) NOT NULL,
-        phone varchar(20) NOT NULL,
-        status varchar(20) DEFAULT 'pending',
-        transaction_id varchar(100) DEFAULT NULL,
-        created_at datetime DEFAULT CURRENT_TIMESTAMP,
-        updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        PRIMARY KEY (id),
-        KEY order_id (order_id),
-        KEY status (status)
-    ) $charset_collate;";
-    
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    dbDelta($sql);
-});
+Configurez les clés API dans :
+```
+WordPress Admin → CENDF → Paramètres → Paiements
 ```
 
 ---
 
-## 📱 Réseaux Sociaux depuis le Backend
+## 📞 Support
 
-### Configuration dans WordPress Options
-
-```php
-<?php
-// Ajouter une page de paramètres dans l'admin
-add_action('admin_menu', function() {
-    add_options_page(
-        'CENDF Réseaux Sociaux',
-        'Réseaux Sociaux',
-        'manage_options',
-        'cendf-social',
-        'cendf_social_page'
-    );
-});
-
-function cendf_social_page() {
-    if (isset($_POST['cendf_social_nonce']) && 
-        wp_verify_nonce($_POST['cendf_social_nonce'], 'cendf_social_save')) {
-        
-        update_option('cendf_facebook', esc_url_raw($_POST['facebook']));
-        update_option('cendf_twitter', esc_url_raw($_POST['twitter']));
-        update_option('cendf_instagram', esc_url_raw($_POST['instagram']));
-        update_option('cendf_youtube', esc_url_raw($_POST['youtube']));
-        update_option('cendf_whatsapp', sanitize_text_field($_POST['whatsapp']));
-        
-        echo '<div class="notice notice-success"><p>Paramètres sauvegardés.</p></div>';
-    }
-    
-    ?>
-    <div class="wrap">
-        <h1>Réseaux Sociaux CENDF</h1>
-        <form method="post">
-            <?php wp_nonce_field('cendf_social_save', 'cendf_social_nonce'); ?>
-            <table class="form-table">
-                <tr>
-                    <th>Facebook</th>
-                    <td><input type="url" name="facebook" class="regular-text" value="<?php echo esc_attr(get_option('cendf_facebook')); ?>"></td>
-                </tr>
-                <tr>
-                    <th>Twitter/X</th>
-                    <td><input type="url" name="twitter" class="regular-text" value="<?php echo esc_attr(get_option('cendf_twitter')); ?>"></td>
-                </tr>
-                <tr>
-                    <th>Instagram</th>
-                    <td><input type="url" name="instagram" class="regular-text" value="<?php echo esc_attr(get_option('cendf_instagram')); ?>"></td>
-                </tr>
-                <tr>
-                    <th>YouTube</th>
-                    <td><input type="url" name="youtube" class="regular-text" value="<?php echo esc_attr(get_option('cendf_youtube')); ?>"></td>
-                </tr>
-                <tr>
-                    <th>WhatsApp (numéro)</th>
-                    <td><input type="text" name="whatsapp" class="regular-text" value="<?php echo esc_attr(get_option('cendf_whatsapp')); ?>" placeholder="+2250787830395"></td>
-                </tr>
-            </table>
-            <?php submit_button(); ?>
-        </form>
-    </div>
-    <?php
-}
-
-// Endpoint API pour récupérer les réseaux sociaux
-add_action('rest_api_init', function() {
-    register_rest_route('cendf/v1', '/social', [
-        'methods' => 'GET',
-        'callback' => function() {
-            return [
-                'facebook' => get_option('cendf_facebook', ''),
-                'twitter' => get_option('cendf_twitter', ''),
-                'instagram' => get_option('cendf_instagram', ''),
-                'youtube' => get_option('cendf_youtube', ''),
-                'whatsapp' => get_option('cendf_whatsapp', ''),
-            ];
-        },
-        'permission_callback' => '__return_true',
-    ]);
-});
-```
-
----
-
-## 🔍 Optimisation SEO
-
-### Plugin SEO pour CENDF
-
-```php
-<?php
-// Ajouter les métadonnées SEO automatiquement
-add_action('wp_head', function() {
-    if (is_singular()) {
-        $post = get_post();
-        $title = get_the_title();
-        $description = wp_trim_words(get_the_excerpt(), 25);
-        $image = get_the_post_thumbnail_url($post->ID, 'large');
-        
-        echo '<meta property="og:title" content="' . esc_attr($title) . '">';
-        echo '<meta property="og:description" content="' . esc_attr($description) . '">';
-        echo '<meta property="og:image" content="' . esc_url($image) . '">';
-        echo '<meta property="og:type" content="article">';
-        echo '<meta property="og:site_name" content="CENDF - Radio Espoir">';
-        
-        echo '<meta name="twitter:card" content="summary_large_image">';
-        echo '<meta name="twitter:title" content="' . esc_attr($title) . '">';
-        echo '<meta name="twitter:description" content="' . esc_attr($description) . '">';
-    }
-});
-
-// Génération automatique du sitemap
-add_action('rest_api_init', function() {
-    register_rest_route('cendf/v1', '/sitemap', [
-        'methods' => 'GET',
-        'callback' => function() {
-            $posts = get_posts([
-                'post_type' => ['post', 'teachings', 'documents', 'products'],
-                'posts_per_page' => -1,
-                'post_status' => 'publish',
-            ]);
-            
-            $urls = [];
-            foreach ($posts as $post) {
-                $urls[] = [
-                    'loc' => get_permalink($post->ID),
-                    'lastmod' => get_the_modified_date('c', $post->ID),
-                    'priority' => $post->post_type === 'post' ? '0.8' : '0.6',
-                ];
-            }
-            
-            return $urls;
-        },
-        'permission_callback' => '__return_true',
-    ]);
-});
-```
-
----
-
-## 📁 Structure des fichiers WordPress
-
-```
-wp-content/
-├── plugins/
-│   └── cendf-integration/
-│       ├── cendf-integration.php      # Plugin principal
-│       ├── includes/
-│       │   ├── class-cpt.php          # Custom Post Types
-│       │   ├── class-api.php          # Endpoints API REST
-│       │   ├── class-security.php     # Sécurité
-│       │   ├── class-payments.php     # Paiements mobiles
-│       │   └── class-social.php       # Réseaux sociaux
-│       └── admin/
-│           └── settings.php           # Page de paramètres
-└── themes/
-    └── cendf-theme/
-        └── functions.php              # Configurations CORS et filtres
-```
-
----
-
-## ⚙️ Variables d'environnement React
-
-Créez un fichier `.env` à la racine du projet React:
-
-```env
-# URL de votre WordPress
-VITE_WORDPRESS_URL=https://votre-wordpress.com
-
-# Contact email (pour fallback)
-VITE_CONTACT_EMAIL=contact@cendf-ci.org
-
-# Numéros de paiement
-VITE_PAYMENT_PHONE=0787830395
-```
-
----
-
-## 🚀 Checklist de déploiement
-
-- [ ] Configurer CORS avec vos domaines de production
-- [ ] Installer et activer le plugin CENDF Integration
-- [ ] Configurer les clés API Orange Money et Wave
-- [ ] Configurer l'email SMTP WordPress
-- [ ] Tester le formulaire de contact
-- [ ] Vérifier les endpoints API
-- [ ] Configurer le SSL (HTTPS obligatoire)
-- [ ] Sauvegarder la base de données
-- [ ] Tester les paiements en mode sandbox
+Pour toute question :
+- Consultez la documentation WordPress REST API
+- Vérifiez les logs PHP et la console navigateur
