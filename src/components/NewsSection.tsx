@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { usePosts } from "@/hooks/useWordPress";
 import { demoPosts, isDemoMode } from "@/config/demoData";
 import { getFeaturedImage, formatWPDate, stripHtml } from "@/hooks/useWordPress";
-import heroChurch from "@/assets/hero-church.jpg";
 
 const NewsSection = () => {
   const { data: wpPosts, isLoading } = usePosts({ per_page: 4 });
@@ -57,7 +56,7 @@ const NewsSection = () => {
         {/* News Grid */}
         {posts.length > 0 && (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {posts.slice(0, 4).map((post, index) => {
+            {posts.slice(0, 4).map((post) => {
               const imageUrl = getFeaturedImage(post);
               const excerpt = stripHtml(post.excerpt?.rendered || "");
               
@@ -74,11 +73,6 @@ const NewsSection = () => {
                         <img
                           src={imageUrl}
                           alt={stripHtml(post.title.rendered)}
-                          loading="lazy"
-                          decoding="async"
-                          onError={(e) => {
-                            e.currentTarget.src = heroChurch;
-                          }}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
