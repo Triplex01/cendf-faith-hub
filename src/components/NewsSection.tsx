@@ -7,6 +7,14 @@ import { usePosts } from "@/hooks/useWordPress";
 import { demoPosts, isDemoMode } from "@/config/demoData";
 import { getFeaturedImage, formatWPDate, stripHtml } from "@/hooks/useWordPress";
 
+// Images de fallback locales
+import reunionImage from "@/assets/reunion-eglise.jpg";
+import basiliqueRome from "@/assets/basilique-rome.jpg";
+import basiliqueCover from "@/assets/basilique-notredame.jpg";
+import teachingImage from "@/assets/teaching-priest.jpg";
+
+const fallbackImages = [reunionImage, basiliqueRome, basiliqueCover, teachingImage];
+
 const NewsSection = () => {
   const { data: wpPosts, isLoading } = usePosts({ per_page: 4 });
   
@@ -56,8 +64,8 @@ const NewsSection = () => {
         {/* News Grid */}
         {posts.length > 0 && (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {posts.slice(0, 4).map((post) => {
-              const imageUrl = getFeaturedImage(post);
+            {posts.slice(0, 4).map((post, index) => {
+              const imageUrl = getFeaturedImage(post) || fallbackImages[index % fallbackImages.length];
               const excerpt = stripHtml(post.excerpt?.rendered || "");
               
               return (
@@ -69,17 +77,16 @@ const NewsSection = () => {
                   <Card className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border/50">
                     {/* Image */}
                     <div className="relative h-48 overflow-hidden">
-                      {imageUrl ? (
-                        <img
-                          src={imageUrl}
-                          alt={stripHtml(post.title.rendered)}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                          <Calendar className="w-12 h-12 text-primary/40" />
-                        </div>
-                      )}
+                      <img
+                        src={imageUrl}
+                        alt={stripHtml(post.title.rendered)}
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => {
+                          e.currentTarget.src = fallbackImages[index % fallbackImages.length];
+                        }}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
 
