@@ -1,28 +1,46 @@
 import { MapPin, Phone, Mail, Clock, Facebook, Twitter, Youtube, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import logoCendf from "@/assets/logo-cendf.png";
-
-const quickLinks = [
-  { name: "Enseignements", href: "/enseignements" },
-  { name: "Documents", href: "/documents" },
-  { name: "Archives", href: "/archives" },
-  { name: "Radio Live", href: "/radio" },
-  { name: "Podcasts", href: "/radio" },
-  { name: "Actualités", href: "/actualites" },
-];
-
-const resourceLinks = [
-  { name: "Bible en ligne", href: "/bible" },
-  { name: "Prières", href: "/prieres" },
-  { name: "Calendrier liturgique", href: "/calendrier-liturgique" },
-  { name: "Saint du jour", href: "/saint-du-jour" },
-  { name: "Boutique", href: "/boutique" },
-  { name: "Contact", href: "/contact" },
-];
-
+const quickLinks = [{
+  name: "Enseignements",
+  href: "/enseignements"
+}, {
+  name: "Documents",
+  href: "/documents"
+}, {
+  name: "Archives",
+  href: "/archives"
+}, {
+  name: "Radio Live",
+  href: "/radio"
+}, {
+  name: "Podcasts",
+  href: "/radio"
+}, {
+  name: "Actualités",
+  href: "/actualites"
+}];
+const resourceLinks = [{
+  name: "Bible en ligne",
+  href: "/bible"
+}, {
+  name: "Prières",
+  href: "/prieres"
+}, {
+  name: "Calendrier liturgique",
+  href: "/calendrier-liturgique"
+}, {
+  name: "Saint du jour",
+  href: "/saint-du-jour"
+}, {
+  name: "Boutique",
+  href: "/boutique"
+}, {
+  name: "Contact",
+  href: "/contact"
+}];
 const Footer = () => {
-  return (
-    <footer id="apropos" className="bg-foreground text-primary-foreground">
+  return <footer id="apropos" className="bg-foreground text-primary-foreground">
       <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* About */}
@@ -35,16 +53,24 @@ const Footer = () => {
               catholique en Côte d'Ivoire pour la promotion et la sauvegarde de la foi.
             </p>
             <div className="flex items-center gap-3">
-              {[
-                { Icon: Facebook, href: "#" },
-                { Icon: Twitter, href: "#" },
-                { Icon: Youtube, href: "#" },
-                { Icon: Instagram, href: "#" },
-              ].map(({ Icon, href }, index) => (
-                <a key={index} href={href} className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-foreground transition-colors">
+              {[{
+              Icon: Facebook,
+              href: "#"
+            }, {
+              Icon: Twitter,
+              href: "#"
+            }, {
+              Icon: Youtube,
+              href: "#"
+            }, {
+              Icon: Instagram,
+              href: "#"
+            }].map(({
+              Icon,
+              href
+            }, index) => <a key={index} href={href} className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-foreground transition-colors">
                   <Icon className="w-5 h-5" />
-                </a>
-              ))}
+                </a>)}
             </div>
           </div>
 
@@ -52,13 +78,11 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-bold text-lg mb-6">Liens Rapides</h4>
             <ul className="space-y-3">
-              {quickLinks.map(link => (
-                <li key={link.name}>
+              {quickLinks.map(link => <li key={link.name}>
                   <Link to={link.href} className="text-sm text-primary-foreground/70 hover:text-gold transition-colors">
                     {link.name}
                   </Link>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </div>
 
@@ -66,13 +90,11 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-bold text-lg mb-6">Ressources</h4>
             <ul className="space-y-3">
-              {resourceLinks.map(link => (
-                <li key={link.name}>
+              {resourceLinks.map(link => <li key={link.name}>
                   <Link to={link.href} className="text-sm text-primary-foreground/70 hover:text-gold transition-colors">
                     {link.name}
                   </Link>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </div>
 
@@ -86,7 +108,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-gold flex-shrink-0" />
-                <span className="text-sm text-primary-foreground/70">+225 07 87 83 03 95</span>
+                <span className="text-sm text-primary-foreground/70">+225 0101000100</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-gold flex-shrink-0" />
@@ -117,8 +139,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
