@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { wordpressApi, WPPost, WPEvent, WPPodcast, WPProgram, WPAnimator, WPDocument, WPTeaching } from "@/services/wordpressApi";
+import { WORDPRESS_CONFIG } from "@/config/wordpress";
 
 // Query Keys
 export const wpQueryKeys = {
@@ -196,12 +197,55 @@ export const useSearch = (query: string, type?: string) => {
   });
 };
 
+// Utilitaire: normaliser une URL WordPress (https, relative, etc.)
+export const resolveWordPressUrl = (url?: string | null): string | null => {
+  if (!url) return null;
+
+  // URL protocol-relative: //example.com/img.jpg
+  if (url.startsWith("//")) {
+    return `${window.location.protocol}${url}`;
+  }
+
+  // URL relative: /wp-content/uploads/...
+  if (url.startsWith("/")) {
+    const base = WORDPRESS_CONFIG.baseUrl.replace(/\/$/, "");
+    return `${base}${url}`;
+  }
+
+  // Corriger le mix-content fréquent (WP en http mais site en https)
+  if (url.startsWith("http://") && window.location.protocol === "https:") {
+    return url.replace(/^http:\/\//, "https://");
+  }
+
+  return url;
+};
+
 // Hook utilitaire pour extraire l'image à la une
 export const getFeaturedImage = (post: WPPost | WPEvent | WPPodcast | WPAnimator): string | null => {
-  if (post._embedded?.["wp:featuredmedia"]?.[0]) {
-    return post._embedded["wp:featuredmedia"][0].source_url;
+  const raw = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  return resolveWordPressUrl(raw);
+};
+
+// Utilitaire: réparer les <img src> dans le HTML rendu par WordPress
+export const normalizeWpHtmlImages = (html: string): string => {
+  try {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const imgs = Array.from(doc.querySelectorAll("img"));
+
+    for (const img of imgs) {
+      const src = img.getAttribute("src");
+      const fixed = resolveWordPressUrl(src);
+      if (fixed) img.setAttribute("src", fixed);
+
+      // Bonus perf/SEO (sans casser WP): lazy + async
+      if (!img.getAttribute("loading")) img.setAttribute("loading", "lazy");
+      if (!img.getAttribute("decoding")) img.setAttribute("decoding", "async");
+    }
+
+    return doc.body.innerHTML;
+  } catch {
+    return html;
   }
-  return null;
 };
 
 // Hook utilitaire pour extraire le nom de l'auteur
