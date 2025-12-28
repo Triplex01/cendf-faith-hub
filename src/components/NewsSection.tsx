@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { usePosts } from "@/hooks/useWordPress";
 import { demoPosts, isDemoMode } from "@/config/demoData";
 import { getFeaturedImage, formatWPDate, stripHtml } from "@/hooks/useWordPress";
+import heroChurch from "@/assets/hero-church.jpg";
 
 const NewsSection = () => {
   const { data: wpPosts, isLoading } = usePosts({ per_page: 4 });
@@ -72,7 +73,12 @@ const NewsSection = () => {
                       {imageUrl ? (
                         <img
                           src={imageUrl}
-                          alt={post.title.rendered}
+                          alt={stripHtml(post.title.rendered)}
+                          loading="lazy"
+                          decoding="async"
+                          onError={(e) => {
+                            e.currentTarget.src = heroChurch;
+                          }}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (

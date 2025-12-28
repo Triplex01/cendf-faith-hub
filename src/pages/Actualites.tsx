@@ -142,6 +142,11 @@ const Actualites = () => {
                             <img
                               src={featuredImage}
                               alt={stripHtml(post.title.rendered)}
+                              loading="lazy"
+                              decoding="async"
+                              onError={(e) => {
+                                e.currentTarget.src = fallbackImages[index % fallbackImages.length];
+                              }}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                           </div>
