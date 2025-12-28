@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 import { Calendar, User, Tag, ArrowLeft, ArrowRight, Share2, Facebook, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { usePosts, getFeaturedImage, getAuthorName, formatWPDate, stripHtml } from "@/hooks/useWordPress";
+import { usePosts, getFeaturedImage, getAuthorName, formatWPDate, stripHtml, normalizeWpHtmlImages } from "@/hooks/useWordPress";
 import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
 
 const ArticleDetail = () => {
@@ -65,6 +65,7 @@ const ArticleDetail = () => {
   const authorName = getAuthorName(article) || "Rédaction";
   const formattedDate = formatWPDate(article.date, "fr-FR");
   const excerpt = stripHtml(article.excerpt?.rendered || "");
+  const contentHtml = normalizeWpHtmlImages(article.content.rendered);
 
   return (
     <PageLayout title={stripHtml(article.title.rendered)} subtitle={excerpt}>
@@ -109,7 +110,7 @@ const ArticleDetail = () => {
                   prose-strong:text-foreground
                   prose-em:text-primary
                   prose-img:rounded-xl prose-img:shadow-card"
-                dangerouslySetInnerHTML={{ __html: article.content.rendered }}
+                dangerouslySetInnerHTML={{ __html: contentHtml }}
               />
 
               {/* Navigation entre articles */}
