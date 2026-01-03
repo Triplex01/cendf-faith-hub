@@ -204,7 +204,7 @@ const AIAssistant = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full bg-gradient-burgundy shadow-elegant flex items-center justify-center hover:scale-110 transition-transform"
+            className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-gradient-burgundy shadow-elegant flex items-center justify-center hover:scale-110 transition-transform"
           >
             <MessageCircle className="w-6 h-6 text-primary-foreground" />
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full animate-pulse" />
@@ -224,7 +224,7 @@ const AIAssistant = () => {
               height: isMinimized ? "auto" : "500px"
             }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 z-50 w-[360px] bg-card border border-border rounded-2xl shadow-elegant overflow-hidden flex flex-col"
+            className="fixed bottom-24 left-6 z-50 w-[360px] bg-card border border-border rounded-2xl shadow-elegant overflow-hidden flex flex-col"
           >
             {/* Header */}
             <div className="bg-gradient-burgundy p-4 flex items-center justify-between">

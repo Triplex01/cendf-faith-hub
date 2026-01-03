@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import basiliqueCover from "@/assets/basilique-notredame.jpg";
+import productChapelet from "@/assets/product-chapelet.jpg";
 
 // Types pour les produits
 interface Product {
@@ -41,7 +42,7 @@ const demoProducts: Product[] = [
     id: 1,
     name: "Chapelet en bois d'olivier",
     price: 5000,
-    image: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=400&h=400&fit=crop",
+    image: productChapelet,
     category: "Chapelets",
     description: "Chapelet artisanal en bois d'olivier de Terre Sainte",
     inStock: true,
@@ -50,7 +51,7 @@ const demoProducts: Product[] = [
     id: 2,
     name: "Bible Jérusalem",
     price: 15000,
-    image: "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=400&h=400&fit=crop",
+    image: productChapelet,
     category: "Livres",
     description: "La Bible de Jérusalem, traduction française de référence",
     inStock: true,
@@ -59,7 +60,7 @@ const demoProducts: Product[] = [
     id: 3,
     name: "Médaille Miraculeuse",
     price: 2500,
-    image: "https://images.unsplash.com/photo-1573455494060-c5595004fb6c?w=400&h=400&fit=crop",
+    image: productChapelet,
     category: "Médailles",
     description: "Médaille de la Vierge Miraculeuse en argent",
     inStock: true,
@@ -68,7 +69,7 @@ const demoProducts: Product[] = [
     id: 4,
     name: "Croix murale en bois",
     price: 8000,
-    image: "https://images.unsplash.com/photo-1445331436701-66d37d3f8e10?w=400&h=400&fit=crop",
+    image: productChapelet,
     category: "Décoration",
     description: "Croix en bois sculpté pour décoration murale",
     inStock: true,
@@ -77,7 +78,7 @@ const demoProducts: Product[] = [
     id: 5,
     name: "Encens de Jérusalem",
     price: 3500,
-    image: "https://images.unsplash.com/photo-1600431521340-491eca880813?w=400&h=400&fit=crop",
+    image: productChapelet,
     category: "Encens",
     description: "Encens naturel de Terre Sainte pour la prière",
     inStock: true,
@@ -86,7 +87,7 @@ const demoProducts: Product[] = [
     id: 6,
     name: "Icône Sainte Famille",
     price: 12000,
-    image: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=400&h=400&fit=crop",
+    image: productChapelet,
     category: "Icônes",
     description: "Icône peinte à la main style byzantin",
     inStock: true,
@@ -95,7 +96,7 @@ const demoProducts: Product[] = [
     id: 7,
     name: "Bougie votive parfumée",
     price: 1500,
-    image: "https://images.unsplash.com/photo-1602523961358-f9f03dd557db?w=400&h=400&fit=crop",
+    image: productChapelet,
     category: "Bougies",
     description: "Bougie parfumée pour moments de prière",
     inStock: true,
@@ -104,7 +105,7 @@ const demoProducts: Product[] = [
     id: 8,
     name: "Statuette Vierge Marie",
     price: 18000,
-    image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=400&h=400&fit=crop",
+    image: productChapelet,
     category: "Statues",
     description: "Statuette de la Vierge Marie en résine peinte",
     inStock: false,
@@ -113,7 +114,7 @@ const demoProducts: Product[] = [
     id: 9,
     name: "Livre de prières",
     price: 4500,
-    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop",
+    image: productChapelet,
     category: "Livres",
     description: "Recueil de prières catholiques traditionnelles",
     inStock: true,

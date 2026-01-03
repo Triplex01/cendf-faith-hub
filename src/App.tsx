@@ -9,6 +9,7 @@ import { RadioProvider } from "@/contexts/RadioContext";
 import PageLoader from "@/components/PageLoader";
 import FloatingRadioPlayer from "@/components/FloatingRadioPlayer";
 import AIAssistant from "@/components/AIAssistant";
+import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Enseignements from "./pages/Enseignements";
 import EnseignementDetail from "./pages/EnseignementDetail";
@@ -63,6 +64,7 @@ const AppRoutes = () => {
         <Route path="/activites" element={<Activites />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ScrollToTop />
       <FloatingRadioPlayer />
       <AIAssistant />
     </>
