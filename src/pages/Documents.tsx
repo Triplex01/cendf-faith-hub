@@ -1,5 +1,5 @@
 import PageLayout from "@/components/PageLayout";
-import { FileText, Download, Eye, Calendar, Search, Filter, X, SortAsc, SortDesc } from "lucide-react";
+import { FileText, Download, Eye, Calendar, Search, Filter, X, SortAsc, SortDesc, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState, useMemo } from "react";
@@ -11,17 +11,38 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
+// Import des images de couverture
+import docLivretBiblique from "@/assets/doc-livret-biblique.jpg";
+import docLettrePastorale from "@/assets/doc-lettre-pastorale.jpg";
+import docDecret from "@/assets/doc-decret.jpg";
+import docHomelie from "@/assets/doc-homelie.jpg";
+import docEncyclique from "@/assets/doc-encyclique.jpg";
+
 const documentCategories = [
   { name: "Tous", id: "all" },
   { name: "Encycliques", id: "encycliques" },
   { name: "Lettres Pastorales", id: "lettres" },
   { name: "Décrets", id: "decrets" },
   { name: "Homélies", id: "homelies" },
+  { name: "Livrets", id: "livrets" },
 ];
 
 const documents = [
   {
     id: 1,
+    title: "Livret Biblique 2023-2024",
+    category: "livrets",
+    categoryLabel: "Livrets",
+    date: "Février 2024",
+    dateSort: "2024-02-01",
+    size: "2.8 MB",
+    type: "PDF",
+    description: "Guide biblique annuel pour accompagner les fidèles dans la lecture et la méditation de la Parole de Dieu tout au long de l'année liturgique.",
+    cover: docLivretBiblique,
+    downloadUrl: "/documents/livret-biblique.pdf",
+  },
+  {
+    id: 2,
     title: "Lettre Pastorale sur l'Évangélisation en Afrique",
     category: "lettres",
     categoryLabel: "Lettres Pastorales",
@@ -30,9 +51,11 @@ const documents = [
     size: "2.4 MB",
     type: "PDF",
     description: "Cette lettre aborde les défis et les opportunités de l'évangélisation dans le contexte africain contemporain, en mettant l'accent sur l'inculturation de la foi.",
+    cover: docLettrePastorale,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
   {
-    id: 2,
+    id: 3,
     title: "Décret sur la Formation des Catéchistes",
     category: "decrets",
     categoryLabel: "Décrets",
@@ -41,9 +64,11 @@ const documents = [
     size: "1.8 MB",
     type: "PDF",
     description: "Nouvelles directives pour la formation et l'accompagnement des catéchistes dans nos diocèses.",
+    cover: docDecret,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
   {
-    id: 3,
+    id: 4,
     title: "Homélie de la Fête de Noël 2024",
     category: "homelies",
     categoryLabel: "Homélies",
@@ -52,9 +77,11 @@ const documents = [
     size: "890 KB",
     type: "PDF",
     description: "Réflexion sur le mystère de l'Incarnation et son message d'espérance pour notre temps.",
+    cover: docHomelie,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
   {
-    id: 4,
+    id: 5,
     title: "Instruction sur la Liturgie en Langue Vernaculaire",
     category: "decrets",
     categoryLabel: "Décrets",
@@ -63,9 +90,11 @@ const documents = [
     size: "3.1 MB",
     type: "PDF",
     description: "Orientations pour l'utilisation des langues locales dans les célébrations liturgiques.",
+    cover: docDecret,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
   {
-    id: 5,
+    id: 6,
     title: "Message pour la Journée Mondiale de la Jeunesse",
     category: "lettres",
     categoryLabel: "Lettres Pastorales",
@@ -74,9 +103,11 @@ const documents = [
     size: "1.2 MB",
     type: "PDF",
     description: "Encouragements et orientations spirituelles pour les jeunes de notre diocèse.",
+    cover: docLettrePastorale,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
   {
-    id: 6,
+    id: 7,
     title: "Réflexion sur la Doctrine Sociale de l'Église",
     category: "encycliques",
     categoryLabel: "Encycliques",
@@ -85,9 +116,11 @@ const documents = [
     size: "4.5 MB",
     type: "PDF",
     description: "Analyse approfondie des principes de la doctrine sociale dans le contexte ivoirien.",
+    cover: docEncyclique,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
   {
-    id: 7,
+    id: 8,
     title: "Homélie du Dimanche de Pâques 2025",
     category: "homelies",
     categoryLabel: "Homélies",
@@ -96,9 +129,11 @@ const documents = [
     size: "750 KB",
     type: "PDF",
     description: "Méditation sur la résurrection du Christ et son impact dans notre vie quotidienne.",
+    cover: docHomelie,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
   {
-    id: 8,
+    id: 9,
     title: "Encyclique sur la Protection de l'Environnement",
     category: "encycliques",
     categoryLabel: "Encycliques",
@@ -107,6 +142,8 @@ const documents = [
     size: "5.2 MB",
     type: "PDF",
     description: "Appel à la responsabilité écologique dans la lumière de notre foi catholique.",
+    cover: docEncyclique,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
 ];
 
@@ -160,7 +197,16 @@ const Documents = () => {
   };
 
   const handleDownload = (doc: typeof documents[0]) => {
-    toast.success(`Téléchargement de "${doc.title}" en cours...`, {
+    // Créer un lien de téléchargement
+    const link = document.createElement("a");
+    link.href = doc.downloadUrl;
+    link.download = `${doc.title.replace(/\s+/g, "-")}.pdf`;
+    link.target = "_blank";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast.success(`Téléchargement de "${doc.title}" démarré`, {
       description: `Taille: ${doc.size}`,
     });
   };
@@ -276,54 +322,58 @@ const Documents = () => {
               {filteredAndSortedDocs.map((doc) => (
                 <div
                   key={doc.id}
-                  className="bg-card rounded-xl p-6 shadow-card hover:shadow-elegant transition-all duration-300 border border-border hover:border-primary/30 group"
+                  className="bg-card rounded-xl overflow-hidden shadow-card hover:shadow-elegant transition-all duration-300 border border-border hover:border-primary/30 group"
                 >
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-gradient-burgundy transition-all">
-                      <FileText className="w-6 h-6 text-primary group-hover:text-primary-foreground" />
-                    </div>
-                    <div className="flex-1">
-                      <span className="text-xs font-medium text-secondary uppercase tracking-wider">
-                        {doc.categoryLabel}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <h3 className="font-display text-lg font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                    {doc.title}
-                  </h3>
-                  
-                  <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
-                    {doc.description}
-                  </p>
-                  
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      {doc.date}
+                  {/* Image de couverture */}
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={doc.cover}
+                      alt={doc.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <span className="absolute bottom-3 left-3 px-3 py-1 bg-primary/90 text-primary-foreground rounded-full text-xs font-medium">
+                      {doc.categoryLabel}
                     </span>
-                    <span>{doc.size}</span>
                   </div>
+                  
+                  <div className="p-5">
+                    <h3 className="font-display text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                      {doc.title}
+                    </h3>
+                    
+                    <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                      {doc.description}
+                    </p>
+                    
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        {doc.date}
+                      </span>
+                      <span>{doc.size}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1 gap-2"
-                      onClick={() => handleView(doc)}
-                    >
-                      <Eye className="w-4 h-4" />
-                      Voir
-                    </Button>
-                    <Button 
-                      variant="burgundy" 
-                      size="sm" 
-                      className="flex-1 gap-2"
-                      onClick={() => handleDownload(doc)}
-                    >
-                      <Download className="w-4 h-4" />
-                      Télécharger
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="flex-1 gap-2"
+                        onClick={() => handleView(doc)}
+                      >
+                        <Eye className="w-4 h-4" />
+                        Voir
+                      </Button>
+                      <Button 
+                        variant="burgundy" 
+                        size="sm" 
+                        className="flex-1 gap-2"
+                        onClick={() => handleDownload(doc)}
+                      >
+                        <Download className="w-4 h-4" />
+                        Télécharger
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -363,13 +413,24 @@ const Documents = () => {
             
             <p className="text-foreground leading-relaxed">{selectedDoc?.description}</p>
             
-            {/* Document Preview Placeholder */}
-            <div className="border border-border rounded-xl p-8 bg-muted/30">
-              <div className="aspect-[3/4] max-h-[500px] bg-background rounded-lg flex items-center justify-center border border-border">
-                <div className="text-center">
-                  <FileText className="w-20 h-20 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-muted-foreground">Aperçu du document</p>
-                  <p className="text-sm text-muted-foreground mt-1">{selectedDoc?.title}</p>
+            {/* Document Preview with Cover */}
+            <div className="border border-border rounded-xl overflow-hidden bg-muted/30">
+              <div className="aspect-[3/4] max-h-[500px] relative">
+                <img
+                  src={selectedDoc?.cover}
+                  alt={selectedDoc?.title}
+                  className="w-full h-full object-contain bg-background"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                  <Button
+                    variant="burgundy"
+                    size="lg"
+                    className="gap-2"
+                    onClick={() => selectedDoc && window.open(selectedDoc.downloadUrl, "_blank")}
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    Ouvrir le PDF
+                  </Button>
                 </div>
               </div>
             </div>

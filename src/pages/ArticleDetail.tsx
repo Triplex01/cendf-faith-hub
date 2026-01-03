@@ -4,6 +4,13 @@ import { Calendar, User, Tag, ArrowLeft, ArrowRight, Share2, Facebook, ChevronLe
 import { Button } from "@/components/ui/button";
 import { usePosts, getFeaturedImage, getAuthorName, formatWPDate, stripHtml, normalizeWpHtmlImages } from "@/hooks/useWordPress";
 import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
+import basiliqueRome from "@/assets/basilique-rome.jpg";
+import reunionEglise from "@/assets/reunion-eglise.jpg";
+import interieurBasilique from "@/assets/interieur-basilique.jpg";
+import basiliqueNotredame from "@/assets/basilique-notredame.jpg";
+
+// Images de fallback pour les articles
+const fallbackImages = [basiliqueYamoussoukro, reunionEglise, interieurBasilique, basiliqueNotredame, basiliqueRome];
 
 const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -61,11 +68,17 @@ const ArticleDetail = () => {
     );
   }
 
-  const featuredImage = getFeaturedImage(article) || basiliqueYamoussoukro;
+  const featuredImage = getFeaturedImage(article) || fallbackImages[currentIndex % fallbackImages.length];
   const authorName = getAuthorName(article) || "Rédaction";
   const formattedDate = formatWPDate(article.date, "fr-FR");
   const excerpt = stripHtml(article.excerpt?.rendered || "");
   const contentHtml = normalizeWpHtmlImages(article.content.rendered);
+  
+  // Fonction pour obtenir l'image avec fallback
+  const getArticleImage = (post: any, index: number) => {
+    const img = getFeaturedImage(post);
+    return img || fallbackImages[index % fallbackImages.length];
+  };
 
   return (
     <PageLayout title={stripHtml(article.title.rendered)} subtitle={excerpt}>
@@ -86,6 +99,9 @@ const ArticleDetail = () => {
                   src={featuredImage}
                   alt={stripHtml(article.title.rendered)}
                   className="w-full h-[300px] md:h-[450px] object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = fallbackImages[currentIndex % fallbackImages.length];
+                  }}
                 />
               </div>
 
@@ -179,7 +195,7 @@ const ArticleDetail = () => {
                   Articles similaires
                 </h3>
                 <div className="space-y-4">
-                  {relatedArticles.map((related) => (
+                  {relatedArticles.map((related, index) => (
                     <Link
                       key={related.id}
                       to={`/actualites/${related.slug}`}
@@ -187,9 +203,12 @@ const ArticleDetail = () => {
                     >
                       <div className="flex gap-3">
                         <img
-                          src={getFeaturedImage(related) || basiliqueYamoussoukro}
+                          src={getArticleImage(related, index)}
                           alt={stripHtml(related.title.rendered)}
                           className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                          onError={(e) => {
+                            e.currentTarget.src = fallbackImages[index % fallbackImages.length];
+                          }}
                         />
                         <div>
                           <h4 className="font-display font-bold text-foreground group-hover:text-primary transition-colors mb-1 line-clamp-2 text-sm">

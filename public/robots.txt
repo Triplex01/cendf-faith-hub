@@ -1,3 +1,5 @@
+# Robots.txt for CENDF - https://cedfci.org
+
 User-agent: Googlebot
 Allow: /
 
@@ -12,3 +14,12 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemap
+Sitemap: https://cedfci.org/sitemap.xml
+
+# Disallow sensitive paths
+Disallow: /api/
+Disallow: /admin/
+Disallow: /wp-admin/
+Disallow: /wp-json/wp/v2/users
