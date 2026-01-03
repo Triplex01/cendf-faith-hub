@@ -8,8 +8,10 @@ import { CartProvider } from "@/contexts/CartContext";
 import { RadioProvider } from "@/contexts/RadioContext";
 import PageLoader from "@/components/PageLoader";
 import FloatingRadioPlayer from "@/components/FloatingRadioPlayer";
+import AIAssistant from "@/components/AIAssistant";
 import Index from "./pages/Index";
 import Enseignements from "./pages/Enseignements";
+import EnseignementDetail from "./pages/EnseignementDetail";
 import Documents from "./pages/Documents";
 import Archives from "./pages/Archives";
 import Radio from "./pages/Radio";
@@ -45,6 +47,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/enseignements" element={<Enseignements />} />
+        <Route path="/enseignement/:slug" element={<EnseignementDetail />} />
         <Route path="/documents" element={<Documents />} />
         <Route path="/archives" element={<Archives />} />
         <Route path="/radio" element={<Radio />} />
@@ -61,6 +64,7 @@ const AppRoutes = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <FloatingRadioPlayer />
+      <AIAssistant />
     </>
   );
 };

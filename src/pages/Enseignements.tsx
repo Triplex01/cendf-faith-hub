@@ -23,12 +23,12 @@ import { useTeachings, getFeaturedImage, formatWPDate, stripHtml } from "@/hooks
 import teachingImage from "@/assets/teaching-priest.jpg";
 
 const categories = [
-  { id: "all", icon: BookOpen, title: "Tous", description: "Tous les enseignements" },
-  { id: "Fondements", icon: Cross, title: "Catéchèse", description: "Fondements de la foi" },
-  { id: "Bible", icon: BookOpen, title: "Études Bibliques", description: "Approfondir les Écritures" },
-  { id: "Prière", icon: Heart, title: "Vie Spirituelle", description: "Croître dans la prière" },
-  { id: "Vie spirituelle", icon: Church, title: "Liturgie", description: "Vivre les célébrations" },
-  { id: "Famille", icon: Users, title: "Vie Familiale", description: "La famille chrétienne" },
+  { id: "all", slug: "", icon: BookOpen, title: "Tous", description: "Tous les enseignements" },
+  { id: "Fondements", slug: "fondements-foi", icon: Cross, title: "Fondements de la Foi", description: "Les bases de la foi chrétienne" },
+  { id: "Bible", slug: "etudes-bibliques", icon: BookOpen, title: "Études Bibliques", description: "Approfondir les Écritures" },
+  { id: "Prière", slug: "vie-spirituelle", icon: Heart, title: "Vie Spirituelle", description: "Croître dans la prière" },
+  { id: "Vie spirituelle", slug: "liturgie", icon: Church, title: "Liturgie", description: "Vivre les célébrations" },
+  { id: "Famille", slug: "vie-familiale", icon: Users, title: "Vie Familiale", description: "La famille chrétienne" },
 ];
 
 const Enseignements = () => {
@@ -68,7 +68,32 @@ const Enseignements = () => {
               </div>
             </div>
 
-            {/* Category Pills */}
+            {/* Category Cards */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+              {categories.filter(cat => cat.id !== "all").map((cat) => (
+                <Link
+                  key={cat.id}
+                  to={`/enseignement/${cat.slug}`}
+                  className="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-elegant transition-all"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <cat.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        {cat.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {cat.description}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Filter Pills */}
             <div className="flex flex-wrap gap-3">
               {categories.map((cat) => (
                 <button
