@@ -5,7 +5,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
+import { RadioProvider } from "@/contexts/RadioContext";
 import PageLoader from "@/components/PageLoader";
+import FloatingRadioPlayer from "@/components/FloatingRadioPlayer";
 import Index from "./pages/Index";
 import Enseignements from "./pages/Enseignements";
 import Documents from "./pages/Documents";
@@ -58,21 +60,24 @@ const AppRoutes = () => {
         <Route path="/activites" element={<Activites />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <FloatingRadioPlayer />
     </>
   );
 };
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <CartProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
-      </TooltipProvider>
-    </CartProvider>
+    <RadioProvider>
+      <CartProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </TooltipProvider>
+      </CartProvider>
+    </RadioProvider>
   </QueryClientProvider>
 );
 
