@@ -13,8 +13,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Enseignements from "./pages/Enseignements";
 import EnseignementDetail from "./pages/EnseignementDetail";
-import Documents from "./pages/Documents";
-import Archives from "./pages/Archives";
+import DocumentsArchives from "./pages/DocumentsArchives";
 import Radio from "./pages/Radio";
 import Actualites from "./pages/Actualites";
 import ArticleDetail from "./pages/ArticleDetail";
@@ -26,6 +25,7 @@ import Prieres from "./pages/Prieres";
 import CalendrierLiturgique from "./pages/CalendrierLiturgique";
 import Missions from "./pages/Missions";
 import Activites from "./pages/Activites";
+import APropos from "./pages/APropos";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -49,8 +49,8 @@ const AppRoutes = () => {
         <Route path="/" element={<Index />} />
         <Route path="/enseignements" element={<Enseignements />} />
         <Route path="/enseignement/:slug" element={<EnseignementDetail />} />
-        <Route path="/documents" element={<Documents />} />
-        <Route path="/archives" element={<Archives />} />
+        <Route path="/documents-archives" element={<DocumentsArchives />} />
+        <Route path="/a-propos" element={<APropos />} />
         <Route path="/radio" element={<Radio />} />
         <Route path="/actualites" element={<Actualites />} />
         <Route path="/actualites/:slug" element={<ArticleDetail />} />

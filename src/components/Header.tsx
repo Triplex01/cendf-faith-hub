@@ -50,6 +50,7 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
   { name: "Accueil", href: "/" },
+  { name: "À Propos", href: "/a-propos" },
   { name: "Actualités", href: "/actualites" },
   { 
     name: "Missions", 
@@ -60,8 +61,8 @@ const navLinks: NavLink[] = [
     ]
   },
   { name: "Enseignements", href: "/enseignements" },
-  { name: "Documents", href: "/documents" },
-  { name: "Radio & Podcasts", href: "/radio" },
+  { name: "Documents & Archives", href: "/documents-archives" },
+  { name: "Radio", href: "/radio" },
   { name: "Boutique", href: "/boutique" },
   { name: "Contact", href: "/contact" },
 ];
