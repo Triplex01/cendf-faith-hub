@@ -50,19 +50,35 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
   { name: "Accueil", href: "/" },
-  { name: "À Propos", href: "/a-propos" },
-  { name: "Actualités", href: "/actualites" },
   { 
-    name: "Missions", 
-    href: "/missions",
+    name: "La CENDF", 
+    href: "/a-propos",
     subLinks: [
+      { name: "À Propos", href: "/a-propos" },
       { name: "Nos Missions", href: "/missions" },
       { name: "Activités", href: "/activites" }
     ]
   },
-  { name: "Enseignements", href: "/enseignements" },
-  { name: "Documents & Archives", href: "/documents-archives" },
-  { name: "Radio", href: "/radio" },
+  { name: "Actualités", href: "/actualites" },
+  { 
+    name: "Ressources", 
+    href: "/enseignements",
+    subLinks: [
+      { name: "Enseignements", href: "/enseignements" },
+      { name: "Documents & Archives", href: "/documents-archives" },
+      { name: "Bible en Ligne", href: "/bible" }
+    ]
+  },
+  { name: "Émissions & Radio", href: "/radio" },
+  { 
+    name: "Vie Spirituelle", 
+    href: "/prieres",
+    subLinks: [
+      { name: "Prières", href: "/prieres" },
+      { name: "Saint du Jour", href: "/saint-du-jour" },
+      { name: "Calendrier Liturgique", href: "/calendrier-liturgique" }
+    ]
+  },
   { name: "Boutique", href: "/boutique" },
   { name: "Contact", href: "/contact" },
 ];
@@ -178,7 +194,7 @@ const Header = () => {
             <Link to="/radio">
               <Button variant="burgundy" size="sm" className="gap-2">
                 <Radio className="w-4 h-4 animate-pulse" />
-                Radio en direct
+                Écouter
               </Button>
             </Link>
           </div>
