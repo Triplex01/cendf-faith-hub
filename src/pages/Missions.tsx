@@ -1,57 +1,85 @@
 import PageLayout from "@/components/PageLayout";
-import { Heart, Users, BookOpen, Church, Globe, HandHeart, Cross, Sparkles } from "lucide-react";
+import { BookOpen, Shield, Users, Globe, Radio, FileText, Heart, GraduationCap, Church, Cross, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import basilique from "@/assets/basilique-notredame.jpg";
 import reunionEglise from "@/assets/reunion-eglise.jpg";
-import teachingPriest from "@/assets/teaching-priest.jpg";
 
 const missions = [
   {
+    icon: Shield,
+    title: "Défense de la Doctrine de la Foi",
+    description: "La CENDF veille à la pureté et à l'intégrité de la doctrine catholique en Côte d'Ivoire. Elle examine les questions doctrinales, discerne les courants théologiques et protège les fidèles contre les erreurs et les dérives spirituelles.",
+    details: [
+      "Examen des questions doctrinales complexes",
+      "Discernement théologique et pastoral",
+      "Protection contre les sectes et fausses doctrines",
+      "Promotion de l'enseignement authentique de l'Église"
+    ],
+    color: "from-primary to-amber-600"
+  },
+  {
     icon: BookOpen,
-    title: "Évangélisation",
-    description: "Annoncer la Bonne Nouvelle de Jésus-Christ à travers les médias, les enseignements et les rencontres communautaires.",
-    color: "from-amber-500 to-yellow-600"
-  },
-  {
-    icon: Heart,
-    title: "Charité & Solidarité",
-    description: "Soutenir les plus démunis, les malades et les personnes âgées à travers des actions caritatives concrètes.",
-    color: "from-rose-500 to-red-600"
-  },
-  {
-    icon: Users,
-    title: "Formation Chrétienne",
-    description: "Former les fidèles à une vie chrétienne authentique par des catéchèses, retraites et séminaires.",
-    color: "from-blue-500 to-indigo-600"
-  },
-  {
-    icon: Church,
-    title: "Vie Liturgique",
-    description: "Célébrer les sacrements et animer la prière communautaire pour nourrir la foi des fidèles.",
-    color: "from-purple-500 to-violet-600"
+    title: "Enseignement et Formation Doctrinale",
+    description: "Former le clergé, les religieux et les laïcs à une connaissance approfondie de la foi catholique à travers des sessions de formation, des séminaires théologiques et des publications doctrinales.",
+    details: [
+      "Formations théologiques pour le clergé",
+      "Sessions doctrinales pour les catéchistes",
+      "Publications et études théologiques",
+      "Accompagnement des séminaristes"
+    ],
+    color: "from-blue-600 to-indigo-700"
   },
   {
     icon: Globe,
-    title: "Mission Médiatique",
-    description: "Diffuser la parole de Dieu via Radio Espoir et les plateformes numériques pour toucher le plus grand nombre.",
-    color: "from-emerald-500 to-teal-600"
+    title: "Dialogue Œcuménique et Interreligieux",
+    description: "Promouvoir le dialogue avec les autres confessions chrétiennes et les religions présentes en Côte d'Ivoire, dans le respect de la vérité catholique et la recherche de l'unité.",
+    details: [
+      "Relations avec les autres Églises chrétiennes",
+      "Dialogue avec l'Islam et les religions traditionnelles",
+      "Promotion de la paix interreligieuse",
+      "Collaboration pour le bien commun"
+    ],
+    color: "from-emerald-600 to-teal-700"
   },
   {
-    icon: HandHeart,
-    title: "Accompagnement Spirituel",
-    description: "Offrir un soutien spirituel personnalisé aux fidèles dans leur cheminement de foi.",
-    color: "from-orange-500 to-amber-600"
+    icon: Radio,
+    title: "Évangélisation par les Médias",
+    description: "Utiliser les médias modernes pour diffuser la Parole de Dieu et l'enseignement de l'Église. La CENDF supervise les contenus doctrinaux diffusés par les radios catholiques et les plateformes numériques.",
+    details: [
+      "Supervision des radios catholiques",
+      "Production de contenus doctrinaux",
+      "Présence sur les réseaux sociaux",
+      "Émissions télévisées et podcasts"
+    ],
+    color: "from-purple-600 to-violet-700"
+  },
+  {
+    icon: FileText,
+    title: "Publications et Archives Doctrinales",
+    description: "Publier des documents officiels, des déclarations doctrinales et préserver les archives de l'Église pour la mémoire et la transmission de la foi aux générations futures.",
+    details: [
+      "Lettres pastorales et déclarations",
+      "Documents de référence doctrinale",
+      "Conservation des archives ecclésiales",
+      "Édition de revues théologiques"
+    ],
+    color: "from-secondary to-red-700"
+  },
+  {
+    icon: GraduationCap,
+    title: "Accompagnement des Mouvements d'Église",
+    description: "Guider et accompagner les mouvements d'action catholique et les communautés nouvelles pour s'assurer de leur fidélité à l'enseignement de l'Église.",
+    details: [
+      "Approbation des statuts des mouvements",
+      "Formation des responsables",
+      "Vérification de l'orthodoxie doctrinale",
+      "Accompagnement spirituel"
+    ],
+    color: "from-orange-600 to-amber-700"
   }
-];
-
-const communityValues = [
-  { title: "Foi", description: "Vivre pleinement notre foi catholique" },
-  { title: "Communion", description: "Être unis dans l'amour fraternel" },
-  { title: "Service", description: "Servir l'Église et la société" },
-  { title: "Témoignage", description: "Rayonner de la joie de l'Évangile" }
 ];
 
 const Missions = () => {
@@ -75,12 +103,16 @@ const Missions = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <Cross className="w-16 h-16 mx-auto mb-6 text-amber-400" />
+            <Cross className="w-16 h-16 mx-auto mb-6 text-primary" />
             <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
-              Nos <span className="text-amber-400">Missions</span>
+              Nos <span className="text-primary">Missions</span>
             </h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200 leading-relaxed">
-              "Allez donc, de toutes les nations faites des disciples" - Matthieu 28, 19
+            <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200 leading-relaxed mb-4">
+              Au service de l'Évangile et de la communauté chrétienne
+            </p>
+            <p className="text-lg max-w-2xl mx-auto text-gray-300">
+              La Commission Épiscopale pour la Doctrine de la Foi œuvre à la protection, 
+              la promotion et la transmission de la foi catholique en Côte d'Ivoire
             </p>
           </motion.div>
         </div>
@@ -89,8 +121,8 @@ const Missions = () => {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
       </section>
 
-      {/* About Community Section */}
-      <section className="py-20 bg-gradient-to-b from-background to-muted/30">
+      {/* Introduction */}
+      <section className="py-16 bg-gradient-to-b from-background to-muted/30">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -99,37 +131,36 @@ const Missions = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <span className="text-amber-600 font-semibold text-sm uppercase tracking-wider">Notre Communauté</span>
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">Notre Vocation</span>
               <h2 className="text-3xl md:text-4xl font-serif font-bold mt-2 mb-6">
-                La CENDF : Une Famille Unie dans la Foi
+                Gardienne de la Foi en Côte d'Ivoire
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                La Commission Épiscopale pour la Doctrine de la Foi (CENDF) est une institution catholique 
-                dynamique dédiée à l'évangélisation et au service de l'Église en Côte d'Ivoire. 
-                Fondée sur les valeurs de foi, de charité et de communion fraternelle, nous œuvrons 
-                ensemble pour annoncer la Bonne Nouvelle du Christ.
+                La <strong>Commission Épiscopale pour la Doctrine de la Foi (CENDF)</strong> est l'organe 
+                de la Conférence Épiscopale de Côte d'Ivoire chargé de veiller à la pureté de 
+                l'enseignement catholique et à la transmission fidèle de la foi.
               </p>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                À travers Radio Espoir, nos retraites spirituelles et nos diverses activités 
-                pastorales, nous touchons des milliers de fidèles chaque jour, les accompagnant 
-                dans leur chemin de foi.
+              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                En communion avec le Magistère de l'Église universelle et sous la direction 
+                des évêques de Côte d'Ivoire, la CENDF accompagne le peuple de Dieu dans 
+                son cheminement de foi, l'éclairant sur les questions doctrinales et morales 
+                de notre temps.
               </p>
-              
               <div className="grid grid-cols-2 gap-4">
-                {communityValues.map((value, index) => (
-                  <motion.div
-                    key={value.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="bg-card border border-border rounded-xl p-4 text-center hover:shadow-lg transition-shadow"
-                  >
-                    <Sparkles className="w-6 h-6 text-amber-500 mx-auto mb-2" />
-                    <h3 className="font-bold text-foreground">{value.title}</h3>
-                    <p className="text-sm text-muted-foreground">{value.description}</p>
-                  </motion.div>
-                ))}
+                <div className="flex items-center gap-3 bg-card border border-border rounded-xl p-4">
+                  <Church className="w-8 h-8 text-primary" />
+                  <div>
+                    <p className="font-bold text-lg">15+</p>
+                    <p className="text-sm text-muted-foreground">Diocèses accompagnés</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 bg-card border border-border rounded-xl p-4">
+                  <Users className="w-8 h-8 text-secondary" />
+                  <div>
+                    <p className="font-bold text-lg">1000+</p>
+                    <p className="text-sm text-muted-foreground">Prêtres formés</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
@@ -143,25 +174,24 @@ const Missions = () => {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
                   src={reunionEglise} 
-                  alt="Réunion communautaire" 
-                  className="w-full h-[500px] object-cover"
+                  alt="Réunion de la CENDF" 
+                  className="w-full h-[450px] object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
-                  <p className="text-white text-lg font-medium">
-                    "Là où deux ou trois sont réunis en mon nom, je suis au milieu d'eux."
+                  <p className="text-white text-lg font-medium italic">
+                    "Gardez le dépôt de la foi qui vous a été confié"
                   </p>
-                  <p className="text-amber-400 text-sm mt-2">- Matthieu 18, 20</p>
+                  <p className="text-primary text-sm mt-2">— 2 Timothée 1, 14</p>
                 </div>
               </div>
-              {/* Decorative frame */}
-              <div className="absolute -top-4 -right-4 w-full h-full border-2 border-amber-500/30 rounded-2xl -z-10" />
+              <div className="absolute -top-4 -right-4 w-full h-full border-2 border-primary/30 rounded-2xl -z-10" />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Missions Grid */}
+      {/* Detailed Missions */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <motion.div
@@ -171,16 +201,16 @@ const Missions = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="text-amber-600 font-semibold text-sm uppercase tracking-wider">Ce que nous faisons</span>
+            <span className="text-primary font-semibold text-sm uppercase tracking-wider">Nos Axes d'Action</span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold mt-2 mb-4">
-              Nos Axes Missionnaires
+              Les Missions de la CENDF
             </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Au service de l'Évangile et de la communauté chrétienne
+            <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+              Six axes fondamentaux qui guident notre action pastorale au service de l'Église en Côte d'Ivoire
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="space-y-8">
             {missions.map((mission, index) => (
               <motion.div
                 key={mission.title}
@@ -188,13 +218,33 @@ const Missions = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="group bg-card border border-border rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="bg-card border border-border rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all"
               >
-                <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${mission.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                  <mission.icon className="w-8 h-8 text-white" />
+                <div className={`grid md:grid-cols-3 gap-0 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
+                  {/* Icon and Title Section */}
+                  <div className={`bg-gradient-to-br ${mission.color} p-8 text-white flex flex-col justify-center`}>
+                    <mission.icon className="w-16 h-16 mb-4" />
+                    <h3 className="text-2xl font-bold mb-2">{mission.title}</h3>
+                    <p className="text-white/80 text-sm">
+                      Mission n°{index + 1} de la CENDF
+                    </p>
+                  </div>
+
+                  {/* Description and Details */}
+                  <div className="md:col-span-2 p-8">
+                    <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                      {mission.description}
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {mission.details.map((detail, detailIndex) => (
+                        <div key={detailIndex} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                          <span className="text-foreground text-sm">{detail}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-foreground">{mission.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{mission.description}</p>
               </motion.div>
             ))}
           </div>
@@ -202,35 +252,28 @@ const Missions = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img 
-            src={teachingPriest} 
-            alt="Enseignement" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-900/90 to-amber-800/80" />
-        </div>
-        
-        <div className="relative z-10 container mx-auto px-4 text-center text-white">
+      <section className="py-20 bg-gradient-to-r from-primary/95 to-secondary/95 text-white">
+        <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
+            <Heart className="w-16 h-16 mx-auto mb-6 text-white/80" />
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">
               Rejoignez Notre Mission
             </h2>
-            <p className="text-xl max-w-2xl mx-auto mb-8 text-amber-100">
-              Ensemble, portons la lumière du Christ à tous ceux qui cherchent l'espérance.
+            <p className="text-xl max-w-2xl mx-auto mb-8 text-white/90">
+              Ensemble, portons la lumière du Christ et défendons la foi catholique 
+              pour les générations présentes et futures.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-white text-amber-900 hover:bg-amber-50">
-                <Link to="/activites">Découvrir nos Activités</Link>
+              <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100">
+                <Link to="/contact">Nous Contacter</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                <Link to="/contact">Nous Contacter</Link>
+                <Link to="/activites">Découvrir nos Activités</Link>
               </Button>
             </div>
           </motion.div>
