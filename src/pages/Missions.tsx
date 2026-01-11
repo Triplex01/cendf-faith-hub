@@ -86,42 +86,7 @@ const Missions = () => {
   return (
     <PageLayout title="Nos Missions" subtitle="Au service de l'Évangile et de la communauté chrétienne">
 
-      {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img 
-            src={basilique} 
-            alt="Basilique Notre Dame" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
-        </div>
-        
-        <div className="relative z-10 container mx-auto px-4 text-center text-white">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <Cross className="w-16 h-16 mx-auto mb-6 text-primary" />
-            <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
-              Nos <span className="text-primary">Missions</span>
-            </h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200 leading-relaxed mb-4">
-              Au service de l'Évangile et de la communauté chrétienne
-            </p>
-            <p className="text-lg max-w-2xl mx-auto text-gray-300">
-              La Commission Épiscopale pour la Doctrine de la Foi œuvre à la protection, 
-              la promotion et la transmission de la foi catholique en Côte d'Ivoire
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Decorative elements */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-      </section>
-
-      {/* Introduction */}
+      {/* Introduction - Single Section */}
       <section className="py-16 bg-gradient-to-b from-background to-muted/30">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">

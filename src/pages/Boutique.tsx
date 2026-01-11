@@ -24,6 +24,11 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import basiliqueCover from "@/assets/basilique-notredame.jpg";
 import productChapelet from "@/assets/product-chapelet.jpg";
+import bookDictionnaire from "@/assets/book-dictionnaire-theologie.png";
+import bookOecumenisme from "@/assets/book-oecumenisme.jpg";
+import bookAmour from "@/assets/book-amour-foi.jpg";
+import booksManuelCredo from "@/assets/books-manuel-credo.jpg";
+import mobileMoneyLogos from "@/assets/mobile-money-logos.jpg";
 
 // Types pour les produits
 interface Product {
@@ -40,83 +45,56 @@ interface Product {
 const demoProducts: Product[] = [
   {
     id: 1,
+    name: "Dictionnaire de Théologie Africaine",
+    price: 25000,
+    image: bookDictionnaire,
+    category: "Livres",
+    description: "Ouvrage de référence sous la direction de Nathanaël Yaovi SOEDE et Laurenti MAGESA",
+    inStock: true,
+  },
+  {
+    id: 2,
+    name: "Œcuménisme et Politique",
+    price: 24000,
+    image: bookOecumenisme,
+    category: "Livres",
+    description: "Réflexion pour des élections sans morts en Afrique par le Père Marius Hervé Djadji",
+    inStock: true,
+  },
+  {
+    id: 3,
+    name: "L'amour seul est digne de foi",
+    price: 15000,
+    image: bookAmour,
+    category: "Livres",
+    description: "Œuvre spirituelle de Hans-Urs von Balthasar, Éditions Parole et Silence",
+    inStock: true,
+  },
+  {
+    id: 4,
+    name: "Le Manuel SCEDF",
+    price: 1000,
+    image: booksManuelCredo,
+    category: "Documents",
+    description: "Guide de la Sous Commission Épiscopale pour la Doctrine de la Foi en CI",
+    inStock: true,
+  },
+  {
+    id: 5,
+    name: "Magazine Credo",
+    price: 1500,
+    image: booksManuelCredo,
+    category: "Magazines",
+    description: "Revue spécialisée de la SCDEF - La foi expliquée, la foi vécue",
+    inStock: true,
+  },
+  {
+    id: 6,
     name: "Chapelet en bois d'olivier",
     price: 5000,
     image: productChapelet,
     category: "Chapelets",
     description: "Chapelet artisanal en bois d'olivier de Terre Sainte",
-    inStock: true,
-  },
-  {
-    id: 2,
-    name: "Bible Jérusalem",
-    price: 15000,
-    image: productChapelet,
-    category: "Livres",
-    description: "La Bible de Jérusalem, traduction française de référence",
-    inStock: true,
-  },
-  {
-    id: 3,
-    name: "Médaille Miraculeuse",
-    price: 2500,
-    image: productChapelet,
-    category: "Médailles",
-    description: "Médaille de la Vierge Miraculeuse en argent",
-    inStock: true,
-  },
-  {
-    id: 4,
-    name: "Croix murale en bois",
-    price: 8000,
-    image: productChapelet,
-    category: "Décoration",
-    description: "Croix en bois sculpté pour décoration murale",
-    inStock: true,
-  },
-  {
-    id: 5,
-    name: "Encens de Jérusalem",
-    price: 3500,
-    image: productChapelet,
-    category: "Encens",
-    description: "Encens naturel de Terre Sainte pour la prière",
-    inStock: true,
-  },
-  {
-    id: 6,
-    name: "Icône Sainte Famille",
-    price: 12000,
-    image: productChapelet,
-    category: "Icônes",
-    description: "Icône peinte à la main style byzantin",
-    inStock: true,
-  },
-  {
-    id: 7,
-    name: "Bougie votive parfumée",
-    price: 1500,
-    image: productChapelet,
-    category: "Bougies",
-    description: "Bougie parfumée pour moments de prière",
-    inStock: true,
-  },
-  {
-    id: 8,
-    name: "Statuette Vierge Marie",
-    price: 18000,
-    image: productChapelet,
-    category: "Statues",
-    description: "Statuette de la Vierge Marie en résine peinte",
-    inStock: false,
-  },
-  {
-    id: 9,
-    name: "Livre de prières",
-    price: 4500,
-    image: productChapelet,
-    category: "Livres",
-    description: "Recueil de prières catholiques traditionnelles",
     inStock: true,
   },
 ];

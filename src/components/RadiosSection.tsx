@@ -1,8 +1,11 @@
-import { Radio, Play, Pause, Volume2, Headphones, ArrowRight } from "lucide-react";
+import { Radio, Play, Pause, Headphones, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 import radioImage from "@/assets/radio-studio.jpg";
+import logoRadioEspoir from "@/assets/logo-radio-espoir.png";
+import logoRnc from "@/assets/logo-rnc.png";
+import logoRadioSanwi from "@/assets/logo-radio-sanwi.png";
 
 interface CatholicRadio {
   id: string;
@@ -11,7 +14,8 @@ interface CatholicRadio {
   location: string;
   streamUrl: string;
   description: string;
-  logo?: string;
+  logo: string;
+  website: string;
 }
 
 const catholicRadios: CatholicRadio[] = [
@@ -22,6 +26,8 @@ const catholicRadios: CatholicRadio[] = [
     location: "Abidjan",
     streamUrl: "https://dc1.serverse.com/proxy/radioespoir/stream",
     description: "La radio catholique d'Abidjan, au cœur de la foi ivoirienne",
+    logo: logoRadioEspoir,
+    website: "https://www.radioespoir.ci/",
   },
   {
     id: "voix-evangile",
@@ -30,6 +36,8 @@ const catholicRadios: CatholicRadio[] = [
     location: "Nationale",
     streamUrl: "http://84.16.232.202:7139/stream",
     description: "Radio Nationale Catholique de Côte d'Ivoire",
+    logo: logoRnc,
+    website: "http://rnc-ci.net/",
   },
   {
     id: "paix-sanwi",
@@ -38,6 +46,8 @@ const catholicRadios: CatholicRadio[] = [
     location: "Aboisso",
     streamUrl: "https://dc1.serverse.com/proxy/rda/stream",
     description: "La voix de la paix dans la région du Sud-Comoé",
+    logo: logoRadioSanwi,
+    website: "http://www.radiopaixsanwi.ci/",
   },
 ];
 
@@ -114,11 +124,11 @@ const RadiosSection = () => {
               Les <span className="text-gradient-gold">Radios Catholiques</span>
             </h2>
             <p className="font-secondary text-lg text-primary-foreground/70 leading-relaxed mb-8">
-              Découvrez les radios catholiques de Côte d'Ivoire. Chaque station diffuse 
-              des programmes spirituels, des enseignements doctrinaux et de la musique sacrée 24h/24.
+              Écoutez les radios catholiques de Côte d'Ivoire en direct. 
+              Programmes spirituels, enseignements et musique sacrée 24h/24.
             </p>
 
-            {/* Radio Cards */}
+            {/* Radio Cards with Logos */}
             <div className="space-y-4 mb-8">
               {catholicRadios.map((radio) => (
                 <div
@@ -130,28 +140,23 @@ const RadiosSection = () => {
                   }`}
                 >
                   <div className="flex items-center gap-4">
-                    {/* Play Button */}
-                    <button
-                      onClick={() => handleToggleRadio(radio)}
-                      disabled={loadingRadio === radio.id}
-                      className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all ${
-                        playingRadio === radio.id
-                          ? "bg-gradient-gold animate-pulse"
-                          : "bg-gradient-burgundy hover:scale-105"
-                      }`}
+                    {/* Radio Logo */}
+                    <a 
+                      href={radio.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="w-16 h-16 rounded-xl overflow-hidden bg-white flex items-center justify-center shrink-0 hover:scale-105 transition-transform"
                     >
-                      {loadingRadio === radio.id ? (
-                        <div className="w-6 h-6 border-3 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-                      ) : playingRadio === radio.id ? (
-                        <Pause className="w-6 h-6 text-primary-foreground" />
-                      ) : (
-                        <Play className="w-6 h-6 text-primary-foreground ml-1" />
-                      )}
-                    </button>
+                      <img 
+                        src={radio.logo} 
+                        alt={`Logo ${radio.name}`}
+                        className="w-14 h-14 object-contain"
+                      />
+                    </a>
 
                     {/* Radio Info */}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <h4 className="font-display font-bold text-lg">{radio.name}</h4>
                         {playingRadio === radio.id && (
                           <span className="flex items-center gap-1 px-2 py-0.5 bg-secondary rounded-full text-xs font-medium text-primary-foreground">
@@ -163,15 +168,29 @@ const RadiosSection = () => {
                       <p className="text-primary-foreground/60 text-sm">
                         {radio.frequency} • {radio.location}
                       </p>
-                      <p className="text-primary-foreground/50 text-xs mt-1">
+                      <p className="text-primary-foreground/50 text-xs mt-1 line-clamp-1">
                         {radio.description}
                       </p>
                     </div>
 
-                    {/* Radio Icon */}
-                    <div className="hidden sm:flex w-12 h-12 bg-primary/10 rounded-xl items-center justify-center">
-                      <Radio className={`w-6 h-6 text-primary ${playingRadio === radio.id ? "animate-pulse" : ""}`} />
-                    </div>
+                    {/* Play Button */}
+                    <button
+                      onClick={() => handleToggleRadio(radio)}
+                      disabled={loadingRadio === radio.id}
+                      className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all shrink-0 ${
+                        playingRadio === radio.id
+                          ? "bg-gradient-gold animate-pulse"
+                          : "bg-gradient-burgundy hover:scale-105"
+                      }`}
+                    >
+                      {loadingRadio === radio.id ? (
+                        <div className="w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                      ) : playingRadio === radio.id ? (
+                        <Pause className="w-5 h-5 text-primary-foreground" />
+                      ) : (
+                        <Play className="w-5 h-5 text-primary-foreground ml-1" />
+                      )}
+                    </button>
                   </div>
                 </div>
               ))}
