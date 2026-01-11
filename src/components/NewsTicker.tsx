@@ -10,13 +10,13 @@ interface NewsItem {
   link?: string;
 }
 
-// Données de démonstration pour le bandeau défilant
+// Données de démonstration pour le bandeau défilant - Vœux 2026
 const demoNewsItems: NewsItem[] = [
-  { id: 1, text: "🎄 Messe de minuit le 24 décembre à 23h30 à la Cathédrale Notre-Dame", link: "/actualites" },
-  { id: 2, text: "📻 Écoutez Radio Espoir 24h/24 - La voix de la foi", link: "/radio" },
-  { id: 3, text: "📚 Nouveaux enseignements disponibles sur la doctrine de la foi", link: "/enseignements" },
-  { id: 4, text: "🙏 Retraite spirituelle du 8 au 10 janvier 2025 - Inscriptions ouvertes", link: "/actualites" },
-  { id: 5, text: "📖 Téléchargez la lettre pastorale 2024 de Monseigneur l'Évêque", link: "/documents" },
+  { id: 1, text: "✨ BONNE ET SAINTE ANNÉE 2026 ! Que l'Esprit Saint guide vos pas vers la lumière du Christ", link: "/actualites" },
+  { id: 2, text: "🙏 Que cette nouvelle année soit remplie de grâce, de paix et d'amour fraternel pour toute la communauté chrétienne", link: "/actualites" },
+  { id: 3, text: "📻 Écoutez les Radios Catholiques de Côte d'Ivoire 24h/24 - Radio Espoir, La Voix de l'Évangile, Radio Paix Sanwi", link: "/radio" },
+  { id: 4, text: "🎉 « Maintenant est le temps favorable, maintenant est le jour du salut » (2 Co 6,2) - La CENDF vous accompagne en 2026", link: "/a-propos" },
+  { id: 5, text: "📖 Découvrez nos nouveaux documents et enseignements pour fortifier votre foi cette année", link: "/documents" },
 ];
 
 // Récupérer les données du ticker depuis WordPress
