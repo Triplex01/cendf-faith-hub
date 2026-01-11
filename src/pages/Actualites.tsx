@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
-import { Calendar, MapPin, Users, ArrowRight, Loader2, Clock, Quote, MessageSquare } from "lucide-react";
+import { Calendar, MapPin, ArrowRight, Loader2, Clock, Quote, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePosts, useEvents, getFeaturedImage, formatWPDate, stripHtml } from "@/hooks/useWordPress";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Images importées
 import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
@@ -13,9 +20,46 @@ import eventCongresPanafricain from "@/assets/event-congres-panafricain.jpg";
 import eventJourneeScientifique from "@/assets/event-journee-scientifique.jpg";
 import citationLeonXIV from "@/assets/citation-leon-xiv.jpg";
 import citationCardinal from "@/assets/citation-cardinal.jpg";
+import reunionEglise from "@/assets/reunion-eglise.jpg";
+import interieurBasilique from "@/assets/interieur-basilique.jpg";
+import basilique from "@/assets/basilique-notredame.jpg";
+import teachingPriest from "@/assets/teaching-priest.jpg";
+
+// Images par défaut pour les actualités
+const defaultImages = [
+  basiliqueYamoussoukro,
+  reunionEglise,
+  interieurBasilique,
+  basilique,
+  teachingPriest,
+  eventAbidjan2025,
+];
+
+interface StaticEvent {
+  id: number;
+  title: string;
+  subtitle: string;
+  date: string;
+  location: string;
+  theme: string;
+  image: string;
+  type: string;
+  fullDescription: string;
+}
+
+interface Citation {
+  id: number;
+  author: string;
+  title: string;
+  date: string;
+  quote: string;
+  image: string;
+  type: string;
+  fullText: string;
+}
 
 // Événements statiques (basés sur les images uploadées)
-const staticEvents = [
+const staticEvents: StaticEvent[] = [
   {
     id: 1,
     title: "IIIe Congrès Panafricain du Jubilé Catholique",
@@ -25,6 +69,7 @@ const staticEvents = [
     theme: "Cheminer ensemble dans l'espérance en tant que Famille de Dieu de l'Église en Afrique",
     image: eventCongresPanafricain,
     type: "Congrès International",
+    fullDescription: "Le IIIe Congrès Panafricain du Jubilé Catholique rassemblera des évêques, prêtres, religieux et laïcs de toute l'Afrique pour réfléchir sur le thème 'Cheminer ensemble dans l'espérance en tant que Famille de Dieu de l'Église en Afrique'. Cet événement majeur sera l'occasion de partager des expériences pastorales et de renforcer la communion ecclésiale à l'échelle du continent.",
   },
   {
     id: 2,
@@ -35,6 +80,7 @@ const staticEvents = [
     theme: "Synode sur la synodalité",
     image: eventSynode,
     type: "Conférence",
+    fullDescription: "Cette grande conférence publique explorera les impacts du Synode sur la synodalité pour l'Église Famille de Dieu en Côte d'Ivoire. Des théologiens, évêques et experts ecclésiaux analyseront comment mettre en œuvre les fruits du synode dans notre contexte local.",
   },
   {
     id: 3,
@@ -45,6 +91,7 @@ const staticEvents = [
     theme: "Jubilé 2025",
     image: eventAbidjan2025,
     type: "Événement Continental",
+    fullDescription: "Abidjan sera le cœur battant du Jubilé de l'Espérance 2025 pour l'Afrique. Cet événement continental réunira des pèlerins de tout le continent pour célébrer ensemble notre foi et notre espérance en Christ.",
   },
   {
     id: 4,
@@ -55,11 +102,12 @@ const staticEvents = [
     theme: "Pour une Église synodale : communion, participation, mission",
     image: eventJourneeScientifique,
     type: "Journée d'étude",
+    fullDescription: "Une journée scientifique consacrée à l'étude et à la réception du Document Final de la XVIe Assemblée du Synode. Organisée par l'Institut Saint Thomas d'Aquin de Yamoussoukro.",
   },
 ];
 
 // Citations et commentaires (basés sur les images uploadées)
-const citations = [
+const citations: Citation[] = [
   {
     id: 1,
     author: "Léon XIV",
@@ -68,6 +116,7 @@ const citations = [
     quote: "L'Évangile ne nous enseigne pas à nier le mal, mais à le reconnaître comme une opportunité douloureuse pour renaître.",
     image: citationLeonXIV,
     type: "Parole du Saint-Père",
+    fullText: "Dans son audience générale, le Saint-Père a développé une réflexion profonde sur notre rapport au mal et à la souffrance. Il a souligné que l'Évangile ne nous invite pas à nier les difficultés de la vie, mais à les transformer en occasions de croissance spirituelle.",
   },
   {
     id: 2,
@@ -77,12 +126,20 @@ const citations = [
     quote: "La vraie gloire fuit celui qui la poursuit et poursuit celui qui la fuit.",
     image: citationCardinal,
     type: "Commentaire spirituel",
+    fullText: "Le Cardinal Cantalamessa, dans ce commentaire spirituel, nous rappelle le paradoxe évangélique de l'humilité. Ceux qui cherchent les honneurs et la reconnaissance mondaine les voient s'échapper, tandis que ceux qui s'abaissent dans le service désintéressé sont élevés par Dieu.",
   },
 ];
 
 const Actualites = () => {
   const { data: posts, isLoading: postsLoading, error: postsError } = usePosts({ per_page: 6 });
   const { data: wpEvents, isLoading: eventsLoading } = useEvents({ per_page: 4 });
+  const [selectedEvent, setSelectedEvent] = useState<StaticEvent | null>(null);
+  const [selectedCitation, setSelectedCitation] = useState<Citation | null>(null);
+
+  // Fonction pour obtenir une image par défaut
+  const getDefaultImage = (index: number) => {
+    return defaultImages[index % defaultImages.length];
+  };
 
   return (
     <PageLayout 
@@ -112,7 +169,8 @@ const Actualites = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="group bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-border"
+                onClick={() => setSelectedEvent(event)}
+                className="group cursor-pointer bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-border"
               >
                 <div className="aspect-video overflow-hidden relative">
                   <img 
@@ -125,6 +183,7 @@ const Actualites = () => {
                       {event.type}
                     </span>
                   </div>
+                  <div className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent" />
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
@@ -141,9 +200,10 @@ const Actualites = () => {
                       {event.location}
                     </span>
                   </div>
-                  <p className="text-muted-foreground text-sm italic border-l-2 border-primary pl-3">
-                    {event.theme}
-                  </p>
+                  <div className="flex items-center text-primary text-sm font-medium">
+                    En savoir plus
+                    <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -174,7 +234,8 @@ const Actualites = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className="relative bg-white/5 rounded-2xl overflow-hidden border border-white/10"
+                onClick={() => setSelectedCitation(citation)}
+                className="relative cursor-pointer bg-white/5 rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-colors"
               >
                 <div className="aspect-square overflow-hidden">
                   <img 
@@ -225,7 +286,7 @@ const Actualites = () => {
             </div>
           ) : posts && posts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post: any) => (
+              {posts.map((post: any, index: number) => (
                 <Link 
                   key={post.id} 
                   to={`/actualites/${post.slug}`}
@@ -233,7 +294,7 @@ const Actualites = () => {
                 >
                   <div className="aspect-video overflow-hidden">
                     <img 
-                      src={getFeaturedImage(post) || basiliqueYamoussoukro} 
+                      src={getFeaturedImage(post) || getDefaultImage(index)} 
                       alt={post.title?.rendered || "Article"}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -323,6 +384,81 @@ const Actualites = () => {
           )}
         </div>
       </section>
+
+      {/* Event Detail Modal */}
+      <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="sr-only">{selectedEvent?.title}</DialogTitle>
+          </DialogHeader>
+          {selectedEvent && (
+            <div>
+              <div className="aspect-video rounded-lg overflow-hidden mb-4">
+                <img 
+                  src={selectedEvent.image} 
+                  alt={selectedEvent.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-bold rounded-full mb-2">
+                {selectedEvent.type}
+              </span>
+              <h3 className="text-xl font-bold text-foreground mb-1">{selectedEvent.title}</h3>
+              <p className="text-primary font-medium text-sm mb-3">{selectedEvent.subtitle}</p>
+              <div className="flex flex-wrap gap-3 text-sm text-muted-foreground mb-4">
+                <span className="flex items-center gap-1">
+                  <Calendar className="w-4 h-4 text-primary" />
+                  {selectedEvent.date}
+                </span>
+                <span className="flex items-center gap-1">
+                  <MapPin className="w-4 h-4 text-secondary" />
+                  {selectedEvent.location}
+                </span>
+              </div>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                {selectedEvent.fullDescription}
+              </p>
+              <p className="text-sm italic border-l-2 border-primary pl-3 text-muted-foreground">
+                Thème: {selectedEvent.theme}
+              </p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Citation Detail Modal */}
+      <Dialog open={!!selectedCitation} onOpenChange={() => setSelectedCitation(null)}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="sr-only">{selectedCitation?.author}</DialogTitle>
+          </DialogHeader>
+          {selectedCitation && (
+            <div>
+              <div className="aspect-square max-w-[200px] mx-auto rounded-lg overflow-hidden mb-4">
+                <img 
+                  src={selectedCitation.image} 
+                  alt={selectedCitation.author}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-center mb-4">
+                <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full mb-2">
+                  {selectedCitation.type}
+                </span>
+                <h3 className="text-xl font-bold text-foreground">{selectedCitation.author}</h3>
+                <p className="text-muted-foreground text-sm">{selectedCitation.title}</p>
+                <p className="text-xs text-muted-foreground mt-1">{selectedCitation.date}</p>
+              </div>
+              <blockquote className="text-lg italic text-foreground text-center border-l-4 border-r-4 border-secondary px-4 py-2 mb-4">
+                "{selectedCitation.quote}"
+              </blockquote>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                {selectedCitation.fullText}
+              </p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </PageLayout>
   );
 };
