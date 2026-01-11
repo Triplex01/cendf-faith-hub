@@ -173,11 +173,12 @@ const Actualites = () => {
                 onClick={() => setSelectedEvent(event)}
                 className="group cursor-pointer bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-border"
               >
-                <div className="aspect-video overflow-hidden relative">
+                <div className="aspect-video sm:aspect-[4/3] md:aspect-video overflow-hidden relative">
                   <img 
                     src={event.image} 
                     alt={event.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
                   />
                   <div className="absolute top-4 left-4">
                     <span className="px-3 py-1 bg-secondary text-white text-xs font-bold rounded-full">
@@ -231,18 +232,19 @@ const Actualites = () => {
             {citations.map((citation, index) => (
               <motion.div
                 key={citation.id}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
                 onClick={() => setSelectedCitation(citation)}
-                className="relative cursor-pointer bg-white/5 rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-colors"
+                className="relative cursor-pointer bg-white/5 rounded-xl md:rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-colors"
               >
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-[4/5] sm:aspect-square overflow-hidden">
                   <img 
                     src={citation.image} 
                     alt={citation.author}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
+                    loading="lazy"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6">

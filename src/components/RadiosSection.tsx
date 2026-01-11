@@ -226,12 +226,13 @@ const RadiosSection = () => {
 
           {/* Image */}
           <div className="order-1 lg:order-2 relative group">
-            <div className="absolute -inset-4 bg-gradient-gold rounded-2xl opacity-10 blur-xl group-hover:opacity-20 transition-opacity" />
+            <div className="absolute -inset-4 bg-gradient-gold rounded-2xl opacity-10 blur-xl group-hover:opacity-20 transition-opacity hidden sm:block" />
             <div className="relative rounded-2xl overflow-hidden shadow-elegant">
               <img
                 src={radioImage}
                 alt="Studios des radios catholiques"
-                className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-[250px] sm:h-[350px] md:h-[400px] lg:h-[500px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-deep-black/80 via-deep-black/20 to-transparent" />
               

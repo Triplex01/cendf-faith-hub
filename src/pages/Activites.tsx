@@ -161,7 +161,7 @@ const Activites = () => {
           >
             <CarouselContent className="-ml-2 md:-ml-4">
               {galleryPhotos.map((photo, index) => (
-                <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                <CarouselItem key={index} className="pl-2 md:pl-4 basis-full xs:basis-1/2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -174,19 +174,20 @@ const Activites = () => {
                       <img
                         src={photo.src}
                         alt={photo.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <div className="absolute bottom-0 left-0 right-0 p-3 transform translate-y-full group-hover:translate-y-0 transition-transform">
-                        <p className="text-white text-sm font-medium text-center">{photo.title}</p>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute bottom-0 left-0 right-0 p-3 md:transform md:translate-y-full md:group-hover:translate-y-0 transition-transform">
+                        <p className="text-white text-xs sm:text-sm font-medium text-center">{photo.title}</p>
                       </div>
                     </div>
                   </motion.div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex -left-12" />
-            <CarouselNext className="hidden md:flex -right-12" />
+            <CarouselPrevious className="hidden sm:flex -left-4 md:-left-12" />
+            <CarouselNext className="hidden sm:flex -right-4 md:-right-12" />
           </Carousel>
 
           {/* Photo Modal */}
@@ -266,17 +267,18 @@ const Activites = () => {
                 className="group bg-card border border-border rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
               >
                 {/* Image */}
-                <div className="relative h-40 overflow-hidden">
+                <div className="relative h-32 sm:h-36 md:h-40 overflow-hidden">
                   <img 
                     src={activity.image} 
                     alt={activity.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   
                   {/* Icon */}
-                  <div className={`absolute bottom-3 right-3 w-10 h-10 bg-gradient-to-br ${activity.color} rounded-full flex items-center justify-center shadow-lg`}>
-                    <activity.icon className="w-5 h-5 text-white" />
+                  <div className={`absolute bottom-3 right-3 w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br ${activity.color} rounded-full flex items-center justify-center shadow-lg`}>
+                    <activity.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                   </div>
                 </div>
 

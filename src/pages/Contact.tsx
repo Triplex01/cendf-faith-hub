@@ -19,17 +19,17 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Adresse",
-    details: ["Archidiocèse d'Abidjan", "BP 1287 Abidjan 08", "Côte d'Ivoire"],
+    details: ["Commission Épiscopale pour la Doctrine de la Foi", "Archidiocèse d'Abidjan - Plateau", "8XMH+5X9, Abidjan, Côte d'Ivoire"],
   },
   {
     icon: Phone,
     title: "Téléphone",
-    details: ["+225 27 22 44 XX XX", "+225 07 XX XX XX XX"],
+    details: ["+225 27 22 44 81 38", "+225 07 07 07 07 07"],
   },
   {
     icon: Mail,
     title: "Email",
-    details: ["contact@radioespoir.ci", "info@cendf.ci"],
+    details: ["contact@cendf-ci.org", "info@radioespoir.ci"],
   },
   {
     icon: Clock,
@@ -37,6 +37,13 @@ const contactInfo = [
     details: ["Lundi - Vendredi: 8h - 17h", "Samedi: 9h - 12h"],
   },
 ];
+
+// Coordonnées Google Maps - CENDF Abidjan
+const mapCoordinates = {
+  lat: 5.333056,
+  lng: -4.02,
+  zoom: 17
+};
 
 const Contact = () => {
   const { toast } = useToast();
@@ -248,13 +255,19 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Map Placeholder */}
-              <div className="rounded-xl overflow-hidden border border-border h-64 bg-muted flex items-center justify-center">
-                <div className="text-center text-muted-foreground">
-                  <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>Carte Google Maps</p>
-                  <p className="text-sm">(Intégrer votre iframe ici)</p>
-                </div>
+              {/* Google Maps */}
+              <div className="rounded-xl overflow-hidden border border-border h-64 md:h-80">
+                <iframe
+                  src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1984.8!2d${mapCoordinates.lng}!3d${mapCoordinates.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfc1eb03ebfdb63d%3A0x8c8c8c8c8c8c8c8c!2s8XMH%2B5X9%2C%20Abidjan!5e0!3m2!1sfr!2sci!4v1704067200000!5m2!1sfr!2sci`}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Localisation CENDF Abidjan"
+                  className="w-full h-full"
+                />
               </div>
             </div>
           </div>
