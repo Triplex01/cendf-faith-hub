@@ -361,35 +361,61 @@ const Boutique = () => {
         </div>
       </section>
 
-      {/* Payment Modal */}
+      {/* Payment Modal - Amélioré avec logos Mobile Money */}
       <Dialog open={isPaymentOpen} onOpenChange={setIsPaymentOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle className="text-center">
-              Choisir le mode de paiement
+            <DialogTitle className="text-center text-xl font-display">
+              Paiement Mobile Money
             </DialogTitle>
           </DialogHeader>
 
+          {/* Logos Mobile Money */}
+          <div className="flex justify-center mb-4">
+            <div className="bg-muted/50 rounded-xl p-4">
+              <img 
+                src={mobileMoneyLogos} 
+                alt="Orange Money, MTN Mobile Money, Moov Money, Wave"
+                className="h-16 object-contain"
+              />
+              <p className="text-xs text-center text-muted-foreground mt-2">
+                Modes de paiement acceptés
+              </p>
+            </div>
+          </div>
+
           <Tabs defaultValue="orange" onValueChange={(v) => setPaymentMethod(v as "orange" | "wave")}>
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="orange" className="gap-2">
-                <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
-                  <Phone className="w-3 h-3 text-white" />
+            <TabsList className="grid w-full grid-cols-4 h-auto p-1">
+              <TabsTrigger value="orange" className="flex flex-col gap-1 py-2">
+                <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">OM</span>
                 </div>
-                Orange Money
+                <span className="text-xs">Orange</span>
               </TabsTrigger>
-              <TabsTrigger value="wave" className="gap-2">
-                <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-                  <Smartphone className="w-3 h-3 text-white" />
+              <TabsTrigger value="mtn" className="flex flex-col gap-1 py-2">
+                <div className="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center">
+                  <span className="text-black font-bold text-xs">MTN</span>
                 </div>
-                Wave
+                <span className="text-xs">MTN</span>
+              </TabsTrigger>
+              <TabsTrigger value="moov" className="flex flex-col gap-1 py-2">
+                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">M</span>
+                </div>
+                <span className="text-xs">Moov</span>
+              </TabsTrigger>
+              <TabsTrigger value="wave" className="flex flex-col gap-1 py-2">
+                <div className="w-8 h-8 rounded-full bg-cyan-500 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">W</span>
+                </div>
+                <span className="text-xs">Wave</span>
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="orange" className="space-y-4 mt-4">
-              <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                <p className="text-sm text-muted-foreground mb-1">Montant à payer</p>
-                <p className="font-display text-2xl font-bold text-orange-600">
+              <div className="p-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl text-white">
+                <p className="text-sm text-white/80 mb-1">Montant à payer</p>
+                <p className="font-display text-3xl font-bold">
                   {formatPrice(cartTotal)}
                 </p>
               </div>
@@ -400,31 +426,107 @@ const Boutique = () => {
                 </label>
                 <Input
                   type="tel"
-                  placeholder="07 XX XX XX XX"
+                  placeholder="07 87 83 03 95"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="text-lg"
                 />
                 <p className="text-xs text-muted-foreground mt-1">
-                  Numéro marchand: 0787830395
+                  📱 Numéro marchand: <strong>0787830395</strong>
                 </p>
               </div>
 
-              <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg">
-                <h4 className="font-medium text-orange-700 dark:text-orange-300 mb-2">
-                  Instructions
+              <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800">
+                <h4 className="font-semibold text-orange-700 dark:text-orange-300 mb-2 flex items-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  Instructions Orange Money
                 </h4>
-                <ol className="text-sm text-orange-600 dark:text-orange-400 space-y-1 list-decimal list-inside">
-                  <li>Entrez votre numéro Orange Money</li>
-                  <li>Cliquez sur "Confirmer le paiement"</li>
-                  <li>Validez sur votre téléphone avec votre code secret</li>
+                <ol className="text-sm text-orange-600 dark:text-orange-400 space-y-2 list-decimal list-inside">
+                  <li>Composez <strong>#144#</strong> ou ouvrez l'app Orange Money</li>
+                  <li>Sélectionnez "Paiement marchand"</li>
+                  <li>Entrez le code marchand et confirmez avec votre PIN</li>
+                </ol>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="mtn" className="space-y-4 mt-4">
+              <div className="p-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-xl text-black">
+                <p className="text-sm text-black/70 mb-1">Montant à payer</p>
+                <p className="font-display text-3xl font-bold">
+                  {formatPrice(cartTotal)}
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Numéro MTN Mobile Money
+                </label>
+                <Input
+                  type="tel"
+                  placeholder="05 XX XX XX XX"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="text-lg"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  📱 Numéro marchand: <strong>0787830395</strong>
+                </p>
+              </div>
+
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-xl border border-yellow-200 dark:border-yellow-800">
+                <h4 className="font-semibold text-yellow-700 dark:text-yellow-300 mb-2 flex items-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  Instructions MTN MoMo
+                </h4>
+                <ol className="text-sm text-yellow-700 dark:text-yellow-400 space-y-2 list-decimal list-inside">
+                  <li>Composez <strong>*133#</strong> ou ouvrez l'app MoMo</li>
+                  <li>Sélectionnez "Payer un marchand"</li>
+                  <li>Entrez le code et validez avec votre PIN</li>
+                </ol>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="moov" className="space-y-4 mt-4">
+              <div className="p-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl text-white">
+                <p className="text-sm text-white/80 mb-1">Montant à payer</p>
+                <p className="font-display text-3xl font-bold">
+                  {formatPrice(cartTotal)}
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Numéro Moov Money
+                </label>
+                <Input
+                  type="tel"
+                  placeholder="01 XX XX XX XX"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="text-lg"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  📱 Numéro marchand: <strong>0787830395</strong>
+                </p>
+              </div>
+
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800">
+                <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-2 flex items-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  Instructions Moov Money
+                </h4>
+                <ol className="text-sm text-blue-600 dark:text-blue-400 space-y-2 list-decimal list-inside">
+                  <li>Composez <strong>*155#</strong> ou ouvrez l'app Moov Money</li>
+                  <li>Sélectionnez "Paiement"</li>
+                  <li>Entrez le code marchand et confirmez</li>
                 </ol>
               </div>
             </TabsContent>
 
             <TabsContent value="wave" className="space-y-4 mt-4">
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                <p className="text-sm text-muted-foreground mb-1">Montant à payer</p>
-                <p className="font-display text-2xl font-bold text-blue-600">
+              <div className="p-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl text-white">
+                <p className="text-sm text-white/80 mb-1">Montant à payer</p>
+                <p className="font-display text-3xl font-bold">
                   {formatPrice(cartTotal)}
                 </p>
               </div>
@@ -435,23 +537,25 @@ const Boutique = () => {
                 </label>
                 <Input
                   type="tel"
-                  placeholder="07 XX XX XX XX"
+                  placeholder="07 87 83 03 95"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="text-lg"
                 />
                 <p className="text-xs text-muted-foreground mt-1">
-                  Numéro marchand: 0787830395
+                  📱 Numéro marchand: <strong>0787830395</strong>
                 </p>
               </div>
 
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
-                <h4 className="font-medium text-blue-700 dark:text-blue-300 mb-2">
-                  Instructions
+              <div className="bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-xl border border-cyan-200 dark:border-cyan-800">
+                <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2 flex items-center gap-2">
+                  <Smartphone className="w-4 h-4" />
+                  Instructions Wave
                 </h4>
-                <ol className="text-sm text-blue-600 dark:text-blue-400 space-y-1 list-decimal list-inside">
-                  <li>Entrez votre numéro Wave</li>
-                  <li>Cliquez sur "Confirmer le paiement"</li>
-                  <li>Validez sur l'application Wave</li>
+                <ol className="text-sm text-cyan-600 dark:text-cyan-400 space-y-2 list-decimal list-inside">
+                  <li>Ouvrez l'application Wave</li>
+                  <li>Scannez le QR Code ou entrez le numéro</li>
+                  <li>Confirmez le paiement</li>
                 </ol>
               </div>
             </TabsContent>

@@ -23,7 +23,7 @@ import citationCardinal from "@/assets/citation-cardinal.jpg";
 import reunionEglise from "@/assets/reunion-eglise.jpg";
 import interieurBasilique from "@/assets/interieur-basilique.jpg";
 import basilique from "@/assets/basilique-notredame.jpg";
-import teachingPriest from "@/assets/teaching-priest.jpg";
+import voeux2026 from "@/assets/voeux-2026.jpg";
 
 // Images par défaut pour les actualités
 const defaultImages = [
@@ -31,8 +31,9 @@ const defaultImages = [
   reunionEglise,
   interieurBasilique,
   basilique,
-  teachingPriest,
   eventAbidjan2025,
+  eventCongresPanafricain,
+  eventSynode,
 ];
 
 interface StaticEvent {

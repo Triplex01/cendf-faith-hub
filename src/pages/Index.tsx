@@ -6,12 +6,15 @@ import AboutSection from "@/components/AboutSection";
 import DocumentsArchivesSection from "@/components/DocumentsArchivesSection";
 import RadiosSection from "@/components/RadiosSection";
 import EventsCitationsSection from "@/components/EventsCitationsSection";
+import PodcastSection from "@/components/PodcastSection";
 import ProgramSection from "@/components/ProgramSection";
 import Footer from "@/components/Footer";
+import NewYearPopup from "@/components/NewYearPopup";
 
 const Index = () => {
   return (
     <main className="min-h-screen">
+      <NewYearPopup />
       <Header />
       <NewsTicker />
       <div className="pt-32">
@@ -22,6 +25,7 @@ const Index = () => {
       <EventsCitationsSection />
       <DocumentsArchivesSection />
       <RadiosSection />
+      <PodcastSection />
       <ProgramSection />
       <Footer />
     </main>
