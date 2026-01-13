@@ -38,58 +38,71 @@ const values = [
 
 const timeline = [
   {
-    year: "1960",
-    title: "Création de la Conférence Épiscopale",
-    description: "Fondation de la CECCI après l'indépendance de la Côte d'Ivoire.",
+    year: "1542",
+    title: "Origine du Dicastère",
+    description: "Paul III fonde la Congrégation de l'Inquisition pour la sauvegarde de la foi.",
   },
   {
-    year: "1985",
-    title: "Institution de la CEDF",
-    description: "Création officielle de la Commission pour la Doctrine de la Foi.",
+    year: "1965",
+    title: "Réforme de Paul VI",
+    description: "La Congrégation devient 'Congrégation pour la Doctrine de la Foi', axée sur la promotion.",
   },
   {
-    year: "2000",
-    title: "Jubilé et Renouveau",
-    description: "Grande célébration et nouveaux programmes de formation.",
+    year: "1967",
+    title: "Appel aux Commissions Nationales",
+    description: "Le Cardinal Ottaviani encourage la création de Commissions doctrinales nationales.",
   },
   {
-    year: "2015",
-    title: "Modernisation",
-    description: "Lancement des outils numériques et de la radio en ligne.",
+    year: "2011",
+    title: "Dynamisation en Côte d'Ivoire",
+    description: "Mgr Alain-Clément Amiézi, évêque d'Odienné, relance la mission de la Sous-Commission.",
+  },
+  {
+    year: "2022",
+    title: "Ère du Dicastère",
+    description: "La Congrégation devient officiellement 'Dicastère pour la Doctrine de la Foi'.",
   },
   {
     year: "2024",
-    title: "Aujourd'hui",
-    description: "Poursuite de la mission avec de nouveaux défis pastoraux.",
+    title: "Nouveau Dynamisme",
+    description: "Sous Mgr Beby Gaspard, président de la Commission, renforcement de la structure et des actions.",
   },
 ];
 
 const team = [
   {
-    role: "Président",
+    role: "Président de la Commission",
     title: "Son Excellence Monseigneur",
-    name: "Jean-Pierre Kutwa",
-    diocese: "Archidiocèse d'Abidjan",
+    name: "Beby Gaspard",
+    diocese: "Commission Doctrine de la Foi et Catéchèse",
   },
   {
-    role: "Secrétaire",
-    title: "Père",
-    name: "Thomas Adjobi",
-    diocese: "Secrétariat de la CEDF",
+    role: "Secrétaire Exécutif",
+    title: "Révérend Père",
+    name: "Benjamin K. Koné",
+    diocese: "Sous-Commission pour la Doctrine de la Foi",
   },
   {
-    role: "Membre",
-    title: "Monseigneur",
-    name: "Paul-Siméon Ahouanan",
-    diocese: "Archidiocèse de Bouaké",
+    role: "Consulteurs",
+    title: "Équipe de",
+    name: "Théologiens et Experts",
+    diocese: "Secrétariat Technique et Scientifique",
   },
+];
+
+const objectives = [
+  "Structurer et organiser la Commission",
+  "Assurer la formation et la sensibilisation du clergé et des fidèles",
+  "Défendre et promouvoir la doctrine catholique face aux défis actuels",
+  "Développer la présence médiatique et numérique de la Commission",
+  "Renforcer les relations entre l'Église et les autorités politiques, civiles et religieuses",
 ];
 
 const APropos = () => {
   return (
     <PageLayout 
-      title="À Propos de la CEDF" 
-      subtitle="Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire"
+      title="À Propos de la SCEDF" 
+      subtitle="Sous-Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire"
       backgroundImage={basiliqueYamoussoukro}
     >
       {/* Introduction Section */}
@@ -104,15 +117,18 @@ const APropos = () => {
                 Une Commission au Service de la <span className="text-primary">Foi</span>
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                La Commission Épiscopale pour la Doctrine de la Foi (CEDF) est un organe 
-                de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI). Elle a pour mission 
-                principale de veiller à l'intégrité de la doctrine catholique et de promouvoir une 
-                formation solide des fidèles.
+                La <strong>Sous-Commission Épiscopale pour la Doctrine de la Foi (SCEDF)</strong> est l'une des dix 
+                commissions de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI). Elle représente, 
+                à l'échelle nationale, le Dicastère pour la Doctrine de la Foi du Vatican.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Dans un contexte ecclésial en mutation, marqué par l'émergence de nouvelles réalités qui interpellent 
+                la conscience du peuple de Dieu, la SCEDF remplit une mission essentielle : <strong>promouvoir et 
+                protéger le dépôt de la foi catholique</strong>, face aux dérives et déviations qui pourraient l'altérer.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                En communion avec le Saint-Siège et sous la direction des évêques, la CEDF accompagne 
-                les diocèses dans l'enseignement de la foi, la formation des catéchistes, la diffusion 
-                des documents magistériels et la réponse aux questions doctrinales.
+                Son travail repose sur la Parole de Dieu, la Tradition et le Magistère, avec comme fondement le dogme, 
+                qui oriente la théologie, la morale, la spiritualité, l'évangélisation et la liturgie.
               </p>
               <div className="flex flex-wrap gap-4">
                 {values.map((value, index) => (
@@ -131,7 +147,7 @@ const APropos = () => {
               <div className="relative rounded-2xl overflow-hidden shadow-elegant">
                 <img
                   src={reunionEglise}
-                  alt="Réunion de la CEDF"
+                  alt="Réunion de la SCEDF"
                   className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -140,18 +156,64 @@ const APropos = () => {
         </div>
       </section>
 
-      {/* Missions Section */}
+      {/* Vision Section */}
+      <section className="py-16 bg-gradient-burgundy text-primary-foreground">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="font-display text-2xl md:text-3xl font-bold mb-6">
+              Notre Vision
+            </h2>
+            <p className="text-xl leading-relaxed opacity-90 italic">
+              "Une Église ancrée dans la vérité et rayonnante dans le monde"
+            </p>
+            <p className="mt-4 opacity-80">
+              La SCEDF aspire à une Église catholique en Côte d'Ivoire qui soit un phare de vérité et de sainteté, 
+              influençant positivement la société.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Objectives Section */}
       <section className="py-20 bg-gradient-divine">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-4">
+              Nos Objectifs
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
+              Les 5 Objectifs Stratégiques
+            </h2>
+          </div>
+
+          <div className="max-w-3xl mx-auto space-y-4">
+            {objectives.map((objective, index) => (
+              <div
+                key={index}
+                className="flex items-start gap-4 bg-card rounded-xl p-6 border border-border shadow-card hover:shadow-elegant transition-all"
+              >
+                <div className="w-10 h-10 bg-gradient-burgundy rounded-full flex items-center justify-center flex-shrink-0 shadow-burgundy">
+                  <span className="text-primary-foreground font-bold">{index + 1}</span>
+                </div>
+                <p className="text-foreground font-medium pt-2">{objective}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Missions Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
               Nos Missions
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
               Au Service de l'Église et des Fidèles
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              La CEDF œuvre dans quatre domaines fondamentaux pour le bien de l'Église en Côte d'Ivoire.
+              La SCEDF œuvre dans quatre domaines fondamentaux pour le bien de l'Église en Côte d'Ivoire.
             </p>
           </div>
 
@@ -177,15 +239,18 @@ const APropos = () => {
       </section>
 
       {/* Timeline Section */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-soft-beige">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
               Notre Histoire
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Jalons de notre Parcours
+              Évolution Historique
             </h2>
+            <p className="text-muted-foreground">
+              Du Dicastère pour la Doctrine de la Foi à la Commission Épiscopale Nationale
+            </p>
           </div>
 
           <div className="max-w-4xl mx-auto relative">
@@ -225,14 +290,14 @@ const APropos = () => {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 bg-soft-beige">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
               Notre Équipe
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Les Responsables de la CEDF
+              Les Responsables de la SCEDF
             </h2>
           </div>
 
@@ -264,7 +329,7 @@ const APropos = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-              Contactez la <span className="text-gradient-gold">CEDF</span>
+              Contactez la <span className="text-gradient-gold">SCEDF</span>
             </h2>
             <p className="text-primary-foreground/70 mb-8 max-w-2xl mx-auto">
               Pour toute question doctrinale, demande de formation ou collaboration pastorale, 
@@ -277,7 +342,7 @@ const APropos = () => {
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 rounded-full">
                 <Mail className="w-4 h-4 text-primary" />
-                <span className="text-sm">contact@cedf-ci.org</span>
+                <span className="text-sm">contact@scedf-ci.org</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 rounded-full">
                 <Phone className="w-4 h-4 text-primary" />
