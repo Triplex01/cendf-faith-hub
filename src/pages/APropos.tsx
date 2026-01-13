@@ -44,7 +44,7 @@ const timeline = [
   },
   {
     year: "1985",
-    title: "Institution de la CENDF",
+    title: "Institution de la CEDF",
     description: "Création officielle de la Commission pour la Doctrine de la Foi.",
   },
   {
@@ -75,7 +75,7 @@ const team = [
     role: "Secrétaire",
     title: "Père",
     name: "Thomas Adjobi",
-    diocese: "Secrétariat de la CENDF",
+    diocese: "Secrétariat de la CEDF",
   },
   {
     role: "Membre",
@@ -88,8 +88,8 @@ const team = [
 const APropos = () => {
   return (
     <PageLayout 
-      title="À Propos de la CENDF" 
-      subtitle="Commission Épiscopale Nationale pour la Doctrine de la Foi"
+      title="À Propos de la CEDF" 
+      subtitle="Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire"
       backgroundImage={basiliqueYamoussoukro}
     >
       {/* Introduction Section */}
@@ -104,13 +104,13 @@ const APropos = () => {
                 Une Commission au Service de la <span className="text-primary">Foi</span>
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                La Commission Épiscopale Nationale pour la Doctrine de la Foi (CENDF) est un organe 
+                La Commission Épiscopale pour la Doctrine de la Foi (CEDF) est un organe 
                 de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI). Elle a pour mission 
                 principale de veiller à l'intégrité de la doctrine catholique et de promouvoir une 
                 formation solide des fidèles.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                En communion avec le Saint-Siège et sous la direction des évêques, la CENDF accompagne 
+                En communion avec le Saint-Siège et sous la direction des évêques, la CEDF accompagne 
                 les diocèses dans l'enseignement de la foi, la formation des catéchistes, la diffusion 
                 des documents magistériels et la réponse aux questions doctrinales.
               </p>
@@ -131,7 +131,7 @@ const APropos = () => {
               <div className="relative rounded-2xl overflow-hidden shadow-elegant">
                 <img
                   src={reunionEglise}
-                  alt="Réunion de la CENDF"
+                  alt="Réunion de la CEDF"
                   className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -151,7 +151,7 @@ const APropos = () => {
               Au Service de l'Église et des Fidèles
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              La CENDF œuvre dans quatre domaines fondamentaux pour le bien de l'Église en Côte d'Ivoire.
+              La CEDF œuvre dans quatre domaines fondamentaux pour le bien de l'Église en Côte d'Ivoire.
             </p>
           </div>
 
@@ -232,7 +232,7 @@ const APropos = () => {
               Notre Équipe
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Les Responsables de la CENDF
+              Les Responsables de la CEDF
             </h2>
           </div>
 
@@ -264,7 +264,7 @@ const APropos = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-              Contactez la <span className="text-gradient-gold">CENDF</span>
+              Contactez la <span className="text-gradient-gold">CEDF</span>
             </h2>
             <p className="text-primary-foreground/70 mb-8 max-w-2xl mx-auto">
               Pour toute question doctrinale, demande de formation ou collaboration pastorale, 
@@ -277,7 +277,7 @@ const APropos = () => {
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 rounded-full">
                 <Mail className="w-4 h-4 text-primary" />
-                <span className="text-sm">contact@cendf.ci</span>
+                <span className="text-sm">contact@cedf-ci.org</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 rounded-full">
                 <Phone className="w-4 h-4 text-primary" />

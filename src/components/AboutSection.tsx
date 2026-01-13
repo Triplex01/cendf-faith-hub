@@ -36,10 +36,10 @@ const AboutSection = () => {
             À Propos
           </span>
           <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-6">
-            La <span className="text-primary">CENDF</span>
+            La <span className="text-primary">CEDF</span>
           </h2>
           <p className="font-secondary text-lg text-muted-foreground leading-relaxed">
-            La Commission Épiscopale Nationale pour la Doctrine de la Foi œuvre pour la promotion 
+            La Commission Épiscopale pour la Doctrine de la Foi œuvre pour la promotion 
             et la défense de la foi catholique en Côte d'Ivoire, au service de l'Église universelle.
           </p>
         </div>
@@ -52,7 +52,7 @@ const AboutSection = () => {
             <div className="relative rounded-2xl overflow-hidden shadow-elegant">
               <img
                 src={reunionEglise}
-                alt="Réunion de la CENDF avec les évêques"
+                alt="Réunion de la CEDF avec les évêques"
                 className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-deep-black/60 via-transparent to-transparent" />
@@ -80,7 +80,7 @@ const AboutSection = () => {
               </h3>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 Créée au sein de la Conférence des Évêques Catholiques de Côte d'Ivoire, 
-                la CENDF a pour mission principale de veiller à la pureté de la doctrine catholique 
+                la CEDF a pour mission principale de veiller à la pureté de la doctrine catholique 
                 et de promouvoir une formation solide des fidèles.
               </p>
               <p className="text-muted-foreground leading-relaxed">

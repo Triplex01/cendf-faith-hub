@@ -118,10 +118,10 @@ const RadiosSection = () => {
           {/* Content */}
           <div className="order-2 lg:order-1">
             <span className="inline-block px-4 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium mb-4">
-              Émissions & Radios
+              Partenaires Radio
             </span>
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
-              Les <span className="text-gradient-gold">Radios Catholiques</span>
+              Nos <span className="text-gradient-gold">Partenaires Radio</span>
             </h2>
             <p className="font-secondary text-lg text-primary-foreground/70 leading-relaxed mb-8">
               Écoutez les radios catholiques de Côte d'Ivoire en direct. 

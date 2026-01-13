@@ -26,6 +26,7 @@ import CalendrierLiturgique from "./pages/CalendrierLiturgique";
 import Missions from "./pages/Missions";
 import Activites from "./pages/Activites";
 import APropos from "./pages/APropos";
+import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const AppRoutes = () => {
         <Route path="/calendrier-liturgique" element={<CalendrierLiturgique />} />
         <Route path="/missions" element={<Missions />} />
         <Route path="/activites" element={<Activites />} />
+        <Route path="/faq" element={<FAQ />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <ScrollToTop />

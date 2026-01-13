@@ -29,7 +29,7 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    details: ["contact@cendf-ci.org", "info@radioespoir.ci"],
+    details: ["contact@cedf-ci.org", "info@radioespoir.ci"],
   },
   {
     icon: Clock,
@@ -265,7 +265,7 @@ const Contact = () => {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Localisation CENDF Abidjan"
+                  title="Localisation CEDF Abidjan"
                   className="w-full h-full"
                 />
               </div>

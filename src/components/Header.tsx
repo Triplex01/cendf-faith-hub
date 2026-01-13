@@ -51,12 +51,13 @@ interface NavLink {
 const navLinks: NavLink[] = [
   { name: "Accueil", href: "/" },
   { 
-    name: "La CENDF", 
+    name: "La CEDF", 
     href: "/a-propos",
     subLinks: [
       { name: "À Propos", href: "/a-propos" },
       { name: "Nos Missions", href: "/missions" },
-      { name: "Activités", href: "/activites" }
+      { name: "Activités", href: "/activites" },
+      { name: "FAQ", href: "/faq" }
     ]
   },
   { name: "Actualités", href: "/actualites" },
@@ -114,7 +115,7 @@ const Header = () => {
           <Link to="/" className="flex items-center group">
             <img 
               src={logoCendf} 
-              alt="CENDF - Commission Episcopale pour la Doctrine de la Foi" 
+              alt="CEDF - Commission Épiscopale pour la Doctrine de la Foi" 
               className="h-14 md:h-16 w-auto object-contain"
             />
           </Link>
