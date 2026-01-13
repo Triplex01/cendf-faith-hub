@@ -121,16 +121,13 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background shadow-elegant border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          {/* Logo with Site Name */}
-          <Link to="/" className="flex items-center gap-3 group">
+          {/* Logo */}
+          <Link to="/" className="flex items-center group">
             <img 
               src={logoCendf} 
-              alt="CEDF - Commission Épiscopale pour la Doctrine de la Foi" 
+              alt="SCEDF - Sous-Commission Épiscopale pour la Doctrine de la Foi" 
               className="h-14 md:h-16 w-auto object-contain"
             />
-            <span className="hidden sm:block font-display font-bold text-lg text-primary">
-              CEDF
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
