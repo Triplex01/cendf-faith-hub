@@ -239,10 +239,10 @@ const Radio = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <span className="inline-block px-4 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium mb-4">
-              En Direct
+              Nos Partenaires
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Les <span className="text-gradient-gold">Radios Catholiques</span> de Côte d'Ivoire
+              Nos <span className="text-gradient-gold">Partenaires Radio</span>
             </h2>
             <p className="text-gray-300 max-w-2xl mx-auto">
               Écoutez en direct les radios catholiques. Chaque station diffuse des programmes 

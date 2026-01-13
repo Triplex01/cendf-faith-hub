@@ -21,12 +21,12 @@ const Index = () => {
         <Hero />
       </div>
       <NewsSection />
-      <AboutSection />
       <EventsCitationsSection />
       <DocumentsArchivesSection />
       <RadiosSection />
       <PodcastSection />
       <ProgramSection />
+      <AboutSection />
       <Footer />
     </main>
   );

@@ -117,10 +117,10 @@ const EventsCitationsSection = () => {
             À la Une
           </span>
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-            Événements & <span className="text-primary">Paroles d'Église</span>
+            Grands Événements & <span className="text-primary">Paroles Inspirantes</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Les grands rendez-vous et les paroles inspirantes de nos pasteurs
+            Les rendez-vous majeurs et les paroles inspirantes de nos pasteurs
           </p>
         </motion.div>
 
