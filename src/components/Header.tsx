@@ -128,14 +128,9 @@ const Header = () => {
               alt="CEDF - Commission Épiscopale pour la Doctrine de la Foi" 
               className="h-14 md:h-16 w-auto object-contain"
             />
-            <div className="hidden sm:block">
-              <span className="font-display font-bold text-lg text-primary leading-tight block">
-                CEDF
-              </span>
-              <span className="text-xs text-muted-foreground leading-tight">
-                Côte d'Ivoire
-              </span>
-            </div>
+            <span className="hidden sm:block font-display font-bold text-lg text-primary">
+              CEDF
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -254,7 +249,7 @@ const Header = () => {
               <div className="flex items-center gap-3">
                 <img src={logoCendf} alt="CEDF" className="h-10 w-auto" />
                 <div>
-                  <h3 className="font-display font-bold text-primary">CEDF Côte d'Ivoire</h3>
+                  <h3 className="font-display font-bold text-primary">CEDF</h3>
                   <p className="text-xs text-muted-foreground">Commission Épiscopale pour la Doctrine de la Foi</p>
                 </div>
               </div>
