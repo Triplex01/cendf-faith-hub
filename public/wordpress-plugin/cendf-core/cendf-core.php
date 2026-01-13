@@ -22,10 +22,12 @@ define('CENDF_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 // Chargement des modules
 require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-cpt.php';
+require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-cpt-extended.php';
 require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-api.php';
 require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-options.php';
 require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-acf.php';
 require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-security.php';
+require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-deploy.php';
 
 /**
  * Classe principale du plugin
