@@ -11,7 +11,7 @@ const missions = [
   {
     icon: Shield,
     title: "Défense de la Doctrine de la Foi",
-    description: "La CENDF veille à la pureté et à l'intégrité de la doctrine catholique en Côte d'Ivoire. Elle examine les questions doctrinales, discerne les courants théologiques et protège les fidèles contre les erreurs et les dérives spirituelles.",
+    description: "La SCEDF veille à la pureté et à l'intégrité de la doctrine catholique en Côte d'Ivoire. Elle examine les questions doctrinales, discerne les courants théologiques et protège les fidèles contre les erreurs et les dérives spirituelles.",
     details: [
       "Examen des questions doctrinales complexes",
       "Discernement théologique et pastoral",
@@ -47,7 +47,7 @@ const missions = [
   {
     icon: Radio,
     title: "Évangélisation par les Médias",
-    description: "Utiliser les médias modernes pour diffuser la Parole de Dieu et l'enseignement de l'Église. La CENDF supervise les contenus doctrinaux diffusés par les radios catholiques et les plateformes numériques.",
+    description: "Utiliser les médias modernes pour diffuser la Parole de Dieu et l'enseignement de l'Église. La SCEDF supervise les contenus doctrinaux diffusés par les radios catholiques et les plateformes numériques.",
     details: [
       "Supervision des radios catholiques",
       "Production de contenus doctrinaux",
@@ -64,7 +64,7 @@ const missions = [
       "Lettres pastorales et déclarations",
       "Documents de référence doctrinale",
       "Conservation des archives ecclésiales",
-      "Édition de revues théologiques"
+      "Édition de revues théologiques (Magazine CREDO)"
     ],
     color: "from-secondary to-red-700"
   },
@@ -101,13 +101,14 @@ const Missions = () => {
                 Gardienne de la Foi en Côte d'Ivoire
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                La <strong>Commission Épiscopale pour la Doctrine de la Foi (CENDF)</strong> est l'organe 
-                de la Conférence Épiscopale de Côte d'Ivoire chargé de veiller à la pureté de 
+                La <strong>Sous-Commission Épiscopale pour la Doctrine de la Foi (SCEDF)</strong> est l'organe 
+                de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI) chargé de veiller à la pureté de 
                 l'enseignement catholique et à la transmission fidèle de la foi.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                Elle représente, à l'échelle nationale, le Dicastère pour la Doctrine de la Foi du Vatican. 
                 En communion avec le Magistère de l'Église universelle et sous la direction 
-                des évêques de Côte d'Ivoire, la CENDF accompagne le peuple de Dieu dans 
+                des évêques de Côte d'Ivoire, la SCEDF accompagne le peuple de Dieu dans 
                 son cheminement de foi, l'éclairant sur les questions doctrinales et morales 
                 de notre temps.
               </p>
@@ -115,15 +116,15 @@ const Missions = () => {
                 <div className="flex items-center gap-3 bg-card border border-border rounded-xl p-4">
                   <Church className="w-8 h-8 text-primary" />
                   <div>
-                    <p className="font-bold text-lg">15+</p>
+                    <p className="font-bold text-lg">16</p>
                     <p className="text-sm text-muted-foreground">Diocèses accompagnés</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 bg-card border border-border rounded-xl p-4">
                   <Users className="w-8 h-8 text-secondary" />
                   <div>
-                    <p className="font-bold text-lg">1000+</p>
-                    <p className="text-sm text-muted-foreground">Prêtres formés</p>
+                    <p className="font-bold text-lg">2000+</p>
+                    <p className="text-sm text-muted-foreground">Prêtres en Côte d'Ivoire</p>
                   </div>
                 </div>
               </div>
@@ -139,7 +140,7 @@ const Missions = () => {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
                   src={reunionEglise} 
-                  alt="Réunion de la CENDF" 
+                  alt="Réunion de la SCEDF" 
                   className="w-full h-[450px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
@@ -168,7 +169,7 @@ const Missions = () => {
           >
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Nos Axes d'Action</span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold mt-2 mb-4">
-              Les Missions de la CENDF
+              Les Missions de la SCEDF
             </h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
               Six axes fondamentaux qui guident notre action pastorale au service de l'Église en Côte d'Ivoire
@@ -191,7 +192,7 @@ const Missions = () => {
                     <mission.icon className="w-16 h-16 mb-4" />
                     <h3 className="text-2xl font-bold mb-2">{mission.title}</h3>
                     <p className="text-white/80 text-sm">
-                      Mission n°{index + 1} de la CENDF
+                      Mission n°{index + 1} de la SCEDF
                     </p>
                   </div>
 

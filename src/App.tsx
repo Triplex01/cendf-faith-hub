@@ -10,6 +10,7 @@ import PageLoader from "@/components/PageLoader";
 import FloatingRadioPlayer from "@/components/FloatingRadioPlayer";
 import AIAssistant from "@/components/AIAssistant";
 import ScrollToTop from "@/components/ScrollToTop";
+import ScrollToTopOnNavigate from "@/components/ScrollToTopOnNavigate";
 import CookieConsent from "@/components/CookieConsent";
 import Index from "./pages/Index";
 import Enseignements from "./pages/Enseignements";
@@ -48,6 +49,7 @@ const AppRoutes = () => {
 
   return (
     <>
+      <ScrollToTopOnNavigate />
       <PageLoader isLoading={isLoading} />
       <Routes>
         <Route path="/" element={<Index />} />

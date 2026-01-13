@@ -109,7 +109,7 @@ const Hero = () => {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/20 backdrop-blur-sm border border-gold/40 mb-6 animate-fade-in">
             <span className="w-2 h-2 bg-gold rounded-full animate-pulse" />
             <span className="text-xs font-semibold text-gold uppercase tracking-wider">
-              Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire
+              Sous-Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire
             </span>
           </div>
 
