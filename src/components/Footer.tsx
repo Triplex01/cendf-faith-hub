@@ -194,10 +194,10 @@ const Footer = () => {
             <Link to="/faq" className="text-sm text-primary-foreground/50 hover:text-gold transition-colors">
               FAQ
             </Link>
-            <Link to="/contact" className="text-sm text-primary-foreground/50 hover:text-gold transition-colors">
+            <Link to="/mentions-legales" className="text-sm text-primary-foreground/50 hover:text-gold transition-colors">
               Mentions légales
             </Link>
-            <Link to="/contact" className="text-sm text-primary-foreground/50 hover:text-gold transition-colors">
+            <Link to="/confidentialite" className="text-sm text-primary-foreground/50 hover:text-gold transition-colors">
               Confidentialité
             </Link>
           </div>
