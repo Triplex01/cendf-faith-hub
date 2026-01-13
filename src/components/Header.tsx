@@ -1,7 +1,8 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Radio, ShoppingCart, ChevronDown } from "lucide-react";
+import { Menu, X, Radio, ShoppingCart, ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import logoCendf from "@/assets/logo-cendf.png";
 
 // Cart Context for sharing cart state across components
@@ -22,6 +23,8 @@ interface CartContextType {
   cartCount: number;
   cartTotal: number;
 }
+
+import { createContext, useContext } from "react";
 
 export const CartContext = createContext<CartContextType | null>(null);
 
@@ -62,7 +65,7 @@ const navLinks: NavLink[] = [
   },
   { name: "Actualités", href: "/actualites" },
   { 
-    name: "Ressources", 
+    name: "Enseignements", 
     href: "/enseignements",
     subLinks: [
       { name: "Enseignements", href: "/enseignements" },
@@ -88,6 +91,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(null);
   const location = useLocation();
   const { cartCount } = useCart();
 
@@ -98,6 +102,12 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setOpenMobileDropdown(null);
+  }, [location.pathname]);
 
   const isActive = (href: string) => location.pathname === href;
   const isParentActive = (link: NavLink) => {
@@ -111,13 +121,21 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background shadow-elegant border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center group">
+          {/* Logo with Site Name */}
+          <Link to="/" className="flex items-center gap-3 group">
             <img 
               src={logoCendf} 
               alt="CEDF - Commission Épiscopale pour la Doctrine de la Foi" 
               className="h-14 md:h-16 w-auto object-contain"
             />
+            <div className="hidden sm:block">
+              <span className="font-display font-bold text-lg text-primary leading-tight block">
+                CEDF
+              </span>
+              <span className="text-xs text-muted-foreground leading-tight">
+                Côte d'Ivoire
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -217,6 +235,7 @@ const Header = () => {
             <button
               className="p-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6 text-foreground" />
@@ -229,42 +248,67 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-elegant animate-slide-up">
-            <nav className="container mx-auto px-4 py-6 flex flex-col gap-2">
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-elegant animate-slide-up max-h-[80vh] overflow-y-auto">
+            {/* Site Identity */}
+            <div className="bg-primary/5 border-b border-border px-4 py-4">
+              <div className="flex items-center gap-3">
+                <img src={logoCendf} alt="CEDF" className="h-10 w-auto" />
+                <div>
+                  <h3 className="font-display font-bold text-primary">CEDF Côte d'Ivoire</h3>
+                  <p className="text-xs text-muted-foreground">Commission Épiscopale pour la Doctrine de la Foi</p>
+                </div>
+              </div>
+            </div>
+
+            <nav className="container mx-auto px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
                 <div key={link.name}>
                   {link.subLinks ? (
-                    <div className="space-y-1">
-                      <div
-                        className={`px-4 py-3 font-medium rounded-lg ${
-                          isParentActive(link) ? "text-primary" : "text-foreground"
-                        }`}
-                      >
-                        {link.name}
-                      </div>
-                      {link.subLinks.map((subLink) => (
-                        <Link
-                          key={subLink.name}
-                          to={subLink.href}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className={`block px-6 py-2 text-sm font-medium rounded-lg transition-colors ${
-                            isActive(subLink.href)
-                              ? "bg-primary/10 text-primary"
-                              : "text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                    <Collapsible
+                      open={openMobileDropdown === link.name}
+                      onOpenChange={(open) => setOpenMobileDropdown(open ? link.name : null)}
+                    >
+                      <CollapsibleTrigger className="w-full">
+                        <div
+                          className={`flex items-center justify-between px-4 py-3 font-semibold rounded-lg transition-colors ${
+                            isParentActive(link) 
+                              ? "bg-primary/10 text-primary" 
+                              : "text-foreground hover:bg-muted"
                           }`}
                         >
-                          {subLink.name}
-                        </Link>
-                      ))}
-                    </div>
+                          <span>{link.name}</span>
+                          <ChevronRight 
+                            className={`w-5 h-5 transition-transform duration-200 ${
+                              openMobileDropdown === link.name ? "rotate-90" : ""
+                            }`} 
+                          />
+                        </div>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="pl-4 mt-1 space-y-1 border-l-2 border-primary/20 ml-4">
+                        {link.subLinks.map((subLink) => (
+                          <Link
+                            key={subLink.name}
+                            to={subLink.href}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                              isActive(subLink.href)
+                                ? "bg-primary/10 text-primary"
+                                : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
+                            }`}
+                          >
+                            {subLink.name}
+                          </Link>
+                        ))}
+                      </CollapsibleContent>
+                    </Collapsible>
                   ) : (
                     <Link
                       to={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`px-4 py-3 font-medium rounded-lg transition-colors block ${
+                      className={`block px-4 py-3 font-semibold rounded-lg transition-colors ${
                         isActive(link.href)
                           ? "bg-primary/10 text-primary"
-                          : "text-foreground hover:bg-primary/10 hover:text-primary"
+                          : "text-foreground hover:bg-muted"
                       }`}
                     >
                       {link.name}
@@ -272,10 +316,12 @@ const Header = () => {
                   )}
                 </div>
               ))}
-              <Link to="/radio" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="burgundy" className="mt-4 w-full gap-2">
+              
+              {/* Mobile Radio Button */}
+              <Link to="/radio" onClick={() => setIsMobileMenuOpen(false)} className="mt-4">
+                <Button variant="burgundy" className="w-full gap-2">
                   <Radio className="w-4 h-4 animate-pulse" />
-                  Radio en direct
+                  Écouter la Radio en direct
                 </Button>
               </Link>
             </nav>

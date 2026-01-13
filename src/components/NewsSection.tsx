@@ -7,13 +7,13 @@ import { usePosts } from "@/hooks/useWordPress";
 import { demoPosts, isDemoMode } from "@/config/demoData";
 import { getFeaturedImage, formatWPDate, stripHtml } from "@/hooks/useWordPress";
 
-// Images de fallback locales
-import reunionImage from "@/assets/reunion-eglise.jpg";
-import basiliqueRome from "@/assets/basilique-rome.jpg";
-import basiliqueCover from "@/assets/basilique-notredame.jpg";
-import teachingImage from "@/assets/teaching-priest.jpg";
+// Images de fallback locales - Images CEDF Côte d'Ivoire
+import newsReunionCedf from "@/assets/news-reunion-cedf.jpg";
+import newsGroupeCedf from "@/assets/news-groupe-cedf.jpg";
+import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro-new.jpg";
+import coupoleVatican from "@/assets/coupole-vatican.png";
 
-const fallbackImages = [reunionImage, basiliqueRome, basiliqueCover, teachingImage];
+const fallbackImages = [newsReunionCedf, newsGroupeCedf, basiliqueYamoussoukro, coupoleVatican];
 
 const NewsSection = () => {
   const { data: wpPosts, isLoading } = usePosts({ per_page: 4 });

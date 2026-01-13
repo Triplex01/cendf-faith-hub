@@ -27,6 +27,8 @@ import Missions from "./pages/Missions";
 import Activites from "./pages/Activites";
 import APropos from "./pages/APropos";
 import FAQ from "./pages/FAQ";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
+import MentionsLegales from "./pages/MentionsLegales";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -64,6 +66,8 @@ const AppRoutes = () => {
         <Route path="/missions" element={<Missions />} />
         <Route path="/activites" element={<Activites />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/confidentialite" element={<PolitiqueConfidentialite />} />
+        <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <ScrollToTop />
