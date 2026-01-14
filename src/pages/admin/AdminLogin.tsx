@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -8,39 +8,63 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Church } from 'lucide-react';
 
+const withTimeout = async <T,>(promise: Promise<T>, ms = 12000): Promise<T> => {
+  return await Promise.race([
+    promise,
+    new Promise<T>((_resolve, reject) => {
+      setTimeout(() => reject(new Error('timeout')), ms);
+    }),
+  ]);
+};
+
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, user, loading, isAdmin, isEditor } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (!loading && user && (isAdmin || isEditor)) {
+      navigate('/admin', { replace: true });
+    }
+  }, [loading, user, isAdmin, isEditor, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const { error } = await signIn(email, password);
-      
+      const { error } = await withTimeout(signIn(email, password));
+
       if (error) {
         toast({
-          title: "Erreur de connexion",
-          description: "Email ou mot de passe incorrect.",
-          variant: "destructive",
+          title: 'Erreur de connexion',
+          description: error.message || 'Email ou mot de passe incorrect.',
+          variant: 'destructive',
         });
-      } else {
-        toast({
-          title: "Connexion réussie",
-          description: "Bienvenue dans l'administration.",
-        });
-        navigate('/admin');
+        return;
       }
-    } catch (error) {
+
       toast({
-        title: "Erreur",
-        description: "Une erreur s'est produite. Veuillez réessayer.",
-        variant: "destructive",
+        title: 'Connexion réussie',
+        description: "Bienvenue dans l'administration.",
+      });
+
+      // AdminLayout fera le contrôle de rôle; ici on redirige.
+      navigate('/admin', { replace: true });
+    } catch (err) {
+      const message = err instanceof Error && err.message === 'timeout'
+        ? "Connexion impossible (délai dépassé). Vérifiez votre réseau puis réessayez."
+        : err instanceof Error
+          ? err.message
+          : "Une erreur s'est produite. Veuillez réessayer.";
+
+      toast({
+        title: 'Erreur',
+        description: message,
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
