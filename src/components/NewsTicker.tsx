@@ -2,35 +2,41 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Megaphone } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { isDemoMode } from "@/config/demoData";
 
 interface NewsItem {
-  id: number;
+  id: string;
   text: string;
   link?: string;
 }
 
 // Données de démonstration pour le bandeau défilant - Vœux 2026
 const demoNewsItems: NewsItem[] = [
-  { id: 1, text: "✨ BONNE ET SAINTE ANNÉE 2026 ! Que l'Esprit Saint guide vos pas vers la lumière du Christ", link: "/actualites" },
-  { id: 2, text: "🙏 Que cette nouvelle année soit remplie de grâce, de paix et d'amour fraternel pour toute la communauté chrétienne", link: "/actualites" },
-  { id: 3, text: "📻 Écoutez les Radios Catholiques de Côte d'Ivoire 24h/24 - Radio Espoir, La Voix de l'Évangile, Radio Paix Sanwi", link: "/radio" },
-  { id: 4, text: "🎉 « Maintenant est le temps favorable, maintenant est le jour du salut » (2 Co 6,2) - La CENDF vous accompagne en 2026", link: "/a-propos" },
-  { id: 5, text: "📖 Découvrez nos nouveaux documents et enseignements pour fortifier votre foi cette année", link: "/documents" },
+  { id: "1", text: "✨ BONNE ET SAINTE ANNÉE 2026 ! Que l'Esprit Saint guide vos pas vers la lumière du Christ", link: "/actualites" },
+  { id: "2", text: "🙏 Que cette nouvelle année soit remplie de grâce, de paix et d'amour fraternel pour toute la communauté chrétienne", link: "/actualites" },
+  { id: "3", text: "📻 Écoutez les Radios Catholiques de Côte d'Ivoire 24h/24 - Radio Espoir, La Voix de l'Évangile, Radio Paix Sanwi", link: "/radio" },
+  { id: "4", text: "🎉 « Maintenant est le temps favorable, maintenant est le jour du salut » (2 Co 6,2) - La CENDF vous accompagne en 2026", link: "/a-propos" },
+  { id: "5", text: "📖 Découvrez nos nouveaux documents et enseignements pour fortifier votre foi cette année", link: "/documents-archives" },
 ];
 
-// Récupérer les données du ticker depuis WordPress
+// Récupérer les données du ticker depuis Supabase
 const fetchTickerItems = async (): Promise<NewsItem[]> => {
-  const wpUrl = import.meta.env.VITE_WORDPRESS_URL;
-  if (!wpUrl) return demoNewsItems;
+  const { data, error } = await supabase
+    .from('news_ticker')
+    .select('*')
+    .eq('is_active', true)
+    .order('display_order', { ascending: true });
   
-  try {
-    const response = await fetch(`${wpUrl}/wp-json/cendf/v1/ticker`);
-    if (!response.ok) throw new Error("Failed to fetch ticker");
-    return await response.json();
-  } catch {
+  if (error || !data || data.length === 0) {
     return demoNewsItems;
   }
+  
+  return data.map(item => ({
+    id: item.id,
+    text: item.message,
+    link: item.link || undefined,
+  }));
 };
 
 interface NewsTickerProps {
@@ -41,19 +47,15 @@ interface NewsTickerProps {
 const NewsTicker = ({ speed = 50, className = "" }: NewsTickerProps) => {
   const [isPaused, setIsPaused] = useState(false);
   
-  // Récupérer les données depuis WordPress ou utiliser les données de démo
+  // Récupérer les données depuis Supabase
   const { data: items = demoNewsItems } = useQuery({
     queryKey: ["ticker"],
     queryFn: fetchTickerItems,
-    enabled: !isDemoMode(),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  // Utiliser les données de démo si WordPress n'est pas configuré
-  const tickerData = isDemoMode() ? demoNewsItems : items;
-
   // Doubler les items pour créer un effet de boucle continue
-  const tickerItems = [...tickerData, ...tickerData];
+  const tickerItems = [...items, ...items];
 
   return (
     <div 
@@ -74,7 +76,7 @@ const NewsTicker = ({ speed = 50, className = "" }: NewsTickerProps) => {
         <div 
           className={`flex whitespace-nowrap ${isPaused ? '' : 'animate-marquee'}`}
           style={{
-            animationDuration: `${tickerData.length * speed / 10}s`,
+            animationDuration: `${items.length * speed / 10}s`,
             animationPlayState: isPaused ? 'paused' : 'running'
           }}
         >
