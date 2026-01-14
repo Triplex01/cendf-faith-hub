@@ -29,6 +29,7 @@ require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-acf.php';
 require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-security.php';
 require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-deploy.php';
 require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-installer.php';
+require_once CENDF_PLUGIN_DIR . 'includes/class-cendf-updater.php';
 
 /**
  * Classe principale du plugin

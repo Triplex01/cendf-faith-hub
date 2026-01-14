@@ -1,0 +1,131 @@
+name: 📦 Build & Release WordPress Packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (ex: v1.0.1)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📥 Install dependencies
+        run: npm ci
+      
+      - name: 🔨 Build React app
+        run: npm run build
+      
+      - name: 📋 Get version
+        id: version
+        run: |
+          if [ "${{ github.event.inputs.version }}" != "" ]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 📦 Create plugin ZIP
+        run: |
+          mkdir -p release
+          cp -r public/wordpress-plugin/cendf-core release/cendf-core
+          cd release
+          zip -r cendf-core.zip cendf-core
+          rm -rf cendf-core
+      
+      - name: 📦 Create theme ZIP (with React build)
+        run: |
+          cp -r public/wordpress-theme/cendf-theme release/cendf-theme
+          cp -r dist release/cendf-theme/dist
+          echo "${{ steps.version.outputs.VERSION }}-$(date +%Y%m%d%H%M%S)" > release/cendf-theme/dist/version.txt
+          cd release
+          zip -r cendf-theme.zip cendf-theme
+          rm -rf cendf-theme
+      
+      - name: 📝 Create installation guide
+        run: |
+          cat > release/INSTALLATION.txt << 'EOF'
+          ╔════════════════════════════════════════════════════════════════╗
+          ║           GUIDE D'INSTALLATION RAPIDE - SCEDF                  ║
+          ║           Version: ${{ steps.version.outputs.VERSION }}                              ║
+          ╚════════════════════════════════════════════════════════════════╝
+
+          ÉTAPE 1: INSTALLER LE PLUGIN
+          ----------------------------
+          WordPress Admin → Extensions → Ajouter → Téléverser
+          → cendf-core.zip → Installer → Activer
+
+          ÉTAPE 2: INSTALLER LE THÈME  
+          ---------------------------
+          WordPress Admin → Apparence → Thèmes → Ajouter → Téléverser
+          → cendf-theme.zip → Installer → Activer
+
+          ÉTAPE 3: CONFIGURATION
+          ----------------------
+          Menu "🔧 Installation" → Suivre l'assistant
+
+          ÉTAPE 4: PERMALIENS
+          -------------------
+          Réglages → Permaliens → Nom de l'article → Enregistrer
+          EOF
+      
+      - name: 📤 Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          name: SCEDF ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## 📦 Packages WordPress
+            
+            Téléchargez et installez directement via l'admin WordPress:
+            
+            1. **cendf-core.zip** - Plugin principal (Extensions → Ajouter → Téléverser)
+            2. **cendf-theme.zip** - Thème avec build React (Apparence → Thèmes → Ajouter → Téléverser)
+            
+            ## 📋 Installation
+            
+            1. Installez le plugin et activez-le
+            2. Installez le thème et activez-le
+            3. Suivez l'assistant d'installation (menu 🔧 Installation)
+            
+            ## 🔄 Mise à jour automatique
+            
+            Après installation, WordPress détectera automatiquement les futures mises à jour.
+            
+            ---
+            *Généré automatiquement depuis Lovable*
+          files: |
+            release/cendf-core.zip
+            release/cendf-theme.zip
+            release/INSTALLATION.txt
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🎉 Summary
+        run: |
+          echo "## ✅ Release créée avec succès!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Fichiers:**" >> $GITHUB_STEP_SUMMARY
+          echo "- cendf-core.zip" >> $GITHUB_STEP_SUMMARY
+          echo "- cendf-theme.zip" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Les utilisateurs WordPress recevront une notification de mise à jour!" >> $GITHUB_STEP_SUMMARY
