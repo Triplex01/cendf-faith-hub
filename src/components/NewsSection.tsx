@@ -3,9 +3,11 @@ import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { usePosts } from "@/hooks/useWordPress";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { demoPosts, isDemoMode } from "@/config/demoData";
-import { getFeaturedImage, formatWPDate, stripHtml } from "@/hooks/useWordPress";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 // Images de fallback locales - Images CEDF Côte d'Ivoire
 import newsReunionCedf from "@/assets/news-reunion-cedf.jpg";
@@ -15,11 +17,39 @@ import coupoleVatican from "@/assets/coupole-vatican.png";
 
 const fallbackImages = [newsReunionCedf, newsGroupeCedf, basiliqueYamoussoukro, coupoleVatican];
 
-const NewsSection = () => {
-  const { data: wpPosts, isLoading } = usePosts({ per_page: 4 });
+// Récupérer les articles depuis Supabase
+const fetchArticles = async () => {
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false })
+    .limit(4);
   
-  // Utiliser les données de démo si WordPress n'est pas configuré
-  const posts = isDemoMode() ? demoPosts : (wpPosts || []);
+  if (error) throw error;
+  return data || [];
+};
+
+const NewsSection = () => {
+  // Récupérer les articles depuis Supabase
+  const { data: dbArticles, isLoading: dbLoading } = useQuery({
+    queryKey: ["articles-home"],
+    queryFn: fetchArticles,
+    staleTime: 5 * 60 * 1000,
+  });
+  
+  // Utiliser les données de démo si pas d'articles dans la DB
+  const hasDbArticles = dbArticles && dbArticles.length > 0;
+  const posts = hasDbArticles ? dbArticles : (isDemoMode() ? demoPosts : []);
+  const isLoading = dbLoading;
+
+  const formatDate = (dateStr: string) => {
+    try {
+      return format(new Date(dateStr), "d MMMM yyyy", { locale: fr });
+    } catch {
+      return dateStr;
+    }
+  };
 
   return (
     <section id="actualites" className="py-20 bg-muted/30">
@@ -47,7 +77,7 @@ const NewsSection = () => {
         </div>
 
         {/* Loading State */}
-        {isLoading && !isDemoMode() && (
+        {isLoading && (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[...Array(4)].map((_, i) => (
               <Card key={i} className="animate-pulse">
@@ -62,16 +92,23 @@ const NewsSection = () => {
         )}
 
         {/* News Grid */}
-        {posts.length > 0 && (
+        {!isLoading && posts.length > 0 && (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {posts.slice(0, 4).map((post, index) => {
-              const imageUrl = getFeaturedImage(post) || fallbackImages[index % fallbackImages.length];
-              const excerpt = stripHtml(post.excerpt?.rendered || "");
+            {posts.slice(0, 4).map((post: any, index: number) => {
+              // Support both DB articles and demo posts
+              const isDbArticle = 'slug' in post && !('title' in post && typeof post.title === 'object');
+              const imageUrl = isDbArticle 
+                ? (post.featured_image || fallbackImages[index % fallbackImages.length])
+                : (post._embedded?.['wp:featuredmedia']?.[0]?.source_url || fallbackImages[index % fallbackImages.length]);
+              const title = isDbArticle ? post.title : post.title?.rendered || "";
+              const excerpt = isDbArticle ? (post.excerpt || "") : (post.excerpt?.rendered || "");
+              const slug = post.slug;
+              const date = isDbArticle ? post.published_at : post.date;
               
               return (
                 <Link 
                   key={post.id} 
-                  to={`/actualites/${post.slug}`}
+                  to={`/actualites/${slug}`}
                   className="group"
                 >
                   <Card className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border/50">
@@ -79,7 +116,7 @@ const NewsSection = () => {
                     <div className="relative h-48 overflow-hidden">
                       <img
                         src={imageUrl}
-                        alt={stripHtml(post.title.rendered)}
+                        alt={typeof title === 'string' ? title : ''}
                         loading="lazy"
                         decoding="async"
                         onError={(e) => {
@@ -94,14 +131,20 @@ const NewsSection = () => {
                     <CardContent className="p-4">
                       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                         <Clock className="w-3 h-3" />
-                        <span>{formatWPDate(post.date, "fr-FR")}</span>
+                        <span>{date ? formatDate(date) : "Récent"}</span>
                       </div>
-                      <h3 
-                        className="font-display font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors mb-2"
-                        dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                      />
+                      {typeof title === 'string' ? (
+                        <h3 className="font-display font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors mb-2">
+                          {title}
+                        </h3>
+                      ) : (
+                        <h3 
+                          className="font-display font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors mb-2"
+                          dangerouslySetInnerHTML={{ __html: title }}
+                        />
+                      )}
                       <p className="text-sm text-muted-foreground line-clamp-2">
-                        {excerpt}
+                        {typeof excerpt === 'string' ? excerpt : excerpt.replace(/<[^>]*>/g, '')}
                       </p>
                     </CardContent>
                   </Card>
