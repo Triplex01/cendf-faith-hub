@@ -26,11 +26,17 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+
+  // authLoading: session retrieval / auth change in progress
+  // rolesLoading: role lookup in progress (prevents redirect loop)
+  const [authLoading, setAuthLoading] = useState(true);
+  const [rolesLoading, setRolesLoading] = useState(true);
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [isEditor, setIsEditor] = useState(false);
 
   const checkUserRoles = async (userId: string) => {
+    setRolesLoading(true);
     try {
       const { data: roles, error } = await supabase
         .from('user_roles')
@@ -39,47 +45,67 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (error) {
         console.error('Error fetching roles:', error);
+        setIsAdmin(false);
+        setIsEditor(false);
         return;
       }
 
-      const roleList = roles?.map(r => r.role) || [];
+      const roleList = roles?.map((r) => r.role) || [];
       setIsAdmin(roleList.includes('admin'));
       setIsEditor(roleList.includes('editor') || roleList.includes('admin'));
     } catch (error) {
       console.error('Error checking roles:', error);
+      setIsAdmin(false);
+      setIsEditor(false);
+    } finally {
+      setRolesLoading(false);
     }
   };
 
   useEffect(() => {
     // Set up auth state listener BEFORE checking session
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          // Use setTimeout to avoid potential deadlock with Supabase client
-          setTimeout(() => checkUserRoles(session.user.id), 0);
-        } else {
-          setIsAdmin(false);
-          setIsEditor(false);
-        }
-        
-        setLoading(false);
-      }
-    );
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      setAuthLoading(true);
 
-    // Check initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      
+
       if (session?.user) {
-        checkUserRoles(session.user.id);
+        // Ensure we don't redirect while roles are still loading
+        await checkUserRoles(session.user.id);
+      } else {
+        setIsAdmin(false);
+        setIsEditor(false);
+        setRolesLoading(false);
       }
-      
-      setLoading(false);
+
+      setAuthLoading(false);
     });
+
+    // Check initial session
+    supabase.auth
+      .getSession()
+      .then(async ({ data: { session } }) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+
+        if (session?.user) {
+          await checkUserRoles(session.user.id);
+        } else {
+          setRolesLoading(false);
+        }
+
+        setAuthLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error getting session:', error);
+        setIsAdmin(false);
+        setIsEditor(false);
+        setRolesLoading(false);
+        setAuthLoading(false);
+      });
 
     return () => subscription.unsubscribe();
   }, []);
@@ -105,24 +131,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
+    setAuthLoading(true);
     await supabase.auth.signOut();
     setUser(null);
     setSession(null);
     setIsAdmin(false);
     setIsEditor(false);
+    setRolesLoading(false);
+    setAuthLoading(false);
   };
 
+  const loading = authLoading || rolesLoading;
+
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      session, 
-      loading, 
-      isAdmin, 
-      isEditor, 
-      signIn, 
-      signUp, 
-      signOut 
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        session,
+        loading,
+        isAdmin,
+        isEditor,
+        signIn,
+        signUp,
+        signOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
