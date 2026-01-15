@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Search, BookOpen, ChevronRight, Volume2 } from "lucide-react";
+import SEO from "@/components/SEO";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 import { 
   Select,
   SelectContent,

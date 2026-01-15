@@ -3,6 +3,8 @@ import PageLayout from "@/components/PageLayout";
 import { Calendar, MapPin, ChevronRight, Quote, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import SEO from "@/components/SEO";
+import { BreadcrumbSchema, EventSchema } from "@/components/StructuredData";
 import {
   Dialog,
   DialogContent,

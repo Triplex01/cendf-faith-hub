@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
+import SEO from "@/components/SEO";
+import { BreadcrumbSchema, OrganizationSchema } from "@/components/StructuredData";
 import { 
   MapPin, 
   Phone, 
@@ -178,11 +180,23 @@ const Contact = () => {
   };
 
   return (
-    <PageLayout
-      title="Contact"
-      subtitle="Restons en communion"
-      backgroundImage={reunionImage}
-    >
+    <>
+      <SEO
+        title="Contact"
+        description="Contactez le CENDF - Commission Épiscopale pour la Doctrine de la Foi à Abidjan. Adresse, téléphone, email et formulaire de contact."
+        keywords="contact CENDF, Commission Épiscopale, Doctrine Foi, Abidjan, Côte d'Ivoire, Radio Espoir, archidiocèse"
+        url="/contact"
+      />
+      <BreadcrumbSchema items={[
+        { name: "Accueil", url: "/" },
+        { name: "Contact", url: "/contact" }
+      ]} />
+      <OrganizationSchema />
+      <PageLayout
+        title="Contact"
+        subtitle="Restons en communion"
+        backgroundImage={reunionImage}
+      >
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
@@ -380,6 +394,7 @@ const Contact = () => {
         </div>
       </section>
     </PageLayout>
+    </>
   );
 };
 
