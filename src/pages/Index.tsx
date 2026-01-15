@@ -10,10 +10,22 @@ import PodcastSection from "@/components/PodcastSection";
 import ProgramSection from "@/components/ProgramSection";
 import Footer from "@/components/Footer";
 import NewYearPopup from "@/components/NewYearPopup";
+import SEO from "@/components/SEO";
+import { OrganizationSchema, WebsiteSchema, RadioStationSchema } from "@/components/StructuredData";
 
 const Index = () => {
   return (
     <main className="min-h-screen">
+      <SEO
+        title="Accueil"
+        description="CENDF - Commission Épiscopale pour la Doctrine de la Foi. Enseignements catholiques, documents magistériels, Radio Espoir 94.8 FM, podcasts et actualités de l'Église en Côte d'Ivoire."
+        keywords="CENDF, église catholique, doctrine foi, enseignement catholique, Radio Espoir, Abidjan, Côte d'Ivoire, homélie, catéchèse, prière, évangélisation"
+        url="/"
+      />
+      <OrganizationSchema />
+      <WebsiteSchema />
+      <RadioStationSchema />
+      
       <NewYearPopup />
       <Header />
       <NewsTicker />

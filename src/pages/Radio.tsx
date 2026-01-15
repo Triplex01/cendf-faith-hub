@@ -1,6 +1,8 @@
 import PageLayout from "@/components/PageLayout";
 import { Play, Pause, Headphones, Clock, Calendar, Radio as RadioIcon, MapPin, ArrowRight, Volume2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SEO from "@/components/SEO";
+import { BreadcrumbSchema, RadioStationSchema } from "@/components/StructuredData";
 import radioImage from "@/assets/radio-studio.jpg";
 import emissionEcclesia from "@/assets/emission-ecclesia.jpg";
 import emissionRnc from "@/assets/emission-rnc.jpg";
@@ -229,11 +231,23 @@ const Radio = () => {
   };
 
   return (
-    <PageLayout 
-      title="Émissions & Radios" 
-      subtitle="Les radios catholiques de Côte d'Ivoire - La foi à portée d'écoute"
-      backgroundImage={radioImage}
-    >
+    <>
+      <SEO
+        title="Radio & Podcasts Catholiques"
+        description="Écoutez Radio Espoir 102.8 FM, La Voix de l'Évangile et Radio Paix Sanwi en direct. Podcasts, émissions spirituelles et enseignements catholiques en Côte d'Ivoire."
+        keywords="Radio Espoir, radio catholique, podcasts chrétiens, émissions religieuses, Côte d'Ivoire, streaming radio, La Voix de l'Évangile, Radio Paix Sanwi"
+        url="/radio"
+      />
+      <BreadcrumbSchema items={[
+        { name: "Accueil", url: "/" },
+        { name: "Radio & Podcasts", url: "/radio" }
+      ]} />
+      <RadioStationSchema />
+      <PageLayout 
+        title="Émissions & Radios" 
+        subtitle="Les radios catholiques de Côte d'Ivoire - La foi à portée d'écoute"
+        backgroundImage={radioImage}
+      >
       {/* Section Radios en Direct avec Logos */}
       <section className="py-16 bg-deep-black text-white">
         <div className="container mx-auto px-4">
@@ -621,6 +635,7 @@ const Radio = () => {
         )}
       </AnimatePresence>
     </PageLayout>
+    </>
   );
 };
 

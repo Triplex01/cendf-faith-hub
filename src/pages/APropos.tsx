@@ -2,6 +2,8 @@ import PageLayout from "@/components/PageLayout";
 import { Church, BookOpen, Users, Heart, Globe, Cross, Shield, Target, Award, Calendar, MapPin, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
+import { BreadcrumbSchema, OrganizationSchema } from "@/components/StructuredData";
 import reunionEglise from "@/assets/reunion-eglise.jpg";
 import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
 import interieurBasilique from "@/assets/interieur-basilique.jpg";

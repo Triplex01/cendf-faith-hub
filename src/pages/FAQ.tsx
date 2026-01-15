@@ -4,6 +4,8 @@ import NewsletterSection from "@/components/NewsletterSection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import SEO from "@/components/SEO";
+import { BreadcrumbSchema, FAQSchema } from "@/components/StructuredData";
 import {
   Accordion,
   AccordionContent,

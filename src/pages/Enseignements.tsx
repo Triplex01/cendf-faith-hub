@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import SEO from "@/components/SEO";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 import { 
   BookOpen, 
   Users, 
@@ -47,11 +49,22 @@ const Enseignements = () => {
   }) || [];
 
   return (
-    <PageLayout 
-      title="Enseignements" 
-      subtitle="Nourrir votre foi par la Parole et la Doctrine"
-      backgroundImage={teachingImage}
-    >
+    <>
+      <SEO
+        title="Enseignements Catholiques"
+        description="Approfondissez votre foi avec nos enseignements catholiques : études bibliques, catéchèse, doctrine, vie spirituelle et familiale. Audio, vidéo et articles disponibles."
+        keywords="enseignement catholique, catéchèse, études bibliques, doctrine foi, vie spirituelle, prédication, homélie, formation catholique, Côte d'Ivoire"
+        url="/enseignements"
+      />
+      <BreadcrumbSchema items={[
+        { name: "Accueil", url: "/" },
+        { name: "Enseignements", url: "/enseignements" }
+      ]} />
+      <PageLayout 
+        title="Enseignements" 
+        subtitle="Nourrir votre foi par la Parole et la Doctrine"
+        backgroundImage={teachingImage}
+      >
       <section className="py-20">
         <div className="container mx-auto px-4">
           {/* Search and Filter */}
@@ -290,7 +303,8 @@ const Enseignements = () => {
           </div>
         </div>
       </section>
-    </PageLayout>
+      </PageLayout>
+    </>
   );
 };
 
