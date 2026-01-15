@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
-import { Calendar, MapPin, ArrowRight, Loader2, Clock, Quote, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { usePosts, useEvents, getFeaturedImage, formatWPDate, stripHtml } from "@/hooks/useWordPress";
+import { Calendar, MapPin, ChevronRight, Quote, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -24,17 +22,6 @@ import reunionEglise from "@/assets/reunion-eglise.jpg";
 import interieurBasilique from "@/assets/interieur-basilique.jpg";
 import basilique from "@/assets/basilique-notredame.jpg";
 import voeux2026 from "@/assets/voeux-2026.jpg";
-
-// Images par défaut pour les actualités
-const defaultImages = [
-  basiliqueYamoussoukro,
-  reunionEglise,
-  interieurBasilique,
-  basilique,
-  eventAbidjan2025,
-  eventCongresPanafricain,
-  eventSynode,
-];
 
 interface StaticEvent {
   id: number;
@@ -59,7 +46,17 @@ interface Citation {
   fullText: string;
 }
 
-// Événements statiques (basés sur les images uploadées)
+interface Article {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  date: string;
+  category: string;
+}
+
+// Événements statiques
 const staticEvents: StaticEvent[] = [
   {
     id: 1,
@@ -107,7 +104,7 @@ const staticEvents: StaticEvent[] = [
   },
 ];
 
-// Citations et commentaires (basés sur les images uploadées)
+// Citations et commentaires
 const citations: Citation[] = [
   {
     id: 1,
@@ -131,16 +128,67 @@ const citations: Citation[] = [
   },
 ];
 
+// Articles statiques
+const staticArticles: Article[] = [
+  {
+    id: 1,
+    slug: "celebration-noel-2024",
+    title: "Célébration de Noël 2024",
+    excerpt: "La Commission Épiscopale pour la Doctrine de la Foi a célébré avec ferveur la naissance du Christ lors de la messe de Noël 2024.",
+    image: interieurBasilique,
+    date: "25 Décembre 2024",
+    category: "Célébration",
+  },
+  {
+    id: 2,
+    slug: "voeux-nouvel-an-2026",
+    title: "Vœux du Nouvel An 2026",
+    excerpt: "Que cette nouvelle année soit remplie de la grâce divine et de la paix du Christ pour tous les fidèles de Côte d'Ivoire.",
+    image: voeux2026,
+    date: "1 Janvier 2026",
+    category: "Message",
+  },
+  {
+    id: 3,
+    slug: "reunion-commission-janvier",
+    title: "Réunion de la Commission Épiscopale",
+    excerpt: "Les membres de la Commission se sont réunis pour planifier les activités pastorales de l'année 2026.",
+    image: reunionEglise,
+    date: "10 Janvier 2026",
+    category: "Actualité",
+  },
+  {
+    id: 4,
+    slug: "pelerinage-yamoussoukro",
+    title: "Pèlerinage à la Basilique de Yamoussoukro",
+    excerpt: "Des milliers de fidèles ont participé au pèlerinage annuel à la Basilique Notre-Dame de la Paix.",
+    image: basiliqueYamoussoukro,
+    date: "15 Janvier 2026",
+    category: "Pèlerinage",
+  },
+  {
+    id: 5,
+    slug: "formation-catechistes",
+    title: "Formation des Catéchistes",
+    excerpt: "Une session de formation pour les catéchistes a eu lieu à l'archidiocèse d'Abidjan.",
+    image: basilique,
+    date: "20 Janvier 2026",
+    category: "Formation",
+  },
+  {
+    id: 6,
+    slug: "messe-unite-chretiens",
+    title: "Messe pour l'Unité des Chrétiens",
+    excerpt: "Une messe solennelle a été célébrée à l'occasion de la Semaine de prière pour l'unité des chrétiens.",
+    image: interieurBasilique,
+    date: "25 Janvier 2026",
+    category: "Œcuménisme",
+  },
+];
+
 const Actualites = () => {
-  const { data: posts, isLoading: postsLoading, error: postsError } = usePosts({ per_page: 6 });
-  const { data: wpEvents, isLoading: eventsLoading } = useEvents({ per_page: 4 });
   const [selectedEvent, setSelectedEvent] = useState<StaticEvent | null>(null);
   const [selectedCitation, setSelectedCitation] = useState<Citation | null>(null);
-
-  // Fonction pour obtenir une image par défaut
-  const getDefaultImage = (index: number) => {
-    return defaultImages[index % defaultImages.length];
-  };
 
   return (
     <PageLayout 
@@ -229,7 +277,7 @@ const Actualites = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {citations.map((citation, index) => (
+            {citations.map((citation) => (
               <motion.div
                 key={citation.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -267,7 +315,7 @@ const Actualites = () => {
         </div>
       </section>
 
-      {/* Section Actualités WordPress */}
+      {/* Section Actualités */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -279,40 +327,41 @@ const Actualites = () => {
             </p>
           </div>
 
-          {postsLoading ? (
-            <div className="flex justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : postsError ? (
-            <div className="text-center py-12 text-muted-foreground">
-              Impossible de charger les actualités pour le moment.
-            </div>
-          ) : posts && posts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post: any, index: number) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {staticArticles.map((article, index) => (
+              <motion.div
+                key={article.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
                 <Link 
-                  key={post.id} 
-                  to={`/actualites/${post.slug}`}
-                  className="group bg-card rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-border"
+                  to={`/actualites/${article.slug}`}
+                  className="group bg-card rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-border block h-full"
                 >
                   <div className="aspect-video overflow-hidden">
                     <img 
-                      src={getFeaturedImage(post) || getDefaultImage(index)} 
-                      alt={post.title?.rendered || "Article"}
+                      src={article.image} 
+                      alt={article.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                   <div className="p-6">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                      <Calendar className="h-4 w-4" />
-                      <span>{formatWPDate(post.date)}</span>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
+                        {article.category}
+                      </span>
+                      <span className="text-sm text-muted-foreground flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        {article.date}
+                      </span>
                     </div>
-                    <h3 
-                      className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-2"
-                      dangerouslySetInnerHTML={{ __html: post.title?.rendered || "" }}
-                    />
+                    <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                      {article.title}
+                    </h3>
                     <p className="text-muted-foreground text-sm line-clamp-3">
-                      {stripHtml(post.excerpt?.rendered || "")}
+                      {article.excerpt}
                     </p>
                     <div className="mt-4 flex items-center text-primary font-medium">
                       Lire la suite
@@ -320,144 +369,62 @@ const Actualites = () => {
                     </div>
                   </div>
                 </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12 text-muted-foreground">
-              Aucune actualité disponible pour le moment.
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Section Événements WordPress */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Prochains <span className="text-secondary">Événements</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Participez aux prochains événements de notre communauté
-            </p>
+              </motion.div>
+            ))}
           </div>
-
-          {eventsLoading ? (
-            <div className="flex justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : wpEvents && wpEvents.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {wpEvents.map((event: any) => (
-                <div 
-                  key={event.id}
-                  className="bg-card rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-border"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 rounded-lg p-3">
-                      <Calendar className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 
-                        className="text-lg font-semibold text-foreground mb-2"
-                        dangerouslySetInnerHTML={{ __html: event.title?.rendered || "" }}
-                      />
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                        <MapPin className="h-4 w-4" />
-                        <span>{event.acf?.lieu || "Lieu à confirmer"}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="h-4 w-4" />
-                        <span>{formatWPDate(event.acf?.date_evenement || event.date)}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <p className="text-muted-foreground mb-6">
-                Consultez nos événements majeurs ci-dessus
-              </p>
-              <Button asChild variant="outline">
-                <Link to="/activites">Voir toutes les activités</Link>
-              </Button>
-            </div>
-          )}
         </div>
       </section>
 
-      {/* Event Detail Modal */}
+      {/* Modal Événement */}
       <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="sr-only">{selectedEvent?.title}</DialogTitle>
+            <DialogTitle className="text-2xl">{selectedEvent?.title}</DialogTitle>
           </DialogHeader>
           {selectedEvent && (
-            <div>
-              <div className="aspect-video rounded-lg overflow-hidden mb-4">
-                <img 
-                  src={selectedEvent.image} 
-                  alt={selectedEvent.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-bold rounded-full mb-2">
-                {selectedEvent.type}
-              </span>
-              <h3 className="text-xl font-bold text-foreground mb-1">{selectedEvent.title}</h3>
-              <p className="text-primary font-medium text-sm mb-3">{selectedEvent.subtitle}</p>
-              <div className="flex flex-wrap gap-3 text-sm text-muted-foreground mb-4">
+            <div className="space-y-4">
+              <img 
+                src={selectedEvent.image} 
+                alt={selectedEvent.title}
+                className="w-full h-64 object-cover rounded-lg"
+              />
+              <p className="text-primary font-medium">{selectedEvent.subtitle}</p>
+              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4 text-primary" />
+                  <Calendar className="h-4 w-4 text-primary" />
                   {selectedEvent.date}
                 </span>
                 <span className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4 text-secondary" />
+                  <MapPin className="h-4 w-4 text-secondary" />
                   {selectedEvent.location}
                 </span>
               </div>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                {selectedEvent.fullDescription}
-              </p>
-              <p className="text-sm italic border-l-2 border-primary pl-3 text-muted-foreground">
-                Thème: {selectedEvent.theme}
-              </p>
+              <p className="text-foreground">{selectedEvent.fullDescription}</p>
+              <p className="text-sm text-muted-foreground italic">Thème: {selectedEvent.theme}</p>
             </div>
           )}
         </DialogContent>
       </Dialog>
 
-      {/* Citation Detail Modal */}
+      {/* Modal Citation */}
       <Dialog open={!!selectedCitation} onOpenChange={() => setSelectedCitation(null)}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="sr-only">{selectedCitation?.author}</DialogTitle>
+            <DialogTitle className="text-2xl">{selectedCitation?.author}</DialogTitle>
           </DialogHeader>
           {selectedCitation && (
-            <div>
-              <div className="aspect-square max-w-[200px] mx-auto rounded-lg overflow-hidden mb-4">
-                <img 
-                  src={selectedCitation.image} 
-                  alt={selectedCitation.author}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="text-center mb-4">
-                <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full mb-2">
-                  {selectedCitation.type}
-                </span>
-                <h3 className="text-xl font-bold text-foreground">{selectedCitation.author}</h3>
-                <p className="text-muted-foreground text-sm">{selectedCitation.title}</p>
-                <p className="text-xs text-muted-foreground mt-1">{selectedCitation.date}</p>
-              </div>
-              <blockquote className="text-lg italic text-foreground text-center border-l-4 border-r-4 border-secondary px-4 py-2 mb-4">
+            <div className="space-y-4">
+              <img 
+                src={selectedCitation.image} 
+                alt={selectedCitation.author}
+                className="w-full h-64 object-cover object-top rounded-lg"
+              />
+              <p className="text-muted-foreground">{selectedCitation.title}</p>
+              <blockquote className="border-l-4 border-primary pl-4 italic text-lg">
                 "{selectedCitation.quote}"
               </blockquote>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {selectedCitation.fullText}
-              </p>
+              <p className="text-foreground">{selectedCitation.fullText}</p>
+              <p className="text-sm text-muted-foreground">{selectedCitation.date}</p>
             </div>
           )}
         </DialogContent>

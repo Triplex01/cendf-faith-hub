@@ -1,98 +1,163 @@
 import { useParams, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import PageLayout from "@/components/PageLayout";
-import { Calendar, User, ArrowLeft, Share2, Facebook, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar, ArrowLeft, Share2, Facebook, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
-import basiliqueRome from "@/assets/basilique-rome.jpg";
 import reunionEglise from "@/assets/reunion-eglise.jpg";
 import interieurBasilique from "@/assets/interieur-basilique.jpg";
 import basiliqueNotredame from "@/assets/basilique-notredame.jpg";
+import voeux2026 from "@/assets/voeux-2026.jpg";
 
-// Images de fallback pour les articles
-const fallbackImages = [basiliqueYamoussoukro, reunionEglise, interieurBasilique, basiliqueNotredame, basiliqueRome];
-
-// Fetch article by slug from Supabase
-const fetchArticle = async (slug: string) => {
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('slug', slug)
-    .eq('status', 'published')
-    .single();
-  
-  if (error) throw error;
-  return data;
-};
-
-// Fetch all published articles for navigation
-const fetchAllArticles = async () => {
-  const { data, error } = await supabase
-    .from('articles')
-    .select('id, title, slug, featured_image, published_at')
-    .eq('status', 'published')
-    .order('published_at', { ascending: false });
-  
-  if (error) throw error;
-  return data || [];
-};
+// Articles statiques
+const staticArticles = [
+  {
+    id: 1,
+    slug: "celebration-noel-2024",
+    title: "Célébration de Noël 2024",
+    excerpt: "La Commission Épiscopale pour la Doctrine de la Foi a célébré avec ferveur la naissance du Christ lors de la messe de Noël 2024.",
+    content: `
+      <p>La Commission Épiscopale pour la Doctrine de la Foi a célébré avec ferveur la naissance du Christ lors de la messe de Noël 2024. Cette célébration a rassemblé des milliers de fidèles venus de toute la Côte d'Ivoire.</p>
+      
+      <h2>Une célébration dans la joie</h2>
+      <p>Dans une ambiance de recueillement et de joie, les fidèles ont participé à la messe solennelle présidée par Son Éminence. L'homélie a rappelé le sens profond de Noël : la venue du Sauveur parmi nous.</p>
+      
+      <h2>Message d'espérance</h2>
+      <p>Le message de Noël 2024 a été un appel à l'espérance et à la paix. En ces temps difficiles, l'Église invite tous les chrétiens à renouveler leur foi en la bonté de Dieu et à être des artisans de paix dans leur communauté.</p>
+      
+      <p>Les fidèles ont également été invités à prier pour les plus vulnérables et à poser des gestes concrets de solidarité en cette période de fête.</p>
+    `,
+    image: interieurBasilique,
+    date: "25 Décembre 2024",
+    category: "Célébration",
+  },
+  {
+    id: 2,
+    slug: "voeux-nouvel-an-2026",
+    title: "Vœux du Nouvel An 2026",
+    excerpt: "Que cette nouvelle année soit remplie de la grâce divine et de la paix du Christ pour tous les fidèles de Côte d'Ivoire.",
+    content: `
+      <p>En ce début d'année 2026, la Commission Épiscopale pour la Doctrine de la Foi adresse ses vœux les plus chaleureux à tous les fidèles de Côte d'Ivoire et d'Afrique.</p>
+      
+      <h2>Une année sous le signe de l'espérance</h2>
+      <p>Que cette nouvelle année soit placée sous le signe de l'espérance chrétienne. Dans un monde en mutation, notre foi en Jésus-Christ reste notre ancre solide.</p>
+      
+      <h2>Appel à la prière et à l'engagement</h2>
+      <p>Nous invitons tous les chrétiens à intensifier leur vie de prière et à s'engager davantage dans la mission de l'Église. Ensemble, soyons témoins de l'amour du Christ dans notre société.</p>
+      
+      <p>Que le Seigneur bénisse chacun de vous et vos familles tout au long de cette année 2026.</p>
+    `,
+    image: voeux2026,
+    date: "1 Janvier 2026",
+    category: "Message",
+  },
+  {
+    id: 3,
+    slug: "reunion-commission-janvier",
+    title: "Réunion de la Commission Épiscopale",
+    excerpt: "Les membres de la Commission se sont réunis pour planifier les activités pastorales de l'année 2026.",
+    content: `
+      <p>Les membres de la Commission Épiscopale pour la Doctrine de la Foi se sont réunis le 10 janvier 2026 pour établir le programme pastoral de l'année.</p>
+      
+      <h2>Bilan de l'année écoulée</h2>
+      <p>Un bilan positif de l'année 2025 a été dressé, avec notamment le succès des différentes formations doctrinales et des événements organisés.</p>
+      
+      <h2>Perspectives 2026</h2>
+      <p>Plusieurs projets ont été retenus pour cette année :</p>
+      <ul>
+        <li>Renforcement de la formation des catéchistes</li>
+        <li>Organisation de journées d'études théologiques</li>
+        <li>Participation au Congrès Panafricain d'Abidjan</li>
+        <li>Publication de documents doctrinaux</li>
+      </ul>
+      
+      <p>La prochaine réunion est prévue pour le mois de mars 2026.</p>
+    `,
+    image: reunionEglise,
+    date: "10 Janvier 2026",
+    category: "Actualité",
+  },
+  {
+    id: 4,
+    slug: "pelerinage-yamoussoukro",
+    title: "Pèlerinage à la Basilique de Yamoussoukro",
+    excerpt: "Des milliers de fidèles ont participé au pèlerinage annuel à la Basilique Notre-Dame de la Paix.",
+    content: `
+      <p>Le pèlerinage annuel à la Basilique Notre-Dame de la Paix de Yamoussoukro a rassemblé des milliers de fidèles venus de toute la Côte d'Ivoire.</p>
+      
+      <h2>Un lieu de grâce</h2>
+      <p>La Basilique Notre-Dame de la Paix, joyau architectural et spirituel de notre pays, reste un lieu privilégié de rencontre avec Dieu. Les pèlerins y viennent pour prier, se recueillir et demander des grâces particulières.</p>
+      
+      <h2>Témoignages de foi</h2>
+      <p>De nombreux témoignages de conversion et de guérison ont été partagés lors de ce pèlerinage. La foi des fidèles continue de s'affermir dans ce haut lieu de spiritualité.</p>
+      
+      <p>Le prochain pèlerinage diocésain est prévu pour le 15 août 2026, fête de l'Assomption de la Vierge Marie.</p>
+    `,
+    image: basiliqueYamoussoukro,
+    date: "15 Janvier 2026",
+    category: "Pèlerinage",
+  },
+  {
+    id: 5,
+    slug: "formation-catechistes",
+    title: "Formation des Catéchistes",
+    excerpt: "Une session de formation pour les catéchistes a eu lieu à l'archidiocèse d'Abidjan.",
+    content: `
+      <p>Une session de formation intensive pour les catéchistes s'est tenue à l'archidiocèse d'Abidjan, rassemblant plus de 200 participants.</p>
+      
+      <h2>Objectifs de la formation</h2>
+      <p>Cette formation visait à :</p>
+      <ul>
+        <li>Approfondir la connaissance du Catéchisme de l'Église Catholique</li>
+        <li>Améliorer les méthodes pédagogiques</li>
+        <li>Renforcer la vie spirituelle des catéchistes</li>
+      </ul>
+      
+      <h2>Intervenants de qualité</h2>
+      <p>Des théologiens et formateurs de renom ont animé les différentes sessions. Les participants ont particulièrement apprécié les ateliers pratiques.</p>
+      
+      <p>D'autres sessions de formation sont prévues dans les différents diocèses du pays.</p>
+    `,
+    image: basiliqueNotredame,
+    date: "20 Janvier 2026",
+    category: "Formation",
+  },
+  {
+    id: 6,
+    slug: "messe-unite-chretiens",
+    title: "Messe pour l'Unité des Chrétiens",
+    excerpt: "Une messe solennelle a été célébrée à l'occasion de la Semaine de prière pour l'unité des chrétiens.",
+    content: `
+      <p>À l'occasion de la Semaine de prière pour l'unité des chrétiens, une messe solennelle a été célébrée dans la cathédrale Saint-Paul du Plateau.</p>
+      
+      <h2>Ensemble malgré nos différences</h2>
+      <p>Des représentants de différentes confessions chrétiennes étaient présents pour cette célébration œcuménique. L'unité des chrétiens reste un objectif important pour l'Église.</p>
+      
+      <h2>Message d'unité</h2>
+      <p>Le message principal de cette célébration était un appel à dépasser nos divisions pour témoigner ensemble de l'amour du Christ dans notre société.</p>
+      
+      <p>Des rencontres œcuméniques sont prévues tout au long de l'année pour poursuivre ce dialogue fraternel.</p>
+    `,
+    image: interieurBasilique,
+    date: "25 Janvier 2026",
+    category: "Œcuménisme",
+  },
+];
 
 const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   
-  const { data: article, isLoading, error } = useQuery({
-    queryKey: ['article', slug],
-    queryFn: () => fetchArticle(slug!),
-    enabled: !!slug,
-  });
-
-  const { data: allArticles = [] } = useQuery({
-    queryKey: ['articles-all'],
-    queryFn: fetchAllArticles,
-  });
-
-  // Find current index for navigation
-  const currentIndex = allArticles.findIndex(a => a.slug === slug);
-  const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
-  const nextArticle = currentIndex >= 0 && currentIndex < allArticles.length - 1 
-    ? allArticles[currentIndex + 1] 
+  const article = staticArticles.find(a => a.slug === slug);
+  const currentIndex = staticArticles.findIndex(a => a.slug === slug);
+  const prevArticle = currentIndex > 0 ? staticArticles[currentIndex - 1] : null;
+  const nextArticle = currentIndex >= 0 && currentIndex < staticArticles.length - 1 
+    ? staticArticles[currentIndex + 1] 
     : null;
 
-  // Related articles (excluding current)
-  const relatedArticles = allArticles
+  const relatedArticles = staticArticles
     .filter(a => a.slug !== slug)
     .slice(0, 3);
 
-  const formatDate = (dateStr: string) => {
-    try {
-      return format(new Date(dateStr), "d MMMM yyyy", { locale: fr });
-    } catch {
-      return dateStr;
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <PageLayout title="Chargement..." subtitle="Veuillez patienter">
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="animate-pulse space-y-6">
-              <div className="h-8 bg-muted rounded w-1/4"></div>
-              <div className="h-96 bg-muted rounded-2xl"></div>
-              <div className="h-6 bg-muted rounded w-3/4"></div>
-              <div className="h-4 bg-muted rounded w-full"></div>
-              <div className="h-4 bg-muted rounded w-full"></div>
-            </div>
-          </div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  if (error || !article) {
+  if (!article) {
     return (
       <PageLayout title="Article non trouvé" subtitle="Cet article n'existe pas ou a été supprimé.">
         <section className="py-20">
@@ -109,10 +174,8 @@ const ArticleDetail = () => {
     );
   }
 
-  const featuredImage = article.featured_image || fallbackImages[currentIndex % fallbackImages.length];
-
   return (
-    <PageLayout title={article.title} subtitle={article.excerpt || ""}>
+    <PageLayout title={article.title} subtitle={article.excerpt}>
       <article className="py-12">
         <div className="container mx-auto px-4">
           {/* Back Button */}
@@ -127,12 +190,9 @@ const ArticleDetail = () => {
               {/* Featured Image */}
               <div className="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
                 <img
-                  src={featuredImage}
+                  src={article.image}
                   alt={article.title}
                   className="w-full h-[300px] md:h-[450px] object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = fallbackImages[0];
-                  }}
                 />
               </div>
 
@@ -140,13 +200,11 @@ const ArticleDetail = () => {
               <div className="flex flex-wrap items-center gap-6 mb-8 text-muted-foreground">
                 <span className="flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-primary" />
-                  {article.published_at ? formatDate(article.published_at) : formatDate(article.created_at)}
+                  {article.date}
                 </span>
-                {article.category && (
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
-                    {article.category}
-                  </span>
-                )}
+                <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                  {article.category}
+                </span>
               </div>
 
               {/* Article Title */}
@@ -162,11 +220,7 @@ const ArticleDetail = () => {
                 prose-strong:text-foreground
                 prose-em:text-primary
                 prose-img:rounded-xl prose-img:shadow-lg">
-                {article.content ? (
-                  <div dangerouslySetInnerHTML={{ __html: article.content }} />
-                ) : (
-                  <p className="text-muted-foreground">{article.excerpt}</p>
-                )}
+                <div dangerouslySetInnerHTML={{ __html: article.content }} />
               </div>
 
               {/* Navigation entre articles */}
@@ -236,39 +290,32 @@ const ArticleDetail = () => {
                 <h3 className="font-display text-xl font-bold text-foreground mb-6">
                   Articles similaires
                 </h3>
-                {relatedArticles.length > 0 ? (
-                  <div className="space-y-4">
-                    {relatedArticles.map((related, index) => (
-                      <Link
-                        key={related.id}
-                        to={`/actualites/${related.slug}`}
-                        className="block p-4 bg-card rounded-xl border border-border hover:border-primary/30 hover:shadow-lg transition-all group"
-                      >
-                        <div className="flex gap-3">
-                          <img
-                            src={related.featured_image || fallbackImages[index % fallbackImages.length]}
-                            alt={related.title}
-                            className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-                            onError={(e) => {
-                              e.currentTarget.src = fallbackImages[index % fallbackImages.length];
-                            }}
-                          />
-                          <div>
-                            <h4 className="font-display font-bold text-foreground group-hover:text-primary transition-colors mb-1 line-clamp-2 text-sm">
-                              {related.title}
-                            </h4>
-                            <p className="text-xs text-muted-foreground flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
-                              {related.published_at ? formatDate(related.published_at) : "Récent"}
-                            </p>
-                          </div>
+                <div className="space-y-4">
+                  {relatedArticles.map((related) => (
+                    <Link
+                      key={related.id}
+                      to={`/actualites/${related.slug}`}
+                      className="block p-4 bg-card rounded-xl border border-border hover:border-primary/30 hover:shadow-lg transition-all group"
+                    >
+                      <div className="flex gap-3">
+                        <img
+                          src={related.image}
+                          alt={related.title}
+                          className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                        />
+                        <div>
+                          <h4 className="font-display font-bold text-foreground group-hover:text-primary transition-colors mb-1 line-clamp-2 text-sm">
+                            {related.title}
+                          </h4>
+                          <p className="text-xs text-muted-foreground flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            {related.date}
+                          </p>
                         </div>
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground text-sm">Aucun article similaire</p>
-                )}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
 
                 {/* Newsletter CTA */}
                 <div className="mt-8 p-6 bg-primary rounded-xl text-primary-foreground">
