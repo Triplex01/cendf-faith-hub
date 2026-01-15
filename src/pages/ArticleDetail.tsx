@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 import { Calendar, ArrowLeft, Share2, Facebook, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { sanitizeHtml } from "@/lib/sanitize";
 import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
 import reunionEglise from "@/assets/reunion-eglise.jpg";
 import interieurBasilique from "@/assets/interieur-basilique.jpg";
@@ -220,7 +221,7 @@ const ArticleDetail = () => {
                 prose-strong:text-foreground
                 prose-em:text-primary
                 prose-img:rounded-xl prose-img:shadow-lg">
-                <div dangerouslySetInnerHTML={{ __html: article.content }} />
+                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.content) }} />
               </div>
 
               {/* Navigation entre articles */}
