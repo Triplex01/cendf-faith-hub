@@ -9,6 +9,7 @@ import {
   demoPrograms, 
   demoArchives 
 } from "@/config/demoData";
+import { logger } from "@/lib/logger";
 
 // Service API WordPress avec fallback données démo
 class WordPressAPI {
@@ -52,7 +53,7 @@ class WordPressAPI {
 
       return await response.json();
     } catch (error) {
-      console.error("WordPress API fetch error:", error);
+      logger.error("WordPress API fetch error", error);
       throw error;
     }
   }

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-
+import { logger } from '@/lib/logger';
 interface AuthContextType {
   user: User | null;
   session: Session | null;
@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .eq('user_id', userId);
 
       if (error) {
-        console.error('Error fetching roles:', error);
+        logger.error('Error fetching roles', error);
         setIsAdmin(false);
         setIsEditor(false);
         return;
@@ -54,7 +54,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsAdmin(roleList.includes('admin'));
       setIsEditor(roleList.includes('editor') || roleList.includes('admin'));
     } catch (error) {
-      console.error('Error checking roles:', error);
+      logger.error('Error checking roles', error);
       setIsAdmin(false);
       setIsEditor(false);
     } finally {
@@ -100,7 +100,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setAuthLoading(false);
       })
       .catch((error) => {
-        console.error('Error getting session:', error);
+        logger.error('Error getting session', error);
         setIsAdmin(false);
         setIsEditor(false);
         setRolesLoading(false);

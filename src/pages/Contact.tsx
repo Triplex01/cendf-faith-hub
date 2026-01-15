@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 import { 
   MapPin, 
   Phone, 
@@ -56,6 +57,16 @@ const Contact = () => {
     subject: "",
     message: "",
   });
+  
+  // Protection anti-spam
+  const [honeypot, setHoneypot] = useState(""); // Champ invisible pour les bots
+  const [formStartTime, setFormStartTime] = useState<number>(0); // Temps minimum pour remplir
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    // Enregistrer le moment où le formulaire est affiché
+    setFormStartTime(Date.now());
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({
@@ -64,18 +75,74 @@ const Contact = () => {
     }));
   };
 
+  // Validation basique anti-spam
+  const validateSubmission = (): { valid: boolean; message?: string } => {
+    // Vérifier le honeypot (les bots remplissent ce champ invisible)
+    if (honeypot) {
+      logger.warn("Honeypot triggered - spam detected");
+      return { valid: false, message: "Erreur de validation" };
+    }
+
+    // Vérifier le temps minimum (moins de 3 secondes = probablement un bot)
+    const timeTaken = Date.now() - formStartTime;
+    if (timeTaken < 3000) {
+      logger.warn("Form submitted too fast - spam detected");
+      return { valid: false, message: "Veuillez patienter quelques secondes avant d'envoyer" };
+    }
+
+    // Validation de l'email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      return { valid: false, message: "Veuillez entrer une adresse email valide" };
+    }
+
+    // Vérifier les liens suspects dans le message
+    const suspiciousPatterns = /\[url=|<a\s+href=|http[s]?:\/\/[^\s]{50,}/gi;
+    if (suspiciousPatterns.test(formData.message)) {
+      logger.warn("Suspicious patterns in message - potential spam");
+      return { valid: false, message: "Le message contient des éléments non autorisés" };
+    }
+
+    // Vérifier la longueur minimale
+    if (formData.name.trim().length < 2) {
+      return { valid: false, message: "Le nom doit contenir au moins 2 caractères" };
+    }
+
+    if (formData.subject.trim().length < 3) {
+      return { valid: false, message: "Le sujet doit contenir au moins 3 caractères" };
+    }
+
+    if (formData.message.trim().length < 10) {
+      return { valid: false, message: "Le message doit contenir au moins 10 caractères" };
+    }
+
+    return { valid: true };
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validation anti-spam
+    const validation = validateSubmission();
+    if (!validation.valid) {
+      toast({
+        title: "Erreur de validation",
+        description: validation.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const { data, error } = await supabase.functions.invoke('send-contact-email', {
         body: {
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone || undefined,
-          subject: formData.subject,
-          message: formData.message,
+          name: formData.name.trim(),
+          email: formData.email.trim().toLowerCase(),
+          phone: formData.phone?.trim() || undefined,
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
         },
       });
 
@@ -95,11 +162,14 @@ const Contact = () => {
         subject: "",
         message: "",
       });
-    } catch (error: any) {
-      console.error("Error sending message:", error);
+      
+      // Réinitialiser le timer anti-spam
+      setFormStartTime(Date.now());
+    } catch (error: unknown) {
+      logger.error("Error sending message", error);
       toast({
         title: "Erreur",
-        description: error.message || "Une erreur est survenue. Veuillez réessayer.",
+        description: "Une erreur est survenue. Veuillez réessayer ou nous contacter par téléphone.",
         variant: "destructive",
       });
     } finally {
@@ -122,7 +192,23 @@ const Contact = () => {
                 Envoyez-nous un message
               </h2>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot field - invisible pour les humains, visible pour les bots */}
+                <div className="absolute -left-[9999px]" aria-hidden="true">
+                  <label htmlFor="website">
+                    Ne pas remplir ce champ
+                    <input
+                      type="text"
+                      id="website"
+                      name="website"
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </label>
+                </div>
+
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
@@ -135,6 +221,7 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="Votre nom"
                       required
+                      minLength={2}
                       maxLength={100}
                     />
                   </div>
@@ -180,6 +267,7 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="Objet de votre message"
                       required
+                      minLength={3}
                       maxLength={150}
                     />
                   </div>
@@ -197,6 +285,7 @@ const Contact = () => {
                     placeholder="Écrivez votre message ici..."
                     rows={6}
                     required
+                    minLength={10}
                     maxLength={2000}
                   />
                 </div>
