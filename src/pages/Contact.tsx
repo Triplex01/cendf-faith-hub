@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   MapPin, 
   Phone, 
@@ -67,11 +68,21 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulation d'envoi - À remplacer par votre API
     try {
-      // Ici vous pouvez intégrer votre API de contact
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || undefined,
+          subject: formData.subject,
+          message: formData.message,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
       toast({
         title: "Message envoyé !",
         description: "Nous vous répondrons dans les plus brefs délais.",
@@ -84,10 +95,11 @@ const Contact = () => {
         subject: "",
         message: "",
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Error sending message:", error);
       toast({
         title: "Erreur",
-        description: "Une erreur est survenue. Veuillez réessayer.",
+        description: error.message || "Une erreur est survenue. Veuillez réessayer.",
         variant: "destructive",
       });
     } finally {
@@ -123,6 +135,7 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="Votre nom"
                       required
+                      maxLength={100}
                     />
                   </div>
                   <div>
@@ -137,6 +150,7 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="votre@email.com"
                       required
+                      maxLength={100}
                     />
                   </div>
                 </div>
@@ -152,6 +166,7 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="+225 XX XX XX XX"
+                      maxLength={20}
                     />
                   </div>
                   <div>
@@ -165,6 +180,7 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="Objet de votre message"
                       required
+                      maxLength={150}
                     />
                   </div>
                 </div>
@@ -181,6 +197,7 @@ const Contact = () => {
                     placeholder="Écrivez votre message ici..."
                     rows={6}
                     required
+                    maxLength={2000}
                   />
                 </div>
 
