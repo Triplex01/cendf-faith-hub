@@ -11,7 +11,7 @@ const missions = [
   {
     icon: Shield,
     title: "Défense de la Doctrine de la Foi",
-    description: "La SCEDF veille à la pureté et à l'intégrité de la doctrine catholique en Côte d'Ivoire. Elle examine les questions doctrinales, discerne les courants théologiques et protège les fidèles contre les erreurs et les dérives spirituelles.",
+    description: "La CEDF veille à la pureté et à l'intégrité de la doctrine catholique en Côte d'Ivoire. Elle examine les questions doctrinales, discerne les courants théologiques et protège les fidèles contre les erreurs et les dérives spirituelles.",
     details: [
       "Examen des questions doctrinales complexes",
       "Discernement théologique et pastoral",
@@ -47,7 +47,7 @@ const missions = [
   {
     icon: Radio,
     title: "Évangélisation par les Médias",
-    description: "Utiliser les médias modernes pour diffuser la Parole de Dieu et l'enseignement de l'Église. La SCEDF supervise les contenus doctrinaux diffusés par les radios catholiques et les plateformes numériques.",
+    description: "Utiliser les médias modernes pour diffuser la Parole de Dieu et l'enseignement de l'Église. La CEDF supervise les contenus doctrinaux diffusés par les radios catholiques et les plateformes numériques.",
     details: [
       "Supervision des radios catholiques",
       "Production de contenus doctrinaux",
@@ -101,14 +101,14 @@ const Missions = () => {
                 Gardienne de la Foi en Côte d'Ivoire
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                La <strong>Sous-Commission Épiscopale pour la Doctrine de la Foi (SCEDF)</strong> est l'organe 
+                La <strong>Commission Épiscopale pour la Doctrine de la Foi (CEDF)</strong> est l'organe 
                 de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI) chargé de veiller à la pureté de 
                 l'enseignement catholique et à la transmission fidèle de la foi.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                 Elle représente, à l'échelle nationale, le Dicastère pour la Doctrine de la Foi du Vatican. 
                 En communion avec le Magistère de l'Église universelle et sous la direction 
-                des évêques de Côte d'Ivoire, la SCEDF accompagne le peuple de Dieu dans 
+                des évêques de Côte d'Ivoire, la CEDF accompagne le peuple de Dieu dans
                 son cheminement de foi, l'éclairant sur les questions doctrinales et morales 
                 de notre temps.
               </p>
@@ -138,9 +138,9 @@ const Missions = () => {
               className="relative"
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img 
-                  src={reunionEglise} 
-                  alt="Réunion de la SCEDF" 
+                  <img 
+                    src={reunionEglise} 
+                    alt="Réunion de la CEDF"
                   className="w-full h-[450px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
@@ -169,7 +169,7 @@ const Missions = () => {
           >
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Nos Axes d'Action</span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold mt-2 mb-4">
-              Les Missions de la SCEDF
+              Les Missions de la CEDF
             </h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
               Six axes fondamentaux qui guident notre action pastorale au service de l'Église en Côte d'Ivoire
@@ -192,7 +192,7 @@ const Missions = () => {
                     <mission.icon className="w-16 h-16 mb-4" />
                     <h3 className="text-2xl font-bold mb-2">{mission.title}</h3>
                     <p className="text-white/80 text-sm">
-                      Mission n°{index + 1} de la SCEDF
+                      Mission n°{index + 1} de la CEDF
                     </p>
                   </div>
 

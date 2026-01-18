@@ -125,7 +125,7 @@ const Header = () => {
           <Link to="/" className="flex items-center group">
             <img 
               src={logoCendf} 
-              alt="SCEDF - Sous-Commission Épiscopale pour la Doctrine de la Foi" 
+              alt="CEDF - Commission Épiscopale pour la Doctrine de la Foi" 
               className="h-14 md:h-16 w-auto object-contain"
             />
           </Link>
