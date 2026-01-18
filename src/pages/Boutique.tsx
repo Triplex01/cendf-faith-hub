@@ -72,11 +72,11 @@ const demoProducts: Product[] = [
   },
   {
     id: 4,
-    name: "Le Manuel SCEDF",
+    name: "Le Manuel CEDF",
     price: 1000,
     image: booksManuelCredo,
     category: "Documents",
-    description: "Guide de la Sous Commission Épiscopale pour la Doctrine de la Foi en CI",
+    description: "Guide de la Commission Épiscopale pour la Doctrine de la Foi en CI",
     inStock: true,
   },
   {
@@ -85,7 +85,7 @@ const demoProducts: Product[] = [
     price: 1500,
     image: booksManuelCredo,
     category: "Magazines",
-    description: "Revue spécialisée de la SCDEF - La foi expliquée, la foi vécue",
+    description: "Revue spécialisée de la CEDF - La foi expliquée, la foi vécue",
     inStock: true,
   },
   {

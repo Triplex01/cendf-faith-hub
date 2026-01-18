@@ -36,10 +36,10 @@ const AboutSection = () => {
             À Propos
           </span>
           <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-6">
-            La <span className="text-primary">SCEDF</span>
+            La <span className="text-primary">CEDF</span>
           </h2>
           <p className="font-secondary text-lg text-muted-foreground leading-relaxed">
-            La Sous-Commission Épiscopale pour la Doctrine de la Foi représente, à l'échelle nationale, 
+            La Commission Épiscopale pour la Doctrine de la Foi représente, à l'échelle nationale, 
             le Dicastère pour la Doctrine de la Foi. Elle œuvre pour la promotion 
             et la défense de la foi catholique en Côte d'Ivoire, au service de l'Église universelle.
           </p>
@@ -80,7 +80,7 @@ const AboutSection = () => {
                 Notre Mission
               </h3>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                La SCEDF, l'une des dix commissions de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI), 
+                La CEDF, l'une des dix commissions de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI),
                 a pour mission principale de veiller à la pureté de la doctrine catholique 
                 et de promouvoir une formation solide des fidèles.
               </p>
