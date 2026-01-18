@@ -1,11 +1,12 @@
-import { Radio, Play, Pause, Headphones, ArrowRight } from "lucide-react";
+import { Radio, Play, Pause, Headphones, ArrowRight, Tv } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
-import radioImage from "@/assets/radio-studio.jpg";
 import logoRadioEspoir from "@/assets/logo-radio-espoir.png";
 import logoRnc from "@/assets/logo-rnc.png";
 import logoRadioSanwi from "@/assets/logo-radio-sanwi.png";
+import logoEcclesiaTv from "@/assets/logo-ecclesia-tv.png";
+import EcclesiaTVPlayer from "@/components/EcclesiaTVPlayer";
 
 interface CatholicRadio {
   id: string;
@@ -117,14 +118,15 @@ const RadiosSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div className="order-2 lg:order-1">
-            <span className="inline-block px-4 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium mb-4">
-              Partenaires Radio
+            <span className="inline-flex items-center gap-2 px-4 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium mb-4">
+              <Tv className="w-4 h-4" />
+              Partenaires Médias
             </span>
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
-              Nos <span className="text-gradient-gold">Partenaires Radio</span>
+              Nos <span className="text-gradient-gold">Partenaires Médias</span>
             </h2>
             <p className="font-secondary text-lg text-primary-foreground/70 leading-relaxed mb-8">
-              Écoutez les radios catholiques de Côte d'Ivoire en direct. 
+              Regardez Ecclesia TV et écoutez les radios catholiques de Côte d'Ivoire en direct. 
               Programmes spirituels, enseignements et musique sacrée 24h/24.
             </p>
 
@@ -224,37 +226,11 @@ const RadiosSection = () => {
             </Link>
           </div>
 
-          {/* Image */}
-          <div className="order-1 lg:order-2 relative group">
-            <div className="absolute -inset-4 bg-gradient-gold rounded-2xl opacity-10 blur-xl group-hover:opacity-20 transition-opacity hidden sm:block" />
-            <div className="relative rounded-2xl overflow-hidden shadow-elegant">
-              <img
-                src={radioImage}
-                alt="Studios des radios catholiques"
-                className="w-full h-[250px] sm:h-[350px] md:h-[400px] lg:h-[500px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-deep-black/80 via-deep-black/20 to-transparent" />
-              
-              {/* Overlay Stats */}
-              <div className="absolute bottom-8 left-8 right-8">
-                <div className="flex items-center gap-6">
-                  <div className="text-center">
-                    <p className="font-display text-3xl font-bold text-primary">3</p>
-                    <p className="text-xs text-primary-foreground/70">Radios</p>
-                  </div>
-                  <div className="w-px h-12 bg-primary-foreground/20" />
-                  <div className="text-center">
-                    <p className="font-display text-3xl font-bold text-secondary">24/7</p>
-                    <p className="text-xs text-primary-foreground/70">Diffusion</p>
-                  </div>
-                  <div className="w-px h-12 bg-primary-foreground/20" />
-                  <div className="text-center">
-                    <p className="font-display text-3xl font-bold text-primary">100+</p>
-                    <p className="text-xs text-primary-foreground/70">Podcasts</p>
-                  </div>
-                </div>
-              </div>
+          {/* Ecclesia TV Player */}
+          <div className="order-1 lg:order-2 relative">
+            <div className="absolute -inset-4 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-2xl opacity-30 blur-xl hidden sm:block" />
+            <div className="relative">
+              <EcclesiaTVPlayer />
             </div>
           </div>
         </div>
