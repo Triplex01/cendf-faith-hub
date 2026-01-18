@@ -1,5 +1,5 @@
 import PageLayout from "@/components/PageLayout";
-import { Play, Pause, Headphones, Clock, Calendar, Radio as RadioIcon, MapPin, ArrowRight, Volume2, X } from "lucide-react";
+import { Play, Pause, Headphones, Clock, Calendar, Radio as RadioIcon, MapPin, ArrowRight, Volume2, X, Tv } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 import { BreadcrumbSchema, RadioStationSchema } from "@/components/StructuredData";
@@ -9,11 +9,13 @@ import emissionRnc from "@/assets/emission-rnc.jpg";
 import logoRadioEspoir from "@/assets/logo-radio-espoir.png";
 import logoRnc from "@/assets/logo-rnc.png";
 import logoRadioSanwi from "@/assets/logo-radio-sanwi.png";
+import logoEcclesiaTv from "@/assets/logo-ecclesia-tv.png";
 import podcastEnseignant from "@/assets/podcast-enseignant.jpg";
 import podcastCatholique from "@/assets/podcast-catholique.jpg";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import EcclesiaTVPlayer from "@/components/EcclesiaTVPlayer";
 import {
   Dialog,
   DialogContent,
@@ -248,6 +250,29 @@ const Radio = () => {
         subtitle="Les radios catholiques de Côte d'Ivoire - La foi à portée d'écoute"
         backgroundImage={radioImage}
       >
+      {/* Section Ecclesia TV - En Direct */}
+      <section className="py-16 bg-gradient-to-b from-deep-black to-[#1a1a2e] text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 px-4 py-1 bg-secondary/20 text-secondary rounded-full text-sm font-medium mb-4">
+              <Tv className="w-4 h-4" />
+              Télévision en Direct
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+              Regardez <span className="text-gradient-gold">Ecclesia TV</span>
+            </h2>
+            <p className="text-gray-300 max-w-2xl mx-auto">
+              La chaîne de télévision catholique de Côte d'Ivoire diffuse 24h/24 
+              des programmes spirituels, des messes et des enseignements.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <EcclesiaTVPlayer />
+          </div>
+        </div>
+      </section>
+
       {/* Section Radios en Direct avec Logos */}
       <section className="py-16 bg-deep-black text-white">
         <div className="container mx-auto px-4">
@@ -256,15 +281,50 @@ const Radio = () => {
               Nos Partenaires
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Nos <span className="text-gradient-gold">Partenaires Radio</span>
+              Nos <span className="text-gradient-gold">Partenaires Médias</span>
             </h2>
             <p className="text-gray-300 max-w-2xl mx-auto">
-              Écoutez en direct les radios catholiques. Chaque station diffuse des programmes 
-              spirituels, des enseignements et de la musique sacrée 24h/24.
+              Écoutez en direct les radios catholiques et découvrez Ecclesia TV. 
+              Des programmes spirituels, des enseignements et de la musique sacrée 24h/24.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {/* Ecclesia TV Card */}
+            <a
+              href="https://ecclesiatv.ci/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative rounded-2xl p-6 border-2 bg-gradient-to-br from-secondary/20 to-primary/10 border-secondary/40 hover:border-secondary transition-all duration-300 group"
+            >
+              {/* TV Logo */}
+              <div className="block w-24 h-24 rounded-xl overflow-hidden bg-white mx-auto mb-4 group-hover:scale-105 transition-transform p-2">
+                <img 
+                  src={logoEcclesiaTv} 
+                  alt="Logo Ecclesia TV"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+              {/* TV Info */}
+              <div className="text-center mb-4">
+                <h3 className="font-display font-bold text-xl mb-1">Ecclesia TV</h3>
+                <p className="text-secondary font-semibold">Chaîne TV</p>
+                <div className="flex items-center justify-center gap-1 text-gray-400 text-sm mt-1">
+                  <Tv className="w-3 h-3" />
+                  Nationale
+                </div>
+                <p className="text-gray-400 text-xs mt-2">La chaîne catholique de Côte d'Ivoire</p>
+              </div>
+
+              {/* Badge */}
+              <div className="absolute top-4 right-4 flex items-center gap-1 px-2 py-1 bg-secondary rounded-full text-xs font-bold">
+                <Tv className="w-3 h-3" />
+                TV
+              </div>
+            </a>
+
+            {/* Radio Cards */}
             {catholicRadios.map((radio) => (
               <div
                 key={radio.id}
