@@ -15,11 +15,11 @@ interface SEOProps {
   children?: React.ReactNode;
 }
 
-const SITE_NAME = "CENDF - Centre d'Enseignement de la Doctrine de la Foi";
+const SITE_NAME = "CEDF - Commission Épiscopale pour la Doctrine de la Foi";
 const SITE_URL = "https://cedfci.org";
-const DEFAULT_DESCRIPTION = "Commission Épiscopale pour la Doctrine de la Foi - Radio Espoir. Enseignements, documents, archives, radio et podcasts pour la communauté catholique en Côte d'Ivoire.";
+const DEFAULT_DESCRIPTION = "Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire - Radio Espoir. Enseignements, documents, archives, radio et podcasts pour la communauté catholique.";
 const DEFAULT_IMAGE = `${SITE_URL}/favicon.png`;
-const DEFAULT_KEYWORDS = "CENDF, église catholique, doctrine, foi, enseignement, Côte d'Ivoire, radio catholique, podcasts chrétiens, Radio Espoir, Abidjan, enseignement catholique, homélie, prière";
+const DEFAULT_KEYWORDS = "CEDF, église catholique, doctrine, foi, enseignement, Côte d'Ivoire, radio catholique, podcasts chrétiens, Radio Espoir, Abidjan, enseignement catholique, homélie, prière";
 
 export const SEO = ({
   title,
@@ -35,7 +35,7 @@ export const SEO = ({
   noindex = false,
   children,
 }: SEOProps) => {
-  const fullTitle = title ? `${title} | CENDF` : SITE_NAME;
+  const fullTitle = title ? `${title} | CEDF` : SITE_NAME;
   const fullUrl = url.startsWith('http') ? url : `${SITE_URL}${url}`;
   const fullImage = image.startsWith('http') ? image : `${SITE_URL}${image}`;
 

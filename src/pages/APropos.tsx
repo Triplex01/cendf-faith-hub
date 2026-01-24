@@ -264,7 +264,7 @@ const APropos = () => {
   return (
     <PageLayout 
       title="À Propos de la CEDF" 
-      subtitle="Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire"
+      subtitle="Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire"
       backgroundImage={basiliqueYamoussoukro}
     >
       {/* Introduction Section */}
@@ -451,91 +451,6 @@ const APropos = () => {
         </div>
       </section>
 
-      {/* Interactive Organigramme Section */}
-      <section className="py-20 bg-gradient-to-b from-background to-muted/30 overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-              Notre Structure
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Organigramme
-            </h2>
-            <p className="text-muted-foreground">
-              Découvrez la structure organisationnelle de la Commission Épiscopale pour la Doctrine de la Foi
-            </p>
-          </div>
-
-          {/* Organigramme Tree */}
-          <div className="max-w-6xl mx-auto">
-            {/* President - Top Level */}
-            <motion.div 
-              initial={{ opacity: 0, y: -30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="flex justify-center mb-8"
-            >
-              <div className="w-full max-w-md">
-                <OrgNode data={organigramme.president} level={0} />
-              </div>
-            </motion.div>
-
-            {/* Connector line from President */}
-            <div className="flex justify-center mb-8">
-              <div className="w-0.5 h-12 bg-gradient-to-b from-primary to-secondary" />
-            </div>
-
-            {/* Secretary - Second Level */}
-            <motion.div 
-              initial={{ opacity: 0, y: -30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="flex justify-center mb-8"
-            >
-              <div className="w-full max-w-md">
-                <OrgNode data={organigramme.secretaire} level={1} />
-              </div>
-            </motion.div>
-
-            {/* Connector lines to departments */}
-            <div className="flex justify-center mb-8">
-              <div className="relative w-full max-w-4xl">
-                <div className="absolute left-1/2 -translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-secondary to-primary" />
-                <div className="absolute top-8 left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-primary via-secondary to-primary" />
-                {/* Vertical lines to each department */}
-                <div className="flex justify-between px-[12.5%] pt-8">
-                  <div className="w-0.5 h-8 bg-primary" />
-                  <div className="w-0.5 h-8 bg-primary" />
-                  <div className="w-0.5 h-8 bg-primary" />
-                  <div className="w-0.5 h-8 bg-primary" />
-                </div>
-              </div>
-            </div>
-
-            {/* Departments - Third Level */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
-            >
-              {organigramme.departments.map((dept) => (
-                <OrgNode
-                  key={dept.id}
-                  data={dept}
-                  level={2}
-                  hasChildren={true}
-                  isExpanded={expandedDept === dept.id}
-                  onToggle={() => toggleDept(dept.id)}
-                />
-              ))}
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       {/* Contact CTA */}
       <section className="py-20 bg-deep-black text-primary-foreground">

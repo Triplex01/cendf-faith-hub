@@ -126,8 +126,7 @@ const RadiosSection = () => {
               Nos <span className="text-gradient-gold">Partenaires Médias</span>
             </h2>
             <p className="font-secondary text-lg text-primary-foreground/70 leading-relaxed mb-8">
-              Regardez Ecclesia TV et écoutez les radios catholiques de Côte d'Ivoire en direct. 
-              Programmes spirituels, enseignements et musique sacrée 24h/24.
+              La foi à portée d'écoute
             </p>
 
             {/* Radio Cards with Logos */}

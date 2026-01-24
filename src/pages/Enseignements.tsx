@@ -62,7 +62,7 @@ const Enseignements = () => {
       ]} />
       <PageLayout 
         title="Enseignements" 
-        subtitle="Nourrir votre foi par la Parole et la Doctrine"
+        subtitle="Pour nourrir votre foi au quotidien"
         backgroundImage={teachingImage}
       >
       <section className="py-20">
