@@ -2,40 +2,43 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CENDF - Commission Épiscopale pour la Doctrine de la Foi | Côte d'Ivoire</title>
-    <meta name="description" content="CENDF - Commission Épiscopale pour la Doctrine de la Foi. Enseignements catholiques, Radio Espoir 94.8 FM, documents magistériels, podcasts et actualités de l'Église en Côte d'Ivoire." />
-    <meta name="keywords" content="CENDF, église catholique, doctrine foi, enseignement catholique, Radio Espoir, Abidjan, Côte d'Ivoire, homélie, catéchèse, prière, évangélisation, archidiocèse" />
-    <meta name="author" content="CENDF - Commission Épiscopale pour la Doctrine de la Foi" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>CEDF - Commission Épiscopale pour la Doctrine de la Foi | Côte d'Ivoire</title>
+    <meta name="description" content="CEDF - Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire. Enseignements catholiques, Radio Espoir 102.8 FM, documents magistériels, podcasts et actualités de l'Église." />
+    <meta name="keywords" content="CEDF, église catholique, doctrine foi, enseignement catholique, Radio Espoir, Abidjan, Côte d'Ivoire, homélie, catéchèse, prière, évangélisation, archidiocèse, CECCI, Vatican" />
+    <meta name="author" content="CEDF - Commission Épiscopale pour la Doctrine de la Foi" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
 
-    <!-- Security headers -->
+    <!-- Security headers renforcés -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://cedfci.org/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="CENDF - Commission Épiscopale pour la Doctrine de la Foi" />
+    <meta property="og:title" content="CEDF - Commission Épiscopale pour la Doctrine de la Foi" />
     <meta property="og:description" content="Enseignements catholiques, Radio Espoir, documents et actualités de l'Église en Côte d'Ivoire" />
     <meta property="og:url" content="https://cedfci.org/" />
-    <meta property="og:site_name" content="CENDF" />
+    <meta property="og:site_name" content="CEDF" />
     <meta property="og:locale" content="fr_CI" />
     <meta property="og:image" content="https://cedfci.org/favicon.png" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
-    <meta property="og:image:alt" content="Logo CENDF" />
+    <meta property="og:image:alt" content="Logo CEDF - Commission Épiscopale pour la Doctrine de la Foi" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@CENDF" />
-    <meta name="twitter:title" content="CENDF - Commission Épiscopale pour la Doctrine de la Foi" />
+    <meta name="twitter:site" content="@CEDF_CI" />
+    <meta name="twitter:creator" content="@CEDF_CI" />
+    <meta name="twitter:title" content="CEDF - Commission Épiscopale pour la Doctrine de la Foi" />
     <meta name="twitter:description" content="Enseignements catholiques, Radio Espoir et actualités de l'Église en Côte d'Ivoire" />
     <meta name="twitter:image" content="https://cedfci.org/favicon.png" />
 
@@ -51,10 +54,92 @@
     <meta name="theme-color" content="#A90B0C" />
     <meta name="msapplication-TileColor" content="#A90B0C" />
     
-    <!-- Fonts with display swap for performance -->
+    <!-- DNS Prefetch & Preconnect pour performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    
+    <!-- Fonts with display swap for performance -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Google Analytics 4 - REMPLACER G-XXXXXXXXXX par votre ID de mesure -->
+    <!-- 
+    Instructions pour configurer Google Analytics:
+    1. Créez un compte Google Analytics sur https://analytics.google.com
+    2. Créez une propriété GA4 pour votre site
+    3. Copiez l'ID de mesure (format: G-XXXXXXXXXX)
+    4. Remplacez G-XXXXXXXXXX ci-dessous par votre ID
+    -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        'anonymize_ip': true,
+        'cookie_flags': 'SameSite=None;Secure'
+      });
+    </script>
+    <!-- Fin Google Analytics -->
+
+    <!-- JSON-LD Structured Data pour SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "CEDF - Commission Épiscopale pour la Doctrine de la Foi",
+      "alternateName": "CEDF-CI",
+      "url": "https://cedfci.org",
+      "logo": "https://cedfci.org/favicon.png",
+      "description": "Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire - Enseignements catholiques et promotion de la foi",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Abidjan",
+        "addressRegion": "Abidjan",
+        "addressCountry": "CI"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+225-27-22-44-81-38",
+        "contactType": "customer service",
+        "availableLanguage": "French"
+      },
+      "sameAs": [
+        "https://www.facebook.com/CEDFCI",
+        "https://twitter.com/CEDF_CI"
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "CEDF",
+      "url": "https://cedfci.org",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://cedfci.org/enseignements?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RadioStation",
+      "name": "Radio Espoir",
+      "url": "https://cedfci.org/radio",
+      "description": "Radio catholique d'Abidjan - 102.8 FM",
+      "broadcastFrequency": "102.8 FM",
+      "areaServed": {
+        "@type": "Place",
+        "name": "Abidjan, Côte d'Ivoire"
+      }
+    }
+    </script>
   </head>
 
   <body>

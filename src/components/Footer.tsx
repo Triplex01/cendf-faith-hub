@@ -110,7 +110,7 @@ const Footer = () => {
               <img src={logoCendf} alt="CEDF" className="h-16 w-auto object-contain bg-primary-foreground/90 rounded-lg p-2" />
             </div>
             <p className="text-sm text-primary-foreground/70 leading-relaxed mb-6">
-              Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire - Au service de la communauté 
+              Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire - Au service de la communauté 
               catholique pour la promotion et la sauvegarde de la foi.
             </p>
             <div className="flex items-center gap-3">
@@ -188,7 +188,7 @@ const Footer = () => {
       <div className="border-t border-primary-foreground/10">
         <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-primary-foreground/50 text-center md:text-left">
-            © 2024 CEDF - Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire. Tous droits réservés.
+            © 2024 CEDF - Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire. Tous droits réservés.
           </p>
           <div className="flex items-center gap-6">
             <Link to="/faq" className="text-sm text-primary-foreground/50 hover:text-gold transition-colors">

@@ -55,7 +55,7 @@ const MentionsLegales = () => {
                       <div className="space-y-3">
                         <div>
                           <span className="text-sm text-muted-foreground">Dénomination :</span>
-                          <p className="font-semibold text-foreground">Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire (CEDF-CI)</p>
+                          <p className="font-semibold text-foreground">Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire (CEDF-CI)</p>
                         </div>
                         <div>
                           <span className="text-sm text-muted-foreground">Statut juridique :</span>

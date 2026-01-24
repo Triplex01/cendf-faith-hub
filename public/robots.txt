@@ -1,4 +1,4 @@
-# Robots.txt for CENDF - https://cedfci.org
+# Robots.txt for CEDF - https://cedfci.org
 
 User-agent: Googlebot
 Allow: /

@@ -181,7 +181,7 @@ const Boutique = () => {
   return (
     <PageLayout
       title="Boutique"
-      subtitle="Articles religieux et objets de piété pour votre vie spirituelle"
+      subtitle="Objets de piété pour une vie spirituelle"
       backgroundImage={basiliqueCover}
     >
       <section className="py-16">

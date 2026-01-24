@@ -92,7 +92,7 @@ Au-delà de ces délais, les données sont supprimées ou anonymisées.`
               Politique de <span className="text-gradient-gold">Confidentialité</span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              La Commission Épiscopale pour la Doctrine de la Foi de Côte d'Ivoire s'engage 
+              La Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire s'engage 
               à protéger votre vie privée et vos données personnelles.
             </p>
             <p className="text-sm text-muted-foreground mt-4">

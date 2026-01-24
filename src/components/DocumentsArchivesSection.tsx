@@ -46,7 +46,7 @@ const DocumentsArchivesSection = () => {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
             <span className="inline-block px-4 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-4">
-              Ressources
+              Enseignements
             </span>
             <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground">
               Documents & <span className="text-secondary">Archives</span>
@@ -58,7 +58,7 @@ const DocumentsArchivesSection = () => {
           </div>
           <Link to="/documents-archives">
             <Button variant="goldOutline" className="gap-2 self-start md:self-auto">
-              Voir toutes les ressources
+              Voir tous les enseignements
               <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>

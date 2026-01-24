@@ -241,16 +241,6 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-elegant animate-slide-up max-h-[80vh] overflow-y-auto">
-            {/* Site Identity */}
-            <div className="bg-primary/5 border-b border-border px-4 py-4">
-              <div className="flex items-center gap-3">
-                <img src={logoCendf} alt="CEDF" className="h-10 w-auto" />
-                <div>
-                  <h3 className="font-display font-bold text-primary">CEDF</h3>
-                  <p className="text-xs text-muted-foreground">Commission Épiscopale pour la Doctrine de la Foi</p>
-                </div>
-              </div>
-            </div>
 
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
