@@ -28,7 +28,7 @@ class CENDF_Security {
     }
     
     /**
-     * Ajouter les headers CORS
+     * Ajouter les headers CORS et sécurité
      */
     public function add_cors_headers() {
         // Origines autorisées
@@ -39,11 +39,18 @@ class CENDF_Security {
         // Vérifier si l'origine est autorisée
         if (in_array($origin, $allowed_origins) || $this->is_localhost($origin)) {
             header("Access-Control-Allow-Origin: $origin");
-            header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
             header("Access-Control-Allow-Headers: Content-Type, Authorization, X-WP-Nonce, X-Requested-With");
             header("Access-Control-Allow-Credentials: true");
             header("Access-Control-Max-Age: 86400");
         }
+        
+        // Headers de sécurité renforcés
+        header("X-Content-Type-Options: nosniff");
+        header("X-Frame-Options: SAMEORIGIN");
+        header("X-XSS-Protection: 1; mode=block");
+        header("Referrer-Policy: strict-origin-when-cross-origin");
+        header("Permissions-Policy: geolocation=(), microphone=(), camera=()");
     }
     
     /**
@@ -125,7 +132,7 @@ class CENDF_Security {
     }
     
     /**
-     * Rate limiting basique
+     * Rate limiting renforcé
      */
     public function rate_limiting() {
         // Uniquement pour les requêtes API
@@ -135,17 +142,26 @@ class CENDF_Security {
         
         $ip = $this->get_client_ip();
         $transient_key = 'cendf_rate_' . md5($ip);
-        $limit = 100; // Requêtes par minute
+        $limit = 60; // Requêtes par minute (réduit pour plus de sécurité)
         $window = 60; // Secondes
+        
+        // Protection contre les attaques brute force
+        $block_key = 'cendf_block_' . md5($ip);
+        if (get_transient($block_key)) {
+            header('HTTP/1.1 403 Forbidden');
+            wp_die('Accès temporairement bloqué.', 'Blocked', ['response' => 403]);
+        }
         
         $current = get_transient($transient_key);
         
         if ($current === false) {
             set_transient($transient_key, 1, $window);
         } elseif ($current >= $limit) {
+            // Bloquer l'IP pendant 5 minutes après dépassement
+            set_transient($block_key, true, 300);
             header('HTTP/1.1 429 Too Many Requests');
-            header('Retry-After: ' . $window);
-            wp_die('Trop de requêtes. Veuillez patienter.', 'Rate Limit', ['response' => 429]);
+            header('Retry-After: 300');
+            wp_die('Trop de requêtes. Veuillez patienter 5 minutes.', 'Rate Limit', ['response' => 429]);
         } else {
             set_transient($transient_key, $current + 1, $window);
         }
