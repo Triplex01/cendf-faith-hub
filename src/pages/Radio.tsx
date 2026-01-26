@@ -247,7 +247,7 @@ const Radio = () => {
       <RadioStationSchema />
       <PageLayout 
         title="Émissions & Radios" 
-        subtitle="Les radios catholiques de Côte d'Ivoire - La foi à portée d'écoute"
+        subtitle="La foi à portée d'écoute"
         backgroundImage={radioImage}
       >
       {/* Section Ecclesia TV - En Direct */}
