@@ -251,7 +251,7 @@ const Radio = () => {
         backgroundImage={radioImage}
       >
       {/* Section Ecclesia TV - En Direct */}
-      <section className="py-16 bg-gradient-to-b from-deep-black to-[#1a1a2e] text-white">
+      <section id="ecclesia-tv-section" className="py-16 bg-gradient-to-b from-deep-black to-[#1a1a2e] text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 px-4 py-1 bg-secondary/20 text-secondary rounded-full text-sm font-medium mb-4">
