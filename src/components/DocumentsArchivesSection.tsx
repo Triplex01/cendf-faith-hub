@@ -1,6 +1,7 @@
 import { FileText, Archive, Download, Calendar, ArrowRight, Book, Video, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 // Import des images de couverture
 import docLivretBiblique from "@/assets/doc-livret-biblique.jpg";
@@ -14,6 +15,7 @@ const recentDocuments = [
     date: "Février 2024",
     description: "Guide biblique annuel pour la méditation de la Parole.",
     cover: docLivretBiblique,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
   {
     title: "Lettre Pastorale sur l'Évangélisation",
@@ -21,6 +23,7 @@ const recentDocuments = [
     date: "Décembre 2025",
     description: "Défis et opportunités de l'évangélisation en Afrique.",
     cover: docLettrePastorale,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
   {
     title: "Décret sur la Formation des Catéchistes",
@@ -28,8 +31,20 @@ const recentDocuments = [
     date: "Novembre 2025",
     description: "Nouvelles directives pour la formation des catéchistes.",
     cover: docDecret,
+    downloadUrl: "/documents/livret-biblique.pdf",
   },
 ];
+
+const handleDownload = (doc: typeof recentDocuments[0]) => {
+  const link = document.createElement("a");
+  link.href = doc.downloadUrl;
+  link.download = `${doc.title.replace(/\s+/g, "-")}.pdf`;
+  link.target = "_blank";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  toast.success(`Téléchargement de "${doc.title}" démarré`);
+};
 
 const archiveStats = [
   { icon: Book, label: "Documents", count: 234 },
@@ -104,7 +119,11 @@ const DocumentsArchivesSection = () => {
                     </p>
                   </div>
                   
-                  <button className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors opacity-0 group-hover:opacity-100 self-center">
+                  <button 
+                    onClick={() => handleDownload(doc)}
+                    className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-colors opacity-0 group-hover:opacity-100 self-center"
+                    title={`Télécharger ${doc.title}`}
+                  >
                     <Download className="w-5 h-5" />
                   </button>
                 </div>

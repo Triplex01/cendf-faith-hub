@@ -115,23 +115,28 @@ const Footer = () => {
             </p>
             <div className="flex items-center gap-3">
               {[{
-              Icon: Facebook,
-              href: "#"
-            }, {
-              Icon: Twitter,
-              href: "#"
-            }, {
-              Icon: Youtube,
-              href: "#"
-            }, {
-              Icon: Instagram,
-              href: "#"
-            }].map(({
-              Icon,
-              href
-            }, index) => <a key={index} href={href} className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-foreground transition-colors">
-                  <Icon className="w-5 h-5" />
-                </a>)}
+                Icon: Facebook,
+                href: "https://www.facebook.com/cedfci",
+                label: "Facebook"
+              }, {
+                Icon: Twitter,
+                href: "https://twitter.com/cedfci",
+                label: "Twitter"
+              }, {
+                Icon: Youtube,
+                href: "https://www.youtube.com/@cedfci",
+                label: "YouTube"
+              }, {
+                Icon: Instagram,
+                href: "https://www.instagram.com/cedfci",
+                label: "Instagram"
+              }].map(({
+                Icon,
+                href,
+                label
+              }, index) => <a key={index} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-foreground transition-colors">
+                    <Icon className="w-5 h-5" />
+                  </a>)}
             </div>
           </div>
 
@@ -188,7 +193,7 @@ const Footer = () => {
       <div className="border-t border-primary-foreground/10">
         <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-primary-foreground/50 text-center md:text-left">
-            © 2024 CEDF - Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire. Tous droits réservés.
+            © {new Date().getFullYear()} CEDF - Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire. Tous droits réservés.
           </p>
           <div className="flex items-center gap-6">
             <Link to="/faq" className="text-sm text-primary-foreground/50 hover:text-gold transition-colors">

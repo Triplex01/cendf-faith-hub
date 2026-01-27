@@ -138,7 +138,7 @@ const staticArticles: Article[] = [
     title: "Célébration de Noël 2024",
     excerpt: "La Commission Épiscopale pour la Doctrine de la Foi a célébré avec ferveur la naissance du Christ lors de la messe de Noël 2024.",
     image: interieurBasilique,
-    date: "25 Décembre 2024",
+    date: "25 décembre 2024",
     category: "Célébration",
   },
   {
@@ -147,7 +147,7 @@ const staticArticles: Article[] = [
     title: "Vœux du Nouvel An 2026",
     excerpt: "Que cette nouvelle année soit remplie de la grâce divine et de la paix du Christ pour tous les fidèles de Côte d'Ivoire.",
     image: voeux2026,
-    date: "1 Janvier 2026",
+    date: "1er janvier 2026",
     category: "Message",
   },
   {
@@ -156,7 +156,7 @@ const staticArticles: Article[] = [
     title: "Réunion de la Commission Épiscopale",
     excerpt: "Les membres de la Commission se sont réunis pour planifier les activités pastorales de l'année 2026.",
     image: reunionEglise,
-    date: "10 Janvier 2026",
+    date: "10 janvier 2026",
     category: "Actualité",
   },
   {
@@ -165,7 +165,7 @@ const staticArticles: Article[] = [
     title: "Pèlerinage à la Basilique de Yamoussoukro",
     excerpt: "Des milliers de fidèles ont participé au pèlerinage annuel à la Basilique Notre-Dame de la Paix.",
     image: basiliqueYamoussoukro,
-    date: "15 Janvier 2026",
+    date: "15 janvier 2026",
     category: "Pèlerinage",
   },
   {
@@ -174,7 +174,7 @@ const staticArticles: Article[] = [
     title: "Formation des Catéchistes",
     excerpt: "Une session de formation pour les catéchistes a eu lieu à l'archidiocèse d'Abidjan.",
     image: basilique,
-    date: "20 Janvier 2026",
+    date: "20 janvier 2026",
     category: "Formation",
   },
   {
@@ -183,7 +183,7 @@ const staticArticles: Article[] = [
     title: "Messe pour l'Unité des Chrétiens",
     excerpt: "Une messe solennelle a été célébrée à l'occasion de la Semaine de prière pour l'unité des chrétiens.",
     image: interieurBasilique,
-    date: "25 Janvier 2026",
+    date: "25 janvier 2026",
     category: "Œcuménisme",
   },
 ];
