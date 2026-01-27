@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import logoCendf from "@/assets/logo-cendf.png";
 
 interface PageLoaderProps {
   isLoading: boolean;
@@ -24,7 +25,7 @@ const PageLoader = ({ isLoading }: PageLoaderProps) => {
             >
               <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center p-2">
                 <motion.img
-                  src="/favicon.png"
+                  src={logoCendf}
                   alt="CEDF Logo"
                   className="w-full h-full object-contain"
                   animate={{ scale: [1, 1.05, 1] }}
