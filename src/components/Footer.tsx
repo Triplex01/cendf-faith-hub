@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import logoCendf from "@/assets/logo-cendf.png";
-
 const quickLinks = [{
   name: "Enseignements",
   href: "/enseignements"
@@ -22,7 +21,6 @@ const quickLinks = [{
   name: "FAQ",
   href: "/faq"
 }];
-
 const resourceLinks = [{
   name: "Bible en ligne",
   href: "/bible"
@@ -43,35 +41,33 @@ const resourceLinks = [{
   href: "/contact"
 }];
 const Footer = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       toast({
         title: "Inscription réussie !",
-        description: "Vous recevrez bientôt nos actualités par email.",
+        description: "Vous recevrez bientôt nos actualités par email."
       });
       setEmail("");
     } catch (error) {
       toast({
         title: "Erreur",
         description: "Une erreur est survenue. Veuillez réessayer.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  return (
-    <footer id="apropos" className="bg-foreground text-primary-foreground">
+  return <footer id="apropos" className="bg-foreground text-primary-foreground">
       {/* Newsletter Bar */}
       <div className="bg-primary/90 py-8">
         <div className="container mx-auto px-4">
@@ -85,14 +81,7 @@ const Footer = () => {
               </p>
             </div>
             <form onSubmit={handleNewsletterSubmit} className="flex gap-2 w-full md:w-auto max-w-md">
-              <Input
-                type="email"
-                placeholder="Votre adresse email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="flex-1 bg-primary-foreground text-foreground border-0"
-              />
+              <Input type="email" placeholder="Votre adresse email" value={email} onChange={e => setEmail(e.target.value)} required className="flex-1 bg-primary-foreground text-foreground border-0" />
               <Button type="submit" variant="gold" disabled={isSubmitting} className="gap-2">
                 <Send className="w-4 h-4" />
                 {isSubmitting ? "..." : "S'abonner"}
@@ -115,26 +104,26 @@ const Footer = () => {
             </p>
             <div className="flex items-center gap-3">
               {[{
-                Icon: Facebook,
-                href: "https://www.facebook.com/cedfci",
-                label: "Facebook"
-              }, {
-                Icon: Twitter,
-                href: "https://twitter.com/cedfci",
-                label: "Twitter"
-              }, {
-                Icon: Youtube,
-                href: "https://www.youtube.com/@cedfci",
-                label: "YouTube"
-              }, {
-                Icon: Instagram,
-                href: "https://www.instagram.com/cedfci",
-                label: "Instagram"
-              }].map(({
-                Icon,
-                href,
-                label
-              }, index) => <a key={index} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-foreground transition-colors">
+              Icon: Facebook,
+              href: "https://www.facebook.com/cedfci",
+              label: "Facebook"
+            }, {
+              Icon: Twitter,
+              href: "https://twitter.com/cedfci",
+              label: "Twitter"
+            }, {
+              Icon: Youtube,
+              href: "https://www.youtube.com/@cedfci",
+              label: "YouTube"
+            }, {
+              Icon: Instagram,
+              href: "https://www.instagram.com/cedfci",
+              label: "Instagram"
+            }].map(({
+              Icon,
+              href,
+              label
+            }, index) => <a key={index} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-foreground transition-colors">
                     <Icon className="w-5 h-5" />
                   </a>)}
             </div>
@@ -178,7 +167,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-gold flex-shrink-0" />
-                <span className="text-sm text-primary-foreground/70">contact@cedf-ci.org</span>
+                <span className="text-sm text-primary-foreground/70">contact@cedfci.org</span>
               </li>
               <li className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-gold flex-shrink-0" />
@@ -208,7 +197,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
 export default Footer;
