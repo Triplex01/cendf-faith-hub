@@ -110,6 +110,27 @@ const Boutique = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"orange" | "wave">("orange");
+  const [wishlist, setWishlist] = useState<number[]>([]);
+
+  // Gérer les favoris
+  const toggleWishlist = (productId: number) => {
+    setWishlist(prev => {
+      const isInWishlist = prev.includes(productId);
+      if (isInWishlist) {
+        toast({
+          title: "Retiré des favoris",
+          description: "L'article a été retiré de vos favoris",
+        });
+        return prev.filter(id => id !== productId);
+      } else {
+        toast({
+          title: "Ajouté aux favoris",
+          description: "L'article a été ajouté à vos favoris",
+        });
+        return [...prev, productId];
+      }
+    });
+  };
 
   // Filtrer les produits
   const filteredProducts = demoProducts.filter((product) => {
@@ -235,8 +256,16 @@ const Boutique = () => {
                           </span>
                         </div>
                       )}
-                      <button className="absolute top-3 right-3 w-10 h-10 rounded-full bg-background/80 flex items-center justify-center text-muted-foreground hover:text-burgundy transition-colors">
-                        <Heart className="w-5 h-5" />
+                      <button 
+                        onClick={() => toggleWishlist(product.id)}
+                        className={`absolute top-3 right-3 w-10 h-10 rounded-full bg-background/80 flex items-center justify-center transition-colors ${
+                          wishlist.includes(product.id) 
+                            ? "text-primary" 
+                            : "text-muted-foreground hover:text-primary"
+                        }`}
+                        aria-label={wishlist.includes(product.id) ? "Retirer des favoris" : "Ajouter aux favoris"}
+                      >
+                        <Heart className={`w-5 h-5 ${wishlist.includes(product.id) ? "fill-current" : ""}`} />
                       </button>
                     </div>
 
