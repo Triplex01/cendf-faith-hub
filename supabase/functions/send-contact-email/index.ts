@@ -73,6 +73,9 @@ const escapeHtml = (str: string): string => {
     .replace(/'/g, '&#039;');
 };
 
+// URL du logo CEDF hébergé sur Supabase Storage
+const LOGO_URL = "https://tcopofuxtzqpwryantou.supabase.co/storage/v1/object/public/email-assets/logo-cedf.png?v=1";
+
 // Template email professionnel pour le formulaire de contact
 const createContactEmailTemplate = (data: {
   name: string;
@@ -105,16 +108,14 @@ const createContactEmailTemplate = (data: {
       <td align="center" style="padding: 40px 20px;">
         <table role="presentation" style="width: 100%; max-width: 600px; border-collapse: collapse; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); overflow: hidden;">
           
-          <!-- Header avec logo et branding -->
+          <!-- Header avec logo -->
           <tr>
             <td style="background: linear-gradient(135deg, #A90B0C 0%, #8B0A0B 100%); padding: 30px 40px; text-align: center;">
               <table role="presentation" style="width: 100%;">
                 <tr>
                   <td align="center">
-                    <div style="width: 70px; height: 70px; background-color: #ffffff; border-radius: 50%; display: inline-block; margin-bottom: 15px;">
-                      <img src="https://tcopofuxtzqpwryantou.supabase.co/storage/v1/object/public/email-assets/logo-cedf.png" alt="CEDF Logo" style="width: 50px; height: 50px; margin-top: 10px;" onerror="this.style.display='none'"/>
-                    </div>
-                    <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: 0.5px;">
+                    <img src="${LOGO_URL}" alt="CEDF Logo" style="width: 80px; height: 80px; border-radius: 50%; background-color: #ffffff; padding: 8px; margin-bottom: 15px;"/>
+                    <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">
                       Commission Épiscopale pour la Doctrine de la Foi
                     </h1>
                     <p style="margin: 8px 0 0 0; color: #CD9804; font-size: 14px; font-weight: 600;">
