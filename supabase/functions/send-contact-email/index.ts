@@ -12,7 +12,32 @@ interface ContactEmailRequest {
   phone?: string;
   subject: string;
   message: string;
+  honeypot?: string;
+  formStartTime?: number;
 }
+
+// Simple in-memory rate limiting (resets on function restart)
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_WINDOW = 3600000; // 1 hour in milliseconds
+const RATE_LIMIT_MAX_REQUESTS = 5; // Max 5 requests per hour per IP
+
+const checkRateLimit = (ip: string): { allowed: boolean; remaining: number } => {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+  
+  if (!record || now > record.resetAt) {
+    // Reset or create new record
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
+    return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - 1 };
+  }
+  
+  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return { allowed: false, remaining: 0 };
+  }
+  
+  record.count++;
+  return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - record.count };
+};
 
 // Validation et nettoyage des entrées
 const sanitizeInput = (input: string): string => {
@@ -45,6 +70,32 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Get client IP for rate limiting
+    const clientIP = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
+                     req.headers.get("cf-connecting-ip") || 
+                     "unknown";
+    
+    // Check rate limit
+    const rateLimit = checkRateLimit(clientIP);
+    if (!rateLimit.allowed) {
+      console.warn(`Rate limit exceeded for IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ 
+          error: "Trop de tentatives. Veuillez réessayer dans 1 heure.",
+          retryAfter: 3600
+        }),
+        { 
+          status: 429, 
+          headers: { 
+            "Content-Type": "application/json",
+            "Retry-After": "3600",
+            "X-RateLimit-Remaining": "0",
+            ...corsHeaders 
+          } 
+        }
+      );
+    }
+
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
     
     if (!resendApiKey) {
@@ -56,7 +107,29 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const body = await req.json();
-    const { name, email, phone, subject, message }: ContactEmailRequest = body;
+    const { name, email, phone, subject, message, honeypot, formStartTime }: ContactEmailRequest = body;
+
+    // Honeypot check - if filled, it's likely a bot
+    if (honeypot && honeypot.trim() !== "") {
+      console.warn(`Honeypot triggered by IP: ${clientIP}`);
+      // Return success to not reveal detection (but don't send email)
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    // Timing check - form filled too quickly (less than 3 seconds) is suspicious
+    if (formStartTime) {
+      const timeTaken = Date.now() - formStartTime;
+      if (timeTaken < 3000) {
+        console.warn(`Form submitted too quickly (${timeTaken}ms) by IP: ${clientIP}`);
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+    }
 
     // Validation des champs obligatoires
     if (!name || !email || !subject || !message) {
@@ -82,7 +155,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Vérification du contenu suspect
     if (containsSuspiciousContent(cleanMessage) || containsSuspiciousContent(cleanSubject)) {
-      console.warn("Suspicious content detected in form submission");
+      console.warn(`Suspicious content detected from IP: ${clientIP}`);
       return new Response(
         JSON.stringify({ error: "Le message contient des éléments non autorisés" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
@@ -145,6 +218,7 @@ const handler = async (req: Request): Promise<Response> => {
           </div>
           <p style="margin-top: 30px; font-size: 12px; color: #666;">
             Ce message a été envoyé via le formulaire de contact du site CENDF.
+            <br/>IP: ${clientIP}
           </p>
         </div>
       </body>
@@ -172,11 +246,15 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Erreur lors de l'envoi de l'email");
     }
 
-    console.log("Email sent successfully to cherifraboubacar@gmail.com");
+    console.log(`Email sent successfully from IP: ${clientIP}`);
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
-      headers: { "Content-Type": "application/json", ...corsHeaders },
+      headers: { 
+        "Content-Type": "application/json",
+        "X-RateLimit-Remaining": String(rateLimit.remaining),
+        ...corsHeaders 
+      },
     });
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Une erreur est survenue";
