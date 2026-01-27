@@ -2,18 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 import { Play, Pause, Volume2, VolumeX, Maximize2, Tv } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTV } from "@/contexts/TVContext";
 import logoEcclesiaTv from "@/assets/logo-ecclesia-tv.png";
 
 const ECCLESIA_TV_STREAM_URL = "https://video1.getstreamhosting.com:1936/8018/8018/playlist.m3u8";
 
 const EcclesiaTVPlayer = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showControls, setShowControls] = useState(true);
+  const [localIsPlaying, setLocalIsPlaying] = useState(false);
   const hlsRef = useRef<Hls | null>(null);
+  
+  const { setPlaying, setMinimized } = useTV();
 
   useEffect(() => {
     const video = videoRef.current;
@@ -59,7 +62,9 @@ const EcclesiaTVPlayer = () => {
 
     try {
       await video.play();
-      setIsPlaying(true);
+      setLocalIsPlaying(true);
+      setPlaying(true);
+      setMinimized(false);
       setIsLoading(false);
     } catch (err) {
       setError("Impossible de lancer la lecture.");
@@ -72,11 +77,12 @@ const EcclesiaTVPlayer = () => {
     if (!video) return;
 
     video.pause();
-    setIsPlaying(false);
+    setLocalIsPlaying(false);
+    setPlaying(false);
   };
 
   const togglePlay = () => {
-    if (isPlaying) {
+    if (localIsPlaying) {
       handlePause();
     } else {
       handlePlay();
@@ -107,7 +113,7 @@ const EcclesiaTVPlayer = () => {
       viewport={{ once: true }}
       className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#1a1a2e] to-[#16213e] border-2 border-primary/30 shadow-2xl"
       onMouseEnter={() => setShowControls(true)}
-      onMouseLeave={() => isPlaying && setShowControls(false)}
+      onMouseLeave={() => localIsPlaying && setShowControls(false)}
     >
       {/* Header avec logo et badge LIVE */}
       <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/80 to-transparent p-4">
@@ -131,7 +137,7 @@ const EcclesiaTVPlayer = () => {
             </div>
           </div>
           
-          {isPlaying && (
+          {localIsPlaying && (
             <div className="flex items-center gap-2 px-3 py-1.5 bg-secondary rounded-full animate-pulse">
               <span className="w-2 h-2 bg-white rounded-full" />
               <span className="text-white text-xs font-bold">EN DIRECT</span>
@@ -150,7 +156,7 @@ const EcclesiaTVPlayer = () => {
         />
         
         {/* Overlay de chargement ou erreur */}
-        {!isPlaying && (
+        {!localIsPlaying && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#1a1a2e]/95 to-[#16213e]/95">
             <div className="text-center">
               <div className="w-24 h-24 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center mb-6 mx-auto border-2 border-primary/50">
@@ -185,7 +191,7 @@ const EcclesiaTVPlayer = () => {
         )}
 
         {/* Contrôles */}
-        {isPlaying && showControls && (
+        {localIsPlaying && showControls && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -198,7 +204,7 @@ const EcclesiaTVPlayer = () => {
                   onClick={togglePlay}
                   className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
                 >
-                  {isPlaying ? (
+                  {localIsPlaying ? (
                     <Pause className="w-5 h-5 text-white" />
                   ) : (
                     <Play className="w-5 h-5 text-white ml-0.5" />

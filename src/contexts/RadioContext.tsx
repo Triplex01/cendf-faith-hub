@@ -67,7 +67,7 @@ export const RadioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
 
     const handlePlaying = () => {
-      setState(prev => ({ ...prev, isLoading: false, isPlaying: true }));
+      setState(prev => ({ ...prev, isLoading: false, isPlaying: true, isMinimized: false }));
     };
 
     audioRef.current.addEventListener("error", handleError);
@@ -89,11 +89,11 @@ export const RadioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const play = useCallback(async () => {
     if (!audioRef.current) return;
     
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
+    setState(prev => ({ ...prev, isLoading: true, error: null, isMinimized: false }));
     
     try {
       await audioRef.current.play();
-      setState(prev => ({ ...prev, isPlaying: true, isLoading: false }));
+      setState(prev => ({ ...prev, isPlaying: true, isLoading: false, isMinimized: false }));
     } catch (error) {
       setState(prev => ({
         ...prev,

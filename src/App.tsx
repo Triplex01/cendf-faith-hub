@@ -6,9 +6,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { RadioProvider } from "@/contexts/RadioContext";
+import { TVProvider } from "@/contexts/TVContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PageLoader from "@/components/PageLoader";
-import FloatingRadioPlayer from "@/components/FloatingRadioPlayer";
+import FloatingMediaPlayer from "@/components/FloatingMediaPlayer";
 import AIAssistant from "@/components/AIAssistant";
 import ScrollToTop from "@/components/ScrollToTop";
 import ScrollToTopOnNavigate from "@/components/ScrollToTopOnNavigate";
@@ -76,7 +77,7 @@ const AppRoutes = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <ScrollToTop />
-      <FloatingRadioPlayer />
+      <FloatingMediaPlayer />
       <AIAssistant />
       <CookieConsent />
     </>
@@ -87,15 +88,17 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <RadioProvider>
-        <CartProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <AppRoutes />
-            </BrowserRouter>
-          </TooltipProvider>
-        </CartProvider>
+        <TVProvider>
+          <CartProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <AppRoutes />
+              </BrowserRouter>
+            </TooltipProvider>
+          </CartProvider>
+        </TVProvider>
       </RadioProvider>
     </AuthProvider>
   </QueryClientProvider>
