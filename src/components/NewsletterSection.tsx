@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mail, Send, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 interface NewsletterSectionProps {
   variant?: "default" | "compact" | "footer";
@@ -19,23 +21,60 @@ const NewsletterSection = ({
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  
+  // Protection anti-spam
+  const [honeypot, setHoneypot] = useState("");
+  const [formStartTime, setFormStartTime] = useState<number>(0);
+
+  useEffect(() => {
+    setFormStartTime(Date.now());
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
+    // Vérification honeypot
+    if (honeypot) {
+      logger.warn("Newsletter honeypot triggered");
+      return;
+    }
+
+    // Validation email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast({
+        title: "Email invalide",
+        description: "Veuillez entrer une adresse email valide.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
-    // Simulation d'abonnement
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const { data, error } = await supabase.functions.invoke('send-newsletter-email', {
+        body: {
+          email: email.trim().toLowerCase(),
+          honeypot,
+          formStartTime,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
       setIsSubscribed(true);
       toast({
         title: "Inscription réussie !",
         description: "Vous recevrez bientôt nos actualités par email.",
       });
       setEmail("");
+      setFormStartTime(Date.now());
     } catch (error) {
+      logger.error("Newsletter signup error", error);
       toast({
         title: "Erreur",
         description: "Une erreur est survenue. Veuillez réessayer.",
@@ -66,12 +105,24 @@ const NewsletterSection = ({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex gap-2">
+            {/* Honeypot */}
+            <div className="absolute -left-[9999px]" aria-hidden="true">
+              <input
+                type="text"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
             <Input
               type="email"
               placeholder="Votre email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              maxLength={100}
               className="flex-1"
             />
             <Button type="submit" variant="burgundy" size="icon" disabled={isSubmitting}>
@@ -96,12 +147,24 @@ const NewsletterSection = ({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex gap-2">
+            {/* Honeypot */}
+            <div className="absolute -left-[9999px]" aria-hidden="true">
+              <input
+                type="text"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
             <Input
               type="email"
               placeholder="Votre email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              maxLength={100}
               className="flex-1 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
             />
             <Button type="submit" variant="gold" size="icon" disabled={isSubmitting}>
@@ -136,12 +199,24 @@ const NewsletterSection = ({
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              {/* Honeypot */}
+              <div className="absolute -left-[9999px]" aria-hidden="true">
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
               <Input
                 type="email"
                 placeholder="Entrez votre adresse email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                maxLength={100}
                 className="flex-1 bg-primary-foreground text-foreground border-0 h-12"
               />
               <Button 

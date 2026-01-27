@@ -6,20 +6,16 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-interface ContactEmailRequest {
-  name: string;
+interface NewsletterEmailRequest {
   email: string;
-  phone?: string;
-  subject: string;
-  message: string;
   honeypot?: string;
   formStartTime?: number;
 }
 
-// Simple in-memory rate limiting (resets on function restart)
+// Simple in-memory rate limiting
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT_WINDOW = 3600000; // 1 hour in milliseconds
-const RATE_LIMIT_MAX_REQUESTS = 5; // Max 5 requests per hour per IP
+const RATE_LIMIT_WINDOW = 3600000; // 1 hour
+const RATE_LIMIT_MAX_REQUESTS = 10; // Max 10 newsletter signups per hour per IP
 
 const checkRateLimit = (ip: string): { allowed: boolean; remaining: number } => {
   const now = Date.now();
@@ -38,29 +34,9 @@ const checkRateLimit = (ip: string): { allowed: boolean; remaining: number } => 
   return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - record.count };
 };
 
-// Validation et nettoyage des entrées
-const sanitizeInput = (input: string): string => {
-  return input
-    .trim()
-    .replace(/<[^>]*>/g, '')
-    .slice(0, 2000);
-};
-
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email) && email.length <= 100;
-};
-
-const containsSuspiciousContent = (text: string): boolean => {
-  const suspiciousPatterns = [
-    /\[url=/i,
-    /<a\s+href=/i,
-    /javascript:/i,
-    /data:text\/html/i,
-    /onclick=/i,
-    /onerror=/i,
-  ];
-  return suspiciousPatterns.some(pattern => pattern.test(text));
 };
 
 // Échapper les caractères HTML
@@ -73,13 +49,9 @@ const escapeHtml = (str: string): string => {
     .replace(/'/g, '&#039;');
 };
 
-// Template email professionnel pour le formulaire de contact
-const createContactEmailTemplate = (data: {
-  name: string;
+// Template email professionnel pour inscription newsletter
+const createNewsletterEmailTemplate = (data: {
   email: string;
-  phone?: string;
-  subject: string;
-  message: string;
   clientIP: string;
 }): string => {
   const currentDate = new Date().toLocaleDateString('fr-FR', {
@@ -97,7 +69,7 @@ const createContactEmailTemplate = (data: {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nouveau message de contact - CEDF</title>
+  <title>Nouvelle inscription newsletter - CEDF</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
@@ -107,7 +79,7 @@ const createContactEmailTemplate = (data: {
           
           <!-- Header avec logo et branding -->
           <tr>
-            <td style="background: linear-gradient(135deg, #A90B0C 0%, #8B0A0B 100%); padding: 30px 40px; text-align: center;">
+            <td style="background: linear-gradient(135deg, #CD9804 0%, #B8860B 100%); padding: 30px 40px; text-align: center;">
               <table role="presentation" style="width: 100%;">
                 <tr>
                   <td align="center">
@@ -117,7 +89,7 @@ const createContactEmailTemplate = (data: {
                     <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: 0.5px;">
                       Commission Épiscopale pour la Doctrine de la Foi
                     </h1>
-                    <p style="margin: 8px 0 0 0; color: #CD9804; font-size: 14px; font-weight: 600;">
+                    <p style="margin: 8px 0 0 0; color: #A90B0C; font-size: 14px; font-weight: 600; background-color: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 12px; display: inline-block;">
                       Côte d'Ivoire
                     </p>
                   </td>
@@ -132,8 +104,8 @@ const createContactEmailTemplate = (data: {
               <table role="presentation" style="width: 100%;">
                 <tr>
                   <td>
-                    <span style="display: inline-block; background: linear-gradient(135deg, #CD9804 0%, #B8860B 100%); color: #ffffff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border-radius: 20px;">
-                      📬 Formulaire de Contact
+                    <span style="display: inline-block; background: linear-gradient(135deg, #A90B0C 0%, #8B0A0B 100%); color: #ffffff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border-radius: 20px;">
+                      📰 Inscription Newsletter
                     </span>
                     <p style="margin: 12px 0 0 0; color: #666666; font-size: 13px;">
                       ${currentDate}
@@ -147,41 +119,31 @@ const createContactEmailTemplate = (data: {
           <!-- Contenu principal -->
           <tr>
             <td style="padding: 25px 40px;">
-              <h2 style="margin: 0 0 20px 0; color: #A90B0C; font-size: 20px; font-weight: 600; border-bottom: 2px solid #CD9804; padding-bottom: 10px;">
-                Nouveau message reçu
+              <h2 style="margin: 0 0 20px 0; color: #CD9804; font-size: 20px; font-weight: 600; border-bottom: 2px solid #A90B0C; padding-bottom: 10px;">
+                🎉 Nouvelle inscription !
               </h2>
 
-              <!-- Informations de l'expéditeur -->
-              <table role="presentation" style="width: 100%; background-color: #fafafa; border-radius: 12px; margin-bottom: 20px;">
+              <!-- Message de bienvenue -->
+              <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 12px; padding: 25px; margin-bottom: 20px; text-align: center;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #A90B0C 0%, #8B0A0B 100%); border-radius: 50%; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center;">
+                  <span style="font-size: 28px;">🙏</span>
+                </div>
+                <p style="margin: 0; color: #333333; font-size: 16px; line-height: 1.6;">
+                  Un nouveau fidèle souhaite recevoir les actualités spirituelles de la CEDF !
+                </p>
+              </div>
+
+              <!-- Informations du nouvel abonné -->
+              <table role="presentation" style="width: 100%; background-color: #ffffff; border: 2px solid #CD9804; border-radius: 12px;">
                 <tr>
-                  <td style="padding: 20px;">
+                  <td style="padding: 25px;">
                     <table role="presentation" style="width: 100%;">
                       <tr>
-                        <td style="padding: 8px 0;">
-                          <span style="color: #888888; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Nom complet</span>
-                          <p style="margin: 4px 0 0 0; color: #333333; font-size: 16px; font-weight: 600;">${escapeHtml(data.name)}</p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 8px 0;">
-                          <span style="color: #888888; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Email</span>
-                          <p style="margin: 4px 0 0 0;">
-                            <a href="mailto:${escapeHtml(data.email)}" style="color: #A90B0C; font-size: 16px; text-decoration: none; font-weight: 500;">${escapeHtml(data.email)}</a>
+                        <td style="padding: 10px 0;">
+                          <span style="color: #888888; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Adresse email</span>
+                          <p style="margin: 8px 0 0 0;">
+                            <a href="mailto:${escapeHtml(data.email)}" style="color: #A90B0C; font-size: 18px; text-decoration: none; font-weight: 600;">${escapeHtml(data.email)}</a>
                           </p>
-                        </td>
-                      </tr>
-                      ${data.phone ? `
-                      <tr>
-                        <td style="padding: 8px 0;">
-                          <span style="color: #888888; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Téléphone</span>
-                          <p style="margin: 4px 0 0 0; color: #333333; font-size: 16px; font-weight: 500;">${escapeHtml(data.phone)}</p>
-                        </td>
-                      </tr>
-                      ` : ''}
-                      <tr>
-                        <td style="padding: 8px 0;">
-                          <span style="color: #888888; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Sujet</span>
-                          <p style="margin: 4px 0 0 0; color: #333333; font-size: 16px; font-weight: 600;">${escapeHtml(data.subject)}</p>
                         </td>
                       </tr>
                     </table>
@@ -189,21 +151,16 @@ const createContactEmailTemplate = (data: {
                 </tr>
               </table>
 
-              <!-- Message -->
-              <div style="background-color: #ffffff; border: 2px solid #e0e0e0; border-left: 4px solid #A90B0C; border-radius: 8px; padding: 20px;">
-                <h3 style="margin: 0 0 12px 0; color: #A90B0C; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                  Message
-                </h3>
-                <p style="margin: 0; color: #444444; font-size: 15px; line-height: 1.7; white-space: pre-wrap;">${escapeHtml(data.message)}</p>
-              </div>
-
-              <!-- Bouton de réponse -->
+              <!-- Actions -->
               <table role="presentation" style="width: 100%; margin-top: 25px;">
                 <tr>
                   <td align="center">
-                    <a href="mailto:${escapeHtml(data.email)}?subject=Re: ${encodeURIComponent(data.subject)}" 
-                       style="display: inline-block; background: linear-gradient(135deg, #A90B0C 0%, #8B0A0B 100%); color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; padding: 14px 32px; border-radius: 8px; box-shadow: 0 4px 12px rgba(169, 11, 12, 0.3);">
-                      ✉️ Répondre à ${escapeHtml(data.name)}
+                    <p style="margin: 0 0 15px 0; color: #666666; font-size: 14px;">
+                      Ajoutez cet email à votre liste de diffusion newsletter
+                    </p>
+                    <a href="mailto:${escapeHtml(data.email)}?subject=Bienvenue dans la newsletter CEDF&body=Cher(e) fidèle,%0A%0AMerci pour votre inscription à notre newsletter !%0A%0AVous recevrez désormais nos actualités spirituelles, événements et enseignements.%0A%0AQue Dieu vous bénisse,%0ACEDF" 
+                       style="display: inline-block; background: linear-gradient(135deg, #CD9804 0%, #B8860B 100%); color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; padding: 14px 32px; border-radius: 8px; box-shadow: 0 4px 12px rgba(205, 152, 4, 0.3);">
+                      ✉️ Envoyer un email de bienvenue
                     </a>
                   </td>
                 </tr>
@@ -211,22 +168,36 @@ const createContactEmailTemplate = (data: {
             </td>
           </tr>
 
+          <!-- Statistiques rapides -->
+          <tr>
+            <td style="padding: 0 40px 25px 40px;">
+              <div style="background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); border-radius: 12px; padding: 20px; text-align: center;">
+                <p style="margin: 0; color: #CD9804; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                  📊 Information technique
+                </p>
+                <p style="margin: 10px 0 0 0; color: #888888; font-size: 12px;">
+                  IP: ${data.clientIP} | Source: Site web CEDF
+                </p>
+              </div>
+            </td>
+          </tr>
+
           <!-- Footer -->
           <tr>
-            <td style="background-color: #2a2a2a; padding: 25px 40px;">
+            <td style="background-color: #A90B0C; padding: 25px 40px;">
               <table role="presentation" style="width: 100%;">
                 <tr>
                   <td align="center">
                     <p style="margin: 0 0 8px 0; color: #CD9804; font-size: 14px; font-weight: 600;">
                       CEDF - Commission Épiscopale pour la Doctrine de la Foi
                     </p>
-                    <p style="margin: 0; color: #888888; font-size: 12px; line-height: 1.6;">
+                    <p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 12px; line-height: 1.6;">
                       Archidiocèse d'Abidjan - Plateau<br/>
                       Côte d'Ivoire
                     </p>
-                    <hr style="border: none; border-top: 1px solid #444444; margin: 15px 0;"/>
-                    <p style="margin: 0; color: #666666; font-size: 11px;">
-                      IP de l'expéditeur: ${data.clientIP} | Message envoyé via le site web CEDF
+                    <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 15px 0;"/>
+                    <p style="margin: 0; color: rgba(255,255,255,0.6); font-size: 11px;">
+                      Notification automatique du système d'inscription newsletter
                     </p>
                   </td>
                 </tr>
@@ -255,7 +226,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     const rateLimit = checkRateLimit(clientIP);
     if (!rateLimit.allowed) {
-      console.warn(`Rate limit exceeded for IP: ${clientIP}`);
+      console.warn(`Newsletter rate limit exceeded for IP: ${clientIP}`);
       return new Response(
         JSON.stringify({ 
           error: "Trop de tentatives. Veuillez réessayer dans 1 heure.",
@@ -266,7 +237,6 @@ const handler = async (req: Request): Promise<Response> => {
           headers: { 
             "Content-Type": "application/json",
             "Retry-After": "3600",
-            "X-RateLimit-Remaining": "0",
             ...corsHeaders 
           } 
         }
@@ -278,17 +248,17 @@ const handler = async (req: Request): Promise<Response> => {
     if (!resendApiKey) {
       console.error("RESEND_API_KEY is not configured");
       return new Response(
-        JSON.stringify({ error: "Service email non configuré. Contactez-nous par téléphone." }),
+        JSON.stringify({ error: "Service email non configuré." }),
         { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
     const body = await req.json();
-    const { name, email, phone, subject, message, honeypot, formStartTime }: ContactEmailRequest = body;
+    const { email, honeypot, formStartTime }: NewsletterEmailRequest = body;
 
     // Honeypot check
     if (honeypot && honeypot.trim() !== "") {
-      console.warn(`Honeypot triggered by IP: ${clientIP}`);
+      console.warn(`Newsletter honeypot triggered by IP: ${clientIP}`);
       return new Response(JSON.stringify({ success: true }), {
         status: 200,
         headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -298,8 +268,8 @@ const handler = async (req: Request): Promise<Response> => {
     // Timing check
     if (formStartTime) {
       const timeTaken = Date.now() - formStartTime;
-      if (timeTaken < 3000) {
-        console.warn(`Form submitted too quickly (${timeTaken}ms) by IP: ${clientIP}`);
+      if (timeTaken < 2000) {
+        console.warn(`Newsletter form submitted too quickly (${timeTaken}ms) by IP: ${clientIP}`);
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -307,10 +277,9 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
-    // Validation des champs obligatoires
-    if (!name || !email || !subject || !message) {
+    if (!email) {
       return new Response(
-        JSON.stringify({ error: "Tous les champs obligatoires doivent être remplis" }),
+        JSON.stringify({ error: "L'adresse email est requise" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
@@ -322,32 +291,8 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const cleanName = sanitizeInput(name);
-    const cleanSubject = sanitizeInput(subject);
-    const cleanMessage = sanitizeInput(message);
-    const cleanPhone = phone ? sanitizeInput(phone) : undefined;
-
-    if (containsSuspiciousContent(cleanMessage) || containsSuspiciousContent(cleanSubject)) {
-      console.warn(`Suspicious content detected from IP: ${clientIP}`);
-      return new Response(
-        JSON.stringify({ error: "Le message contient des éléments non autorisés" }),
-        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
-
-    if (cleanName.length < 2 || cleanSubject.length < 3 || cleanMessage.length < 10) {
-      return new Response(
-        JSON.stringify({ error: "Les champs ne respectent pas la longueur minimale requise" }),
-        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
-
-    const emailHtml = createContactEmailTemplate({
-      name: cleanName,
-      email,
-      phone: cleanPhone,
-      subject: cleanSubject,
-      message: cleanMessage,
+    const emailHtml = createNewsletterEmailTemplate({
+      email: email.trim().toLowerCase(),
       clientIP
     });
 
@@ -358,10 +303,9 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "CEDF Contact <onboarding@resend.dev>",
+        from: "CEDF Newsletter <onboarding@resend.dev>",
         to: ["contact@cedfci.org"],
-        reply_to: email,
-        subject: `[CEDF Contact] ${cleanSubject}`,
+        subject: `[CEDF Newsletter] Nouvelle inscription: ${email}`,
         html: emailHtml,
       }),
     });
@@ -369,22 +313,21 @@ const handler = async (req: Request): Promise<Response> => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Resend API error:", errorText);
-      throw new Error("Erreur lors de l'envoi de l'email");
+      throw new Error("Erreur lors de l'envoi de la notification");
     }
 
-    console.log(`Contact email sent successfully from IP: ${clientIP}`);
+    console.log(`Newsletter signup notification sent for: ${email} from IP: ${clientIP}`);
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: { 
         "Content-Type": "application/json",
-        "X-RateLimit-Remaining": String(rateLimit.remaining),
         ...corsHeaders 
       },
     });
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Une erreur est survenue";
-    console.error("Error processing contact form:", errorMessage);
+    console.error("Error processing newsletter signup:", errorMessage);
     return new Response(
       JSON.stringify({ error: errorMessage }),
       { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
