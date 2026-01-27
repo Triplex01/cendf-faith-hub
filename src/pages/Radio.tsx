@@ -1,5 +1,5 @@
 import PageLayout from "@/components/PageLayout";
-import { Play, Pause, Headphones, Clock, Calendar, Radio as RadioIcon, MapPin, ArrowRight, Volume2, X, Tv } from "lucide-react";
+import { Play, Pause, Headphones, Clock, Calendar, Radio as RadioIcon, MapPin, ArrowRight, Volume2, X, Tv, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 import { BreadcrumbSchema, RadioStationSchema } from "@/components/StructuredData";
@@ -12,10 +12,11 @@ import logoRadioSanwi from "@/assets/logo-radio-sanwi.png";
 import logoEcclesiaTv from "@/assets/logo-ecclesia-tv.png";
 import podcastEnseignant from "@/assets/podcast-enseignant.jpg";
 import podcastCatholique from "@/assets/podcast-catholique.jpg";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import EcclesiaTVPlayer from "@/components/EcclesiaTVPlayer";
+import { useRadio, RADIO_STATIONS } from "@/contexts/RadioContext";
 import {
   Dialog,
   DialogContent,
@@ -169,46 +170,28 @@ const podcasts: Podcast[] = [
 ];
 
 const Radio = () => {
-  const [playingRadio, setPlayingRadio] = useState<string | null>(null);
-  const [loadingRadio, setLoadingRadio] = useState<string | null>(null);
+  const { isPlaying, isLoading, currentStation, toggle } = useRadio();
   const [selectedEmission, setSelectedEmission] = useState<Emission | null>(null);
   const [selectedPodcast, setSelectedPodcast] = useState<Podcast | null>(null);
   const [isPodcastPlaying, setIsPodcastPlaying] = useState(false);
   const [podcastProgress, setPodcastProgress] = useState(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Get the matching station from RADIO_STATIONS for toggle
   const handleToggleRadio = (radio: CatholicRadio) => {
-    if (playingRadio === radio.id) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-      setPlayingRadio(null);
-    } else {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      
-      setLoadingRadio(radio.id);
-      const audio = new Audio(radio.streamUrl);
-      audio.volume = 0.8;
-      
-      audio.oncanplay = () => {
-        setLoadingRadio(null);
-        setPlayingRadio(radio.id);
-      };
-      
-      audio.onerror = () => {
-        setLoadingRadio(null);
-        setPlayingRadio(null);
-      };
-      
-      audio.play().catch(() => {
-        setLoadingRadio(null);
-      });
-      
-      audioRef.current = audio;
+    const station = RADIO_STATIONS.find(s => s.id === radio.id);
+    if (station) {
+      toggle(station);
     }
+  };
+
+  // Check if a specific radio is playing
+  const isRadioPlaying = (radioId: string) => {
+    return isPlaying && currentStation?.id === radioId;
+  };
+
+  // Check if a specific radio is loading
+  const isRadioLoading = (radioId: string) => {
+    return isLoading && currentStation?.id === radioId;
   };
 
   // Simulate podcast progress
@@ -329,7 +312,7 @@ const Radio = () => {
               <div
                 key={radio.id}
                 className={`relative rounded-2xl p-6 border-2 transition-all duration-300 ${
-                  playingRadio === radio.id
+                  isRadioPlaying(radio.id)
                     ? "bg-primary/20 border-primary shadow-lg shadow-primary/20"
                     : "bg-white/5 border-white/10 hover:border-primary/40"
                 }`}
@@ -362,19 +345,19 @@ const Radio = () => {
                 {/* Play Button */}
                 <button
                   onClick={() => handleToggleRadio(radio)}
-                  disabled={loadingRadio === radio.id}
+                  disabled={isRadioLoading(radio.id)}
                   className={`w-full py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-                    playingRadio === radio.id
+                    isRadioPlaying(radio.id)
                       ? "bg-primary text-white"
                       : "bg-white/10 hover:bg-white/20 text-white"
                   }`}
                 >
-                  {loadingRadio === radio.id ? (
+                  {isRadioLoading(radio.id) ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       Connexion...
                     </>
-                  ) : playingRadio === radio.id ? (
+                  ) : isRadioPlaying(radio.id) ? (
                     <>
                       <Pause className="w-5 h-5" />
                       En lecture
@@ -388,7 +371,7 @@ const Radio = () => {
                 </button>
 
                 {/* Live Badge */}
-                {playingRadio === radio.id && (
+                {isRadioPlaying(radio.id) && (
                   <div className="absolute top-4 right-4 flex items-center gap-1 px-2 py-1 bg-secondary rounded-full text-xs font-bold">
                     <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
                     LIVE

@@ -5,17 +5,25 @@ import { Play, Pause, Volume2, VolumeX, X, Radio, Tv, Loader2, ExternalLink, Mov
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { motion, AnimatePresence, useDragControls, PanInfo } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, forwardRef } from "react";
 import Hls from "hls.js";
 import logoEcclesiaTv from "@/assets/logo-ecclesia-tv.png";
 import logoRadioEspoir from "@/assets/logo-radio-espoir.png";
+import logoRnc from "@/assets/logo-rnc.png";
+import logoRadioSanwi from "@/assets/logo-radio-sanwi.png";
 
 const ECCLESIA_TV_STREAM_URL = "https://video1.getstreamhosting.com:1936/8018/8018/playlist.m3u8";
+
+// Logos par station
+const RADIO_LOGOS: Record<string, string> = {
+  "espoir": logoRadioEspoir,
+  "voix-evangile": logoRnc,
+  "paix-sanwi": logoRadioSanwi,
+};
 
 // Hook for draggable position
 const useDraggablePosition = (initialPosition: { x: number; y: number }) => {
   const [position, setPosition] = useState(initialPosition);
-  const constraintsRef = useRef<HTMLDivElement>(null);
   
   const handleDragEnd = (_: any, info: PanInfo) => {
     setPosition(prev => ({
@@ -24,17 +32,14 @@ const useDraggablePosition = (initialPosition: { x: number; y: number }) => {
     }));
   };
   
-  return { position, setPosition, handleDragEnd, constraintsRef };
+  return { position, setPosition, handleDragEnd };
 };
 
 // Composant pour l'aperçu TV flottant avec vidéo en direct
-const FloatingTVPlayer = ({ 
-  onClose, 
-  onNavigate 
-}: { 
+const FloatingTVPlayer = forwardRef<HTMLDivElement, { 
   onClose: () => void; 
   onNavigate: () => void;
-}) => {
+}>(({ onClose, onNavigate }, ref) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -82,6 +87,7 @@ const FloatingTVPlayer = ({
 
   return (
     <motion.div
+      ref={ref}
       drag
       dragControls={dragControls}
       dragMomentum={false}
@@ -89,7 +95,7 @@ const FloatingTVPlayer = ({
       onDragEnd={handleDragEnd}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1, x: position.x, y: position.y }}
-      exit={{ y: 100, opacity: 0, scale: 0.9 }}
+      exit={{ opacity: 0, scale: 0.9 }}
       transition={{ type: "spring", damping: 20, stiffness: 300 }}
       className="fixed bottom-24 right-6 z-50 cursor-grab active:cursor-grabbing"
       style={{ touchAction: "none" }}
@@ -97,7 +103,7 @@ const FloatingTVPlayer = ({
       <div className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-elegant overflow-hidden w-[340px]">
         {/* Drag Handle + Header */}
         <div 
-          className="bg-gradient-to-r from-[#1a1a2e] to-[#16213e] p-3 flex items-center justify-between"
+          className="bg-gradient-to-r from-[#1a1a2e] to-[#16213e] p-3 flex items-center justify-between cursor-grab"
           onPointerDown={(e) => dragControls.start(e)}
         >
           <div className="flex items-center gap-3">
@@ -184,20 +190,20 @@ const FloatingTVPlayer = ({
       </div>
     </motion.div>
   );
-};
+});
+
+FloatingTVPlayer.displayName = "FloatingTVPlayer";
 
 // Composant pour le player radio flottant déplaçable
-const FloatingRadioPlayer = ({ 
-  onClose,
-  onNavigate 
-}: { 
+const FloatingRadioPlayer = forwardRef<HTMLDivElement, { 
   onClose: () => void;
   onNavigate: () => void;
-}) => {
+}>(({ onClose, onNavigate }, ref) => {
   const {
     isPlaying,
     isLoading,
     volume,
+    currentStation,
     currentProgram,
     error,
     toggle,
@@ -208,8 +214,12 @@ const FloatingRadioPlayer = ({
   const dragControls = useDragControls();
   const { position, handleDragEnd } = useDraggablePosition({ x: 0, y: 0 });
 
+  // Get logo for current station
+  const currentLogo = currentStation ? RADIO_LOGOS[currentStation.id] || logoRadioEspoir : logoRadioEspoir;
+
   return (
     <motion.div
+      ref={ref}
       drag
       dragControls={dragControls}
       dragMomentum={false}
@@ -217,27 +227,31 @@ const FloatingRadioPlayer = ({
       onDragEnd={handleDragEnd}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1, x: position.x, y: position.y }}
-      exit={{ y: 100, opacity: 0, scale: 0.9 }}
+      exit={{ opacity: 0, scale: 0.9 }}
       transition={{ type: "spring", damping: 20, stiffness: 300 }}
       className="fixed bottom-24 left-6 z-50 cursor-grab active:cursor-grabbing"
       style={{ touchAction: "none" }}
     >
-      <div className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-elegant overflow-hidden w-[300px]">
+      <div className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-elegant overflow-hidden w-[320px]">
         {/* Drag Handle + Header */}
         <div 
-          className="bg-gradient-burgundy p-3 flex items-center justify-between"
+          className="bg-gradient-burgundy p-3 flex items-center justify-between cursor-grab"
           onPointerDown={(e) => dragControls.start(e)}
         >
           <div className="flex items-center gap-3">
             <Move className="w-4 h-4 text-white/50" />
-            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
-              <img src={logoRadioEspoir} alt="Radio Espoir" className="w-7 h-7 object-contain" />
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden p-1">
+              <img src={currentLogo} alt={currentStation?.name || "Radio"} className="w-full h-full object-contain" />
             </div>
             <div>
-              <p className="text-primary-foreground font-bold text-sm">Radio Espoir</p>
+              <p className="text-primary-foreground font-bold text-sm">
+                {currentStation?.name || "Radio Catholique"}
+              </p>
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-primary-foreground/80 text-xs">102.8 FM</span>
+                {isPlaying && <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />}
+                <span className="text-primary-foreground/80 text-xs">
+                  {currentStation?.frequency || "En direct"}
+                </span>
               </div>
             </div>
           </div>
@@ -254,60 +268,69 @@ const FloatingRadioPlayer = ({
         {/* Content */}
         <div className="p-4">
           {/* Visualizer Animation */}
-          <div className="flex items-center justify-center gap-1 h-12 mb-4 bg-muted/30 rounded-lg p-2">
+          <div className="flex items-center justify-center gap-1 h-14 mb-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl p-3">
             {isPlaying ? (
-              [...Array(12)].map((_, i) => (
+              [...Array(16)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="w-1.5 bg-gradient-to-t from-primary to-primary/60 rounded-full"
+                  className="w-1.5 bg-gradient-to-t from-primary via-primary to-secondary rounded-full"
                   animate={{
-                    height: [8, 20 + Math.random() * 20, 8],
+                    height: [6, 16 + Math.random() * 24, 6],
                   }}
                   transition={{
-                    duration: 0.5 + Math.random() * 0.3,
+                    duration: 0.4 + Math.random() * 0.4,
                     repeat: Infinity,
                     ease: "easeInOut",
-                    delay: i * 0.05,
+                    delay: i * 0.03,
                   }}
                 />
               ))
+            ) : isLoading ? (
+              <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                <span>Connexion...</span>
+              </div>
             ) : (
               <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                <Radio className="w-4 h-4" />
+                <Radio className="w-5 h-5" />
                 <span>En pause</span>
               </div>
             )}
           </div>
 
           {/* Program info */}
-          <div className="bg-muted/50 rounded-lg p-3 mb-4">
-            <p className="text-sm font-medium text-foreground truncate">{currentProgram}</p>
+          <div className="bg-muted/50 rounded-xl p-3 mb-4">
+            <p className="text-sm font-semibold text-foreground truncate">{currentProgram}</p>
             <p className="text-xs text-muted-foreground">La foi à portée d'écoute</p>
           </div>
 
           {error && (
-            <p className="text-xs text-destructive mb-3">{error}</p>
+            <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-2 mb-3">
+              <p className="text-xs text-destructive">{error}</p>
+            </div>
           )}
 
           {/* Controls */}
           <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
+              {/* Play/Pause Button */}
               <Button
                 variant="burgundy"
                 size="icon"
-                className="h-12 w-12 rounded-full"
-                onClick={toggle}
+                className="h-14 w-14 rounded-full shadow-lg"
+                onClick={() => toggle()}
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-6 h-6 animate-spin" />
                 ) : isPlaying ? (
-                  <Pause className="w-5 h-5" />
+                  <Pause className="w-6 h-6" />
                 ) : (
-                  <Play className="w-5 h-5 ml-0.5" />
+                  <Play className="w-6 h-6 ml-0.5" />
                 )}
               </Button>
 
+              {/* Volume Control */}
               <div 
                 className="flex items-center gap-2"
                 onMouseEnter={() => setShowVolumeSlider(true)}
@@ -316,35 +339,44 @@ const FloatingRadioPlayer = ({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-10 w-10 rounded-full"
                   onClick={() => setVolume(volume > 0 ? 0 : 0.75)}
                 >
                   {volume === 0 ? (
-                    <VolumeX className="w-4 h-4" />
+                    <VolumeX className="w-5 h-5" />
                   ) : (
-                    <Volume2 className="w-4 h-4" />
+                    <Volume2 className="w-5 h-5" />
                   )}
                 </Button>
-                {showVolumeSlider && (
-                  <div className="w-16">
-                    <Slider
-                      value={[volume * 100]}
-                      onValueChange={([val]) => setVolume(val / 100)}
-                      max={100}
-                      step={1}
-                    />
-                  </div>
-                )}
+                <AnimatePresence>
+                  {showVolumeSlider && (
+                    <motion.div
+                      initial={{ width: 0, opacity: 0 }}
+                      animate={{ width: 80, opacity: 1 }}
+                      exit={{ width: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <Slider
+                        value={[volume * 100]}
+                        onValueChange={([val]) => setVolume(val / 100)}
+                        max={100}
+                        step={1}
+                        className="w-20"
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
+            {/* Navigate to Radio Page */}
             <Button
               variant="outline"
               size="sm"
-              className="gap-1.5 h-8 text-xs"
+              className="gap-1.5 h-9"
               onClick={onNavigate}
             >
-              <Radio className="w-3 h-3" />
+              <Radio className="w-4 h-4" />
               Radio
             </Button>
           </div>
@@ -352,7 +384,9 @@ const FloatingRadioPlayer = ({
       </div>
     </motion.div>
   );
-};
+});
+
+FloatingRadioPlayer.displayName = "FloatingRadioPlayer";
 
 const FloatingMediaPlayer = () => {
   const location = useLocation();
