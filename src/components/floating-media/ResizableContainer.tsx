@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, forwardRef } from "react";
 import { motion, useDragControls, PanInfo } from "framer-motion";
 import { Minimize2, Maximize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,12 +23,12 @@ const MOBILE_SIZE_PRESETS = {
   large: { width: 260, scale: 0.9 },
 };
 
-export const ResizableContainer = ({
+export const ResizableContainer = forwardRef<HTMLDivElement, ResizableContainerProps>(({
   children,
   initialSize = "small",
   position = "left",
   className = "",
-}: ResizableContainerProps) => {
+}, ref) => {
   const isMobile = useIsMobile();
   const [currentSize, setCurrentSize] = useState<"small" | "medium" | "large">(initialSize);
   const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
@@ -103,6 +103,8 @@ export const ResizableContainer = ({
       </motion.div>
     </motion.div>
   );
-};
+});
+
+ResizableContainer.displayName = "ResizableContainer";
 
 export default ResizableContainer;

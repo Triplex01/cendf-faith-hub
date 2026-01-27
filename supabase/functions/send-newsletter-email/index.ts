@@ -49,6 +49,9 @@ const escapeHtml = (str: string): string => {
     .replace(/'/g, '&#039;');
 };
 
+// URL du logo CEDF hébergé sur Supabase Storage
+const LOGO_URL = "https://tcopofuxtzqpwryantou.supabase.co/storage/v1/object/public/email-assets/logo-cedf.png?v=1";
+
 // Template email professionnel pour inscription newsletter
 const createNewsletterEmailTemplate = (data: {
   email: string;
@@ -77,19 +80,17 @@ const createNewsletterEmailTemplate = (data: {
       <td align="center" style="padding: 40px 20px;">
         <table role="presentation" style="width: 100%; max-width: 600px; border-collapse: collapse; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); overflow: hidden;">
           
-          <!-- Header avec logo et branding -->
+          <!-- Header avec logo -->
           <tr>
             <td style="background: linear-gradient(135deg, #CD9804 0%, #B8860B 100%); padding: 30px 40px; text-align: center;">
               <table role="presentation" style="width: 100%;">
                 <tr>
                   <td align="center">
-                    <div style="width: 70px; height: 70px; background-color: #ffffff; border-radius: 50%; display: inline-block; margin-bottom: 15px;">
-                      <img src="https://tcopofuxtzqpwryantou.supabase.co/storage/v1/object/public/email-assets/logo-cedf.png" alt="CEDF Logo" style="width: 50px; height: 50px; margin-top: 10px;" onerror="this.style.display='none'"/>
-                    </div>
-                    <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: 0.5px;">
+                    <img src="${LOGO_URL}" alt="CEDF Logo" style="width: 80px; height: 80px; border-radius: 50%; background-color: #ffffff; padding: 8px; margin-bottom: 15px;"/>
+                    <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">
                       Commission Épiscopale pour la Doctrine de la Foi
                     </h1>
-                    <p style="margin: 8px 0 0 0; color: #A90B0C; font-size: 14px; font-weight: 600; background-color: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 12px; display: inline-block;">
+                    <p style="margin: 8px 0 0 0; color: #A90B0C; font-size: 13px; font-weight: 600; background-color: rgba(255,255,255,0.95); padding: 4px 12px; border-radius: 12px; display: inline-block;">
                       Côte d'Ivoire
                     </p>
                   </td>
@@ -104,7 +105,7 @@ const createNewsletterEmailTemplate = (data: {
               <table role="presentation" style="width: 100%;">
                 <tr>
                   <td>
-                    <span style="display: inline-block; background: linear-gradient(135deg, #A90B0C 0%, #8B0A0B 100%); color: #ffffff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border-radius: 20px;">
+                    <span style="display: inline-block; background: linear-gradient(135deg, #CD9804 0%, #A68303 100%); color: #ffffff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 8px 16px; border-radius: 20px;">
                       📰 Inscription Newsletter
                     </span>
                     <p style="margin: 12px 0 0 0; color: #666666; font-size: 13px;">
@@ -119,10 +120,13 @@ const createNewsletterEmailTemplate = (data: {
           <!-- Contenu principal -->
           <tr>
             <td style="padding: 25px 40px;">
-              <h2 style="margin: 0 0 20px 0; color: #CD9804; font-size: 20px; font-weight: 600; border-bottom: 2px solid #A90B0C; padding-bottom: 10px;">
+              <h2 style="margin: 0 0 20px 0; color: #CD9804; font-size: 20px; font-weight: 600; border-bottom: 2px solid #CD9804; padding-bottom: 10px;">
                 🎉 Nouvelle inscription !
               </h2>
 
+              <!-- Message de bienvenue -->
+              <div style="background: linear-gradient(135deg, #FDF6E3 0%, #F5EED6 100%); border-radius: 12px; padding: 25px; margin-bottom: 20px; text-align: center; border-left: 4px solid #CD9804;">
+                <img src="${LOGO_URL}" alt="CEDF" style="width: 50px; height: 50px; border-radius: 50%; margin-bottom: 15px;"/>
               <!-- Message de bienvenue -->
               <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 12px; padding: 25px; margin-bottom: 20px; text-align: center;">
                 <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #A90B0C 0%, #8B0A0B 100%); border-radius: 50%; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center;">
