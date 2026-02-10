@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   ShoppingCart, 
   Heart,
@@ -13,7 +15,9 @@ import {
   Minus,
   Plus,
   Trash2,
-  Smartphone
+  Smartphone,
+  Loader2,
+  CheckCircle2
 } from "lucide-react";
 import {
   Dialog,
@@ -103,14 +107,28 @@ const categories = ["Tous", "Chapelets", "Livres", "Médailles", "Décoration", 
 
 const Boutique = () => {
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
   const { cart, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal } = useCart();
   const [selectedCategory, setSelectedCategory] = useState("Tous");
   const [searchQuery, setSearchQuery] = useState("");
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"orange" | "wave">("orange");
   const [wishlist, setWishlist] = useState<number[]>([]);
+
+  // Handle payment success return
+  useEffect(() => {
+    if (searchParams.get("payment") === "success") {
+      toast({
+        title: "✅ Paiement réussi",
+        description: "Votre commande a été confirmée. Merci pour votre achat !",
+      });
+      clearCart();
+    }
+  }, [searchParams]);
 
   // Gérer les favoris
   const toggleWishlist = (productId: number) => {
@@ -162,12 +180,12 @@ const Boutique = () => {
     }).format(price);
   };
 
-  // Processus de paiement
+  // Processus de paiement via PayDunya
   const handlePayment = async () => {
-    if (!phoneNumber) {
+    if (!phoneNumber || phoneNumber.length < 8) {
       toast({
         title: "Erreur",
-        description: `Veuillez entrer votre numéro ${paymentMethod === "orange" ? "Orange Money" : "Wave"}`,
+        description: "Veuillez entrer un numéro de téléphone valide",
         variant: "destructive",
       });
       return;
@@ -176,22 +194,38 @@ const Boutique = () => {
     setIsProcessing(true);
 
     try {
-      // Simulation d'appel API - Numéro de simulation: 0787830395
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      toast({
-        title: "Paiement initié",
-        description: `Confirmez le paiement sur votre téléphone ${paymentMethod === "orange" ? "Orange Money" : "Wave"}. Numéro marchand: 0787830395`,
+      const { data, error } = await supabase.functions.invoke("paydunya-checkout", {
+        body: {
+          items: cart.map(item => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+          })),
+          totalAmount: cartTotal,
+          customerName,
+          customerEmail,
+          customerPhone: phoneNumber,
+        },
       });
 
-      // Réinitialiser
-      clearCart();
-      setIsPaymentOpen(false);
-      setPhoneNumber("");
+      if (error) throw error;
+
+      if (data?.success && data?.url) {
+        toast({
+          title: "Redirection vers PayDunya",
+          description: "Vous allez être redirigé vers la page de paiement sécurisée...",
+        });
+        // Redirect to PayDunya payment page
+        window.location.href = data.url;
+      } else {
+        throw new Error(data?.error || "Erreur lors de la création du paiement");
+      }
     } catch (error) {
+      console.error("Payment error:", error);
       toast({
         title: "Erreur de paiement",
-        description: "Une erreur est survenue. Veuillez réessayer.",
+        description: error instanceof Error ? error.message : "Une erreur est survenue. Veuillez réessayer.",
         variant: "destructive",
       });
     } finally {
@@ -390,14 +424,35 @@ const Boutique = () => {
         </div>
       </section>
 
-      {/* Payment Modal - Amélioré avec logos Mobile Money */}
+      {/* Payment Modal - PayDunya */}
       <Dialog open={isPaymentOpen} onOpenChange={setIsPaymentOpen}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-center text-xl font-display">
-              Paiement Mobile Money
+              Paiement sécurisé via PayDunya
             </DialogTitle>
           </DialogHeader>
+
+          {/* Customer Info */}
+          <div className="space-y-3 mb-4">
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-1">Nom complet</label>
+              <Input
+                placeholder="Votre nom"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-1">Email (optionnel)</label>
+              <Input
+                type="email"
+                placeholder="votre@email.com"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+              />
+            </div>
+          </div>
 
           {/* Logos Mobile Money */}
           <div className="flex justify-center mb-4">
@@ -594,17 +649,25 @@ const Boutique = () => {
             variant="burgundy"
             className="w-full gap-2 mt-4"
             onClick={handlePayment}
-            disabled={isProcessing}
+            disabled={isProcessing || !phoneNumber}
           >
             {isProcessing ? (
-              "Traitement en cours..."
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Redirection vers PayDunya...
+              </>
             ) : (
               <>
-                Confirmer le paiement
+                <CheckCircle2 className="w-4 h-4" />
+                Payer {formatPrice(cartTotal)} via PayDunya
                 <ChevronRight className="w-4 h-4" />
               </>
             )}
           </Button>
+
+          <p className="text-xs text-center text-muted-foreground mt-2">
+            🔒 Paiement sécurisé via PayDunya — Mode Test
+          </p>
         </DialogContent>
       </Dialog>
     </PageLayout>
