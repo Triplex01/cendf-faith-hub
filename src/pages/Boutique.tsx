@@ -119,16 +119,7 @@ const Boutique = () => {
   const [paymentMethod, setPaymentMethod] = useState<"orange" | "wave">("orange");
   const [wishlist, setWishlist] = useState<number[]>([]);
 
-  // Handle payment success return
-  useEffect(() => {
-    if (searchParams.get("payment") === "success") {
-      toast({
-        title: "✅ Paiement réussi",
-        description: "Votre commande a été confirmée. Merci pour votre achat !",
-      });
-      clearCart();
-    }
-  }, [searchParams]);
+  // Payment success is now handled by /confirmation-commande page
 
   // Gérer les favoris
   const toggleWishlist = (productId: number) => {
