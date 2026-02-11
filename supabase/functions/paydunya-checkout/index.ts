@@ -14,9 +14,10 @@ serve(async (req) => {
   try {
     const MASTER_KEY = Deno.env.get("PAYDUNYA_MASTER_KEY");
     const PRIVATE_KEY = Deno.env.get("PAYDUNYA_PRIVATE_KEY");
+    const PUBLIC_KEY = Deno.env.get("PAYDUNYA_PUBLIC_KEY");
     const TOKEN = Deno.env.get("PAYDUNYA_TOKEN");
 
-    if (!MASTER_KEY || !PRIVATE_KEY || !TOKEN) {
+    if (!MASTER_KEY || !PRIVATE_KEY || !PUBLIC_KEY || !TOKEN) {
       throw new Error("PayDunya keys not configured");
     }
 
@@ -63,6 +64,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
         "PAYDUNYA-MASTER-KEY": MASTER_KEY,
         "PAYDUNYA-PRIVATE-KEY": PRIVATE_KEY,
+        "PAYDUNYA-PUBLIC-KEY": PUBLIC_KEY,
         "PAYDUNYA-TOKEN": TOKEN,
       },
       body: JSON.stringify({
