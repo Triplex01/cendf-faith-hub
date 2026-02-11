@@ -89,7 +89,7 @@ serve(async (req) => {
         },
         actions: {
           cancel_url: "https://cendf-faith-hub.lovable.app/boutique",
-          return_url: "https://cendf-faith-hub.lovable.app/boutique?payment=success",
+          return_url: "https://cendf-faith-hub.lovable.app/confirmation-commande",
           callback_url: "https://cendf-faith-hub.lovable.app/boutique",
         },
       }),
