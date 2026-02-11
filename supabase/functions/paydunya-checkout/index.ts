@@ -21,6 +21,7 @@ serve(async (req) => {
       throw new Error("PayDunya keys not configured");
     }
 
+
     const { items, totalAmount, customerName, customerEmail, customerPhone } = await req.json();
 
     // Validate inputs

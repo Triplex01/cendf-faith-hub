@@ -25,14 +25,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import basiliqueCover from "@/assets/basilique-notredame.jpg";
 import productChapelet from "@/assets/product-chapelet.jpg";
 import bookDictionnaire from "@/assets/book-dictionnaire-theologie.png";
 import bookOecumenisme from "@/assets/book-oecumenisme.jpg";
 import bookAmour from "@/assets/book-amour-foi.jpg";
 import booksManuelCredo from "@/assets/books-manuel-credo.jpg";
-import mobileMoneyLogos from "@/assets/mobile-money-logos.jpg";
+import paydunyaPaymentMethods from "@/assets/paydunya-payment-methods.png";
 
 // Types pour les produits
 interface Product {
@@ -454,196 +454,62 @@ const Boutique = () => {
             </div>
           </div>
 
-          {/* Logos Mobile Money */}
+          {/* Logos PayDunya - Moyens de paiement acceptés */}
           <div className="flex justify-center mb-4">
-            <div className="bg-muted/50 rounded-xl p-4">
+            <div className="bg-muted/50 rounded-xl p-4 w-full">
               <img 
-                src={mobileMoneyLogos} 
-                alt="Orange Money, MTN Mobile Money, Moov Money, Wave"
-                className="h-16 object-contain"
+                src={paydunyaPaymentMethods} 
+                alt="Orange Money, Mixx, Wave, Visa, Mastercard, E-Money, Wizall, MTN, Moov"
+                className="h-14 mx-auto object-contain"
               />
               <p className="text-xs text-center text-muted-foreground mt-2">
-                Modes de paiement acceptés
+                Moyens de paiement acceptés via PayDunya
               </p>
             </div>
           </div>
 
-          <Tabs defaultValue="orange" onValueChange={(v) => setPaymentMethod(v as "orange" | "wave")}>
-            <TabsList className="grid w-full grid-cols-4 h-auto p-1">
-              <TabsTrigger value="orange" className="flex flex-col gap-1 py-2">
-                <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">OM</span>
-                </div>
-                <span className="text-xs">Orange</span>
-              </TabsTrigger>
-              <TabsTrigger value="mtn" className="flex flex-col gap-1 py-2">
-                <div className="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center">
-                  <span className="text-black font-bold text-xs">MTN</span>
-                </div>
-                <span className="text-xs">MTN</span>
-              </TabsTrigger>
-              <TabsTrigger value="moov" className="flex flex-col gap-1 py-2">
-                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">M</span>
-                </div>
-                <span className="text-xs">Moov</span>
-              </TabsTrigger>
-              <TabsTrigger value="wave" className="flex flex-col gap-1 py-2">
-                <div className="w-8 h-8 rounded-full bg-cyan-500 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">W</span>
-                </div>
-                <span className="text-xs">Wave</span>
-              </TabsTrigger>
-            </TabsList>
+          {/* Montant */}
+          <div className="p-4 bg-gradient-to-r from-primary to-primary/80 rounded-xl text-primary-foreground">
+            <p className="text-sm text-primary-foreground/80 mb-1">Montant à payer</p>
+            <p className="font-display text-3xl font-bold">
+              {formatPrice(cartTotal)}
+            </p>
+            <p className="text-xs text-primary-foreground/60 mt-1">
+              {cart.length} article(s) dans votre panier
+            </p>
+          </div>
 
-            <TabsContent value="orange" className="space-y-4 mt-4">
-              <div className="p-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl text-white">
-                <p className="text-sm text-white/80 mb-1">Montant à payer</p>
-                <p className="font-display text-3xl font-bold">
-                  {formatPrice(cartTotal)}
-                </p>
-              </div>
+          {/* Numéro de téléphone */}
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-foreground mb-2">
+              <Phone className="w-4 h-4 inline mr-1" />
+              Numéro de téléphone
+            </label>
+            <Input
+              type="tel"
+              placeholder="07 XX XX XX XX"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              className="text-lg"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Entrez votre numéro Mobile Money pour le paiement
+            </p>
+          </div>
 
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Numéro Orange Money
-                </label>
-                <Input
-                  type="tel"
-                  placeholder="07 87 83 03 95"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="text-lg"
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  📱 Numéro marchand: <strong>0787830395</strong>
-                </p>
-              </div>
-
-              <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800">
-                <h4 className="font-semibold text-orange-700 dark:text-orange-300 mb-2 flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  Instructions Orange Money
-                </h4>
-                <ol className="text-sm text-orange-600 dark:text-orange-400 space-y-2 list-decimal list-inside">
-                  <li>Composez <strong>#144#</strong> ou ouvrez l'app Orange Money</li>
-                  <li>Sélectionnez "Paiement marchand"</li>
-                  <li>Entrez le code marchand et confirmez avec votre PIN</li>
-                </ol>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="mtn" className="space-y-4 mt-4">
-              <div className="p-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-xl text-black">
-                <p className="text-sm text-black/70 mb-1">Montant à payer</p>
-                <p className="font-display text-3xl font-bold">
-                  {formatPrice(cartTotal)}
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Numéro MTN Mobile Money
-                </label>
-                <Input
-                  type="tel"
-                  placeholder="05 XX XX XX XX"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="text-lg"
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  📱 Numéro marchand: <strong>0787830395</strong>
-                </p>
-              </div>
-
-              <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-xl border border-yellow-200 dark:border-yellow-800">
-                <h4 className="font-semibold text-yellow-700 dark:text-yellow-300 mb-2 flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  Instructions MTN MoMo
-                </h4>
-                <ol className="text-sm text-yellow-700 dark:text-yellow-400 space-y-2 list-decimal list-inside">
-                  <li>Composez <strong>*133#</strong> ou ouvrez l'app MoMo</li>
-                  <li>Sélectionnez "Payer un marchand"</li>
-                  <li>Entrez le code et validez avec votre PIN</li>
-                </ol>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="moov" className="space-y-4 mt-4">
-              <div className="p-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl text-white">
-                <p className="text-sm text-white/80 mb-1">Montant à payer</p>
-                <p className="font-display text-3xl font-bold">
-                  {formatPrice(cartTotal)}
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Numéro Moov Money
-                </label>
-                <Input
-                  type="tel"
-                  placeholder="01 XX XX XX XX"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="text-lg"
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  📱 Numéro marchand: <strong>0787830395</strong>
-                </p>
-              </div>
-
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800">
-                <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-2 flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  Instructions Moov Money
-                </h4>
-                <ol className="text-sm text-blue-600 dark:text-blue-400 space-y-2 list-decimal list-inside">
-                  <li>Composez <strong>*155#</strong> ou ouvrez l'app Moov Money</li>
-                  <li>Sélectionnez "Paiement"</li>
-                  <li>Entrez le code marchand et confirmez</li>
-                </ol>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="wave" className="space-y-4 mt-4">
-              <div className="p-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl text-white">
-                <p className="text-sm text-white/80 mb-1">Montant à payer</p>
-                <p className="font-display text-3xl font-bold">
-                  {formatPrice(cartTotal)}
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Numéro Wave
-                </label>
-                <Input
-                  type="tel"
-                  placeholder="07 87 83 03 95"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="text-lg"
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  📱 Numéro marchand: <strong>0787830395</strong>
-                </p>
-              </div>
-
-              <div className="bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-xl border border-cyan-200 dark:border-cyan-800">
-                <h4 className="font-semibold text-cyan-700 dark:text-cyan-300 mb-2 flex items-center gap-2">
-                  <Smartphone className="w-4 h-4" />
-                  Instructions Wave
-                </h4>
-                <ol className="text-sm text-cyan-600 dark:text-cyan-400 space-y-2 list-decimal list-inside">
-                  <li>Ouvrez l'application Wave</li>
-                  <li>Scannez le QR Code ou entrez le numéro</li>
-                  <li>Confirmez le paiement</li>
-                </ol>
-              </div>
-            </TabsContent>
-          </Tabs>
+          {/* Instructions */}
+          <div className="bg-muted/30 p-4 rounded-xl border border-border mt-4">
+            <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
+              <Smartphone className="w-4 h-4" />
+              Comment ça marche ?
+            </h4>
+            <ol className="text-sm text-muted-foreground space-y-2 list-decimal list-inside">
+              <li>Remplissez vos informations ci-dessus</li>
+              <li>Cliquez sur <strong>"Payer"</strong> pour être redirigé vers PayDunya</li>
+              <li>Choisissez votre moyen de paiement (Orange Money, Wave, MTN, Visa...)</li>
+              <li>Confirmez le paiement et recevez votre confirmation</li>
+            </ol>
+          </div>
 
           <Button
             variant="burgundy"
