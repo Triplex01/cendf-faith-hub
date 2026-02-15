@@ -59,7 +59,7 @@ serve(async (req) => {
     });
 
     // Create PayDunya checkout invoice
-    const response = await fetch("https://app.paydunya.com/sandbox-api/v1/checkout-invoice/create", {
+    const response = await fetch("https://app.paydunya.com/api/v1/checkout-invoice/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ serve(async (req) => {
           success: true,
           token: data.token,
           url: data.response_text,
-          mode: "test",
+          mode: "production",
         }),
         {
           status: 200,
