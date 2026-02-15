@@ -9,7 +9,7 @@ import EventsCitationsSection from "@/components/EventsCitationsSection";
 import PodcastSection from "@/components/PodcastSection";
 import ProgramSection from "@/components/ProgramSection";
 import Footer from "@/components/Footer";
-import NewYearPopup from "@/components/NewYearPopup";
+
 import SEO from "@/components/SEO";
 import { OrganizationSchema, WebsiteSchema, RadioStationSchema } from "@/components/StructuredData";
 
@@ -26,7 +26,7 @@ const Index = () => {
       <WebsiteSchema />
       <RadioStationSchema />
       
-      <NewYearPopup />
+      
       <Header />
       <NewsTicker />
       <div className="pt-32">
