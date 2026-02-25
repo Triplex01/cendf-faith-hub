@@ -68,17 +68,6 @@ const catholicRadios: CatholicRadio[] = [
   },
 ];
 
-const schedule = [
-  { time: "06:00", program: "Prière du Matin", type: "Prière", radio: "Toutes" },
-  { time: "08:00", program: "Ecclesia Magazine", type: "Magazine", radio: "La Voix de l'Évangile" },
-  { time: "10:00", program: "Enseignement Biblique", type: "Formation", radio: "Radio Espoir" },
-  { time: "12:00", program: "Angélus", type: "Prière", radio: "Toutes" },
-  { time: "14:00", program: "Musique Sacrée", type: "Musical", radio: "Radio Paix Sanwi" },
-  { time: "16:00", program: "Catéchèse Familiale", type: "Formation", radio: "Radio Espoir" },
-  { time: "18:00", program: "Vêpres et Adoration", type: "Prière", radio: "Toutes" },
-  { time: "20:00", program: "Débat Spirituel", type: "Talk-show", radio: "La Voix de l'Évangile" },
-];
-
 interface Emission {
   title: string;
   description: string;
@@ -176,7 +165,6 @@ const Radio = () => {
   const [isPodcastPlaying, setIsPodcastPlaying] = useState(false);
   const [podcastProgress, setPodcastProgress] = useState(0);
 
-  // Get the matching station from RADIO_STATIONS for toggle
   const handleToggleRadio = (radio: CatholicRadio) => {
     const station = RADIO_STATIONS.find(s => s.id === radio.id);
     if (station) {
@@ -184,17 +172,14 @@ const Radio = () => {
     }
   };
 
-  // Check if a specific radio is playing
   const isRadioPlaying = (radioId: string) => {
     return isPlaying && currentStation?.id === radioId;
   };
 
-  // Check if a specific radio is loading
   const isRadioLoading = (radioId: string) => {
     return isLoading && currentStation?.id === radioId;
   };
 
-  // Simulate podcast progress
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isPodcastPlaying && selectedPodcast) {
@@ -233,162 +218,13 @@ const Radio = () => {
         subtitle="La foi à portée d'écoute"
         backgroundImage={radioImage}
       >
-      {/* Section Ecclesia TV - En Direct */}
-      <section id="ecclesia-tv-section" className="py-16 bg-gradient-to-b from-deep-black to-[#1a1a2e] text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 px-4 py-1 bg-secondary/20 text-secondary rounded-full text-sm font-medium mb-4">
-              <Tv className="w-4 h-4" />
-              Télévision en Direct
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Regardez <span className="text-gradient-gold">Ecclesia TV</span>
-            </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              La chaîne de télévision catholique de Côte d'Ivoire diffuse 24h/24 
-              des programmes spirituels, des messes et des enseignements.
-            </p>
-          </div>
 
-          <div className="max-w-4xl mx-auto">
-            <EcclesiaTVPlayer />
-          </div>
-        </div>
-      </section>
-
-      {/* Section Radios en Direct avec Logos */}
-      <section className="py-16 bg-deep-black text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium mb-4">
-              Nos Partenaires
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Nos <span className="text-gradient-gold">Partenaires Médias</span>
-            </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              Écoutez en direct les radios catholiques et découvrez Ecclesia TV. 
-              Des programmes spirituels, des enseignements et de la musique sacrée 24h/24.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {/* Ecclesia TV Card */}
-            <a
-              href="https://ecclesiatv.ci/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative rounded-2xl p-6 border-2 bg-gradient-to-br from-secondary/20 to-primary/10 border-secondary/40 hover:border-secondary transition-all duration-300 group"
-            >
-              {/* TV Logo */}
-              <div className="block w-24 h-24 rounded-xl overflow-hidden bg-white mx-auto mb-4 group-hover:scale-105 transition-transform p-2">
-                <img 
-                  src={logoEcclesiaTv} 
-                  alt="Logo Ecclesia TV"
-                  className="w-full h-full object-contain"
-                />
-              </div>
-
-              {/* TV Info */}
-              <div className="text-center mb-4">
-                <h3 className="font-display font-bold text-xl mb-1">Ecclesia TV</h3>
-                <p className="text-secondary font-semibold">Chaîne TV</p>
-                <div className="flex items-center justify-center gap-1 text-gray-400 text-sm mt-1">
-                  <Tv className="w-3 h-3" />
-                  Nationale
-                </div>
-                <p className="text-gray-400 text-xs mt-2">La chaîne catholique de Côte d'Ivoire</p>
-              </div>
-
-              {/* Badge */}
-              <div className="absolute top-4 right-4 flex items-center gap-1 px-2 py-1 bg-secondary rounded-full text-xs font-bold">
-                <Tv className="w-3 h-3" />
-                TV
-              </div>
-            </a>
-
-            {/* Radio Cards */}
-            {catholicRadios.map((radio) => (
-              <div
-                key={radio.id}
-                className={`relative rounded-2xl p-6 border-2 transition-all duration-300 ${
-                  isRadioPlaying(radio.id)
-                    ? "bg-primary/20 border-primary shadow-lg shadow-primary/20"
-                    : "bg-white/5 border-white/10 hover:border-primary/40"
-                }`}
-              >
-                {/* Radio Logo */}
-                <a 
-                  href={radio.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-24 h-24 rounded-xl overflow-hidden bg-white mx-auto mb-4 hover:scale-105 transition-transform"
-                >
-                  <img 
-                    src={radio.logo} 
-                    alt={`Logo ${radio.name}`}
-                    className="w-full h-full object-contain p-2"
-                  />
-                </a>
-
-                {/* Radio Info */}
-                <div className="text-center mb-4">
-                  <h3 className="font-display font-bold text-xl mb-1">{radio.name}</h3>
-                  <p className="text-primary font-semibold">{radio.frequency}</p>
-                  <div className="flex items-center justify-center gap-1 text-gray-400 text-sm mt-1">
-                    <MapPin className="w-3 h-3" />
-                    {radio.location}
-                  </div>
-                  <p className="text-gray-400 text-xs mt-2">{radio.description}</p>
-                </div>
-
-                {/* Play Button */}
-                <button
-                  onClick={() => handleToggleRadio(radio)}
-                  disabled={isRadioLoading(radio.id)}
-                  className={`w-full py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-                    isRadioPlaying(radio.id)
-                      ? "bg-primary text-white"
-                      : "bg-white/10 hover:bg-white/20 text-white"
-                  }`}
-                >
-                  {isRadioLoading(radio.id) ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Connexion...
-                    </>
-                  ) : isRadioPlaying(radio.id) ? (
-                    <>
-                      <Pause className="w-5 h-5" />
-                      En lecture
-                    </>
-                  ) : (
-                    <>
-                      <Play className="w-5 h-5 ml-0.5" />
-                      Écouter
-                    </>
-                  )}
-                </button>
-
-                {/* Live Badge */}
-                {isRadioPlaying(radio.id) && (
-                  <div className="absolute top-4 right-4 flex items-center gap-1 px-2 py-1 bg-secondary rounded-full text-xs font-bold">
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                    LIVE
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Section Émissions Phares avec images réelles */}
+      {/* 1 - Nos Émissions */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Émissions <span className="text-primary">Phares</span>
+              Nos <span className="text-primary">Émissions</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Découvrez les émissions emblématiques de nos radios catholiques
@@ -440,7 +276,7 @@ const Radio = () => {
         </div>
       </section>
 
-      {/* Section Podcasts avec visuels et audio simulation */}
+      {/* 2 - Derniers Podcasts */}
       <section className="py-16 bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -473,14 +309,12 @@ const Radio = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   
-                  {/* Play overlay */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform group-hover:scale-110">
                       <Play className="w-6 h-6 text-white ml-1" />
                     </div>
                   </div>
 
-                  {/* Badge */}
                   <div className="absolute top-3 left-3">
                     <span className="px-2 py-1 bg-secondary text-white text-xs font-bold rounded-full flex items-center gap-1">
                       <Headphones className="w-3 h-3" />
@@ -488,7 +322,6 @@ const Radio = () => {
                     </span>
                   </div>
 
-                  {/* Info at bottom */}
                   <div className="absolute bottom-3 left-3 right-3">
                     <h3 className="font-display font-bold text-white text-sm leading-tight line-clamp-2">
                       {podcast.title}
@@ -512,33 +345,141 @@ const Radio = () => {
         </div>
       </section>
 
-      {/* Schedule */}
-      <section className="py-16 bg-muted/30">
+      {/* 3 - Partenaires Radio & TV (en fin de page) */}
+      <section id="ecclesia-tv-section" className="py-16 bg-gradient-to-b from-deep-black to-[#1a1a2e] text-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="font-display text-2xl font-bold text-foreground mb-6 flex items-center gap-3 justify-center">
-              <Calendar className="w-6 h-6 text-secondary" />
-              Programme du Jour
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 px-4 py-1 bg-secondary/20 text-secondary rounded-full text-sm font-medium mb-4">
+              <Tv className="w-4 h-4" />
+              Télévision en Direct
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+              Regardez <span className="text-gradient-gold">Ecclesia TV</span>
             </h2>
-            <div className="bg-card rounded-xl border border-border overflow-hidden">
-              {schedule.map((item, index) => (
-                <div
-                  key={index}
-                  className={`flex items-center p-4 hover:bg-muted/50 transition-colors ${
-                    index !== schedule.length - 1 ? "border-b border-border" : ""
+            <p className="text-gray-300 max-w-2xl mx-auto">
+              La chaîne de télévision catholique de Côte d'Ivoire diffuse 24h/24 
+              des programmes spirituels, des messes et des enseignements.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <EcclesiaTVPlayer />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-deep-black text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium mb-4">
+              Nos Partenaires
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+              Nos <span className="text-gradient-gold">Partenaires Médias</span>
+            </h2>
+            <p className="text-gray-300 max-w-2xl mx-auto">
+              Écoutez en direct les radios catholiques et découvrez Ecclesia TV.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {/* Ecclesia TV Card */}
+            <a
+              href="https://ecclesiatv.ci/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative rounded-2xl p-6 border-2 bg-gradient-to-br from-secondary/20 to-primary/10 border-secondary/40 hover:border-secondary transition-all duration-300 group"
+            >
+              <div className="block w-24 h-24 rounded-xl overflow-hidden bg-white mx-auto mb-4 group-hover:scale-105 transition-transform p-2">
+                <img 
+                  src={logoEcclesiaTv} 
+                  alt="Logo Ecclesia TV"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="text-center mb-4">
+                <h3 className="font-display font-bold text-xl mb-1">Ecclesia TV</h3>
+                <p className="text-secondary font-semibold">Chaîne TV</p>
+                <div className="flex items-center justify-center gap-1 text-gray-400 text-sm mt-1">
+                  <Tv className="w-3 h-3" />
+                  Nationale
+                </div>
+                <p className="text-gray-400 text-xs mt-2">La chaîne catholique de Côte d'Ivoire</p>
+              </div>
+              <div className="absolute top-4 right-4 flex items-center gap-1 px-2 py-1 bg-secondary rounded-full text-xs font-bold">
+                <Tv className="w-3 h-3" />
+                TV
+              </div>
+            </a>
+
+            {/* Radio Cards */}
+            {catholicRadios.map((radio) => (
+              <div
+                key={radio.id}
+                className={`relative rounded-2xl p-6 border-2 transition-all duration-300 ${
+                  isRadioPlaying(radio.id)
+                    ? "bg-primary/20 border-primary shadow-lg shadow-primary/20"
+                    : "bg-white/5 border-white/10 hover:border-primary/40"
+                }`}
+              >
+                <a 
+                  href={radio.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-24 h-24 rounded-xl overflow-hidden bg-white mx-auto mb-4 hover:scale-105 transition-transform"
+                >
+                  <img 
+                    src={radio.logo} 
+                    alt={`Logo ${radio.name}`}
+                    className="w-full h-full object-contain p-2"
+                  />
+                </a>
+
+                <div className="text-center mb-4">
+                  <h3 className="font-display font-bold text-xl mb-1">{radio.name}</h3>
+                  <p className="text-primary font-semibold">{radio.frequency}</p>
+                  <div className="flex items-center justify-center gap-1 text-gray-400 text-sm mt-1">
+                    <MapPin className="w-3 h-3" />
+                    {radio.location}
+                  </div>
+                  <p className="text-gray-400 text-xs mt-2">{radio.description}</p>
+                </div>
+
+                <button
+                  onClick={() => handleToggleRadio(radio)}
+                  disabled={isRadioLoading(radio.id)}
+                  className={`w-full py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
+                    isRadioPlaying(radio.id)
+                      ? "bg-primary text-white"
+                      : "bg-white/10 hover:bg-white/20 text-white"
                   }`}
                 >
-                  <span className="font-bold text-primary w-16">{item.time}</span>
-                  <div className="flex-1">
-                    <span className="font-medium text-foreground block">{item.program}</span>
-                    <span className="text-xs text-muted-foreground">{item.radio}</span>
+                  {isRadioLoading(radio.id) ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Connexion...
+                    </>
+                  ) : isRadioPlaying(radio.id) ? (
+                    <>
+                      <Pause className="w-5 h-5" />
+                      En lecture
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-5 h-5 ml-0.5" />
+                      Écouter
+                    </>
+                  )}
+                </button>
+
+                {isRadioPlaying(radio.id) && (
+                  <div className="absolute top-4 right-4 flex items-center gap-1 px-2 py-1 bg-secondary rounded-full text-xs font-bold">
+                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                    LIVE
                   </div>
-                  <span className="text-xs px-3 py-1 bg-secondary/10 text-secondary rounded-full">
-                    {item.type}
-                  </span>
-                </div>
-              ))}
-            </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -593,7 +534,6 @@ const Radio = () => {
               className="relative bg-card rounded-2xl overflow-hidden shadow-2xl max-w-md w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close button */}
               <button
                 onClick={handleClosePodcast}
                 className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors"
@@ -601,7 +541,6 @@ const Radio = () => {
                 <X className="w-5 h-5 text-white" />
               </button>
 
-              {/* Podcast Image */}
               <div className="relative aspect-square">
                 <img 
                   src={selectedPodcast.image} 
@@ -610,7 +549,6 @@ const Radio = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                 
-                {/* Podcast info overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <span className="inline-block px-3 py-1 bg-secondary text-white text-xs font-bold rounded-full mb-3">
                     Podcast
@@ -623,13 +561,11 @@ const Radio = () => {
                 </div>
               </div>
 
-              {/* Player Controls */}
               <div className="p-6 bg-card">
                 <p className="text-muted-foreground text-sm mb-4">
                   {selectedPodcast.description}
                 </p>
 
-                {/* Progress bar */}
                 <div className="mb-4">
                   <div className="h-1 bg-muted rounded-full overflow-hidden">
                     <div 
@@ -643,7 +579,6 @@ const Radio = () => {
                   </div>
                 </div>
 
-                {/* Controls */}
                 <div className="flex items-center justify-center gap-6">
                   <button className="w-10 h-10 rounded-full bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors">
                     <svg className="w-5 h-5 text-foreground rotate-180" viewBox="0 0 24 24" fill="currentColor">

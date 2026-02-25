@@ -54,7 +54,7 @@ interface NavLink {
 const navLinks: NavLink[] = [
   { name: "Accueil", href: "/" },
   { 
-    name: "La CEDF", 
+    name: "CEDF", 
     href: "/a-propos",
     subLinks: [
       { name: "À Propos", href: "/a-propos" },
