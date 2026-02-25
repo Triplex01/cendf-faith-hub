@@ -8,6 +8,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import { RadioProvider } from "@/contexts/RadioContext";
 import { TVProvider } from "@/contexts/TVContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import PageLoader from "@/components/PageLoader";
 import FloatingMediaPlayer from "@/components/FloatingMediaPlayer";
 import AIAssistant from "@/components/AIAssistant";
@@ -89,19 +90,21 @@ const AppRoutes = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <RadioProvider>
-        <TVProvider>
-          <CartProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-                <AppRoutes />
-              </BrowserRouter>
-            </TooltipProvider>
-          </CartProvider>
-        </TVProvider>
-      </RadioProvider>
+      <LanguageProvider>
+        <RadioProvider>
+          <TVProvider>
+            <CartProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <AppRoutes />
+                </BrowserRouter>
+              </TooltipProvider>
+            </CartProvider>
+          </TVProvider>
+        </RadioProvider>
+      </LanguageProvider>
     </AuthProvider>
   </QueryClientProvider>
 );
