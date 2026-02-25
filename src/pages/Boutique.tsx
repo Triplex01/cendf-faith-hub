@@ -415,6 +415,185 @@ const Boutique = () => {
         </div>
       </section>
 
+      {/* Section Abonnement Magazine Credo */}
+      <section className="py-20 bg-gradient-to-br from-[hsl(var(--deep-black))] to-[hsl(var(--burgundy)/0.15)] relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-14">
+            <span className="inline-block px-5 py-1.5 bg-secondary/20 text-secondary rounded-full text-sm font-bold tracking-wider uppercase mb-4">
+              Nos Productions
+            </span>
+            <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
+              Abonnez-vous à la <span className="text-primary">Revue Credo</span>
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+              La foi expliquée, la foi vécue — Recevez chaque parution de notre revue spécialisée 
+              directement chez vous.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-14">
+            {/* Formule Numérique */}
+            <div className="relative bg-card rounded-2xl border border-border p-8 shadow-card hover:shadow-elegant transition-all duration-300 group">
+              <div className="text-center mb-6">
+                <span className="inline-block px-3 py-1 bg-muted text-muted-foreground rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                  Numérique
+                </span>
+                <h3 className="font-display text-2xl font-bold text-foreground mb-2">Credo Digital</h3>
+                <p className="text-muted-foreground text-sm">Accès PDF à toutes les parutions</p>
+              </div>
+              <div className="text-center mb-6">
+                <span className="font-display text-5xl font-bold text-primary">5 000</span>
+                <span className="text-muted-foreground text-lg ml-1">FCFA</span>
+                <p className="text-muted-foreground text-sm mt-1">/ an</p>
+              </div>
+              <ul className="space-y-3 mb-8 text-sm">
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>4 parutions par an en PDF</span>
+                </li>
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>Archives numériques incluses</span>
+                </li>
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>Accès immédiat après paiement</span>
+                </li>
+              </ul>
+              <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <a href="tel:0779104515" className="flex items-center gap-2 w-full justify-center">
+                  <Phone className="w-4 h-4" />
+                  S'abonner
+                </a>
+              </Button>
+            </div>
+
+            {/* Formule Standard - Mise en avant */}
+            <div className="relative bg-gradient-to-b from-primary/10 to-card rounded-2xl border-2 border-primary p-8 shadow-elegant scale-105 z-10">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                <span className="px-4 py-1.5 bg-primary text-primary-foreground rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                  Populaire
+                </span>
+              </div>
+              <div className="text-center mb-6 pt-2">
+                <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                  Papier
+                </span>
+                <h3 className="font-display text-2xl font-bold text-foreground mb-2">Credo Papier</h3>
+                <p className="text-muted-foreground text-sm">Livraison à domicile en Côte d'Ivoire</p>
+              </div>
+              <div className="text-center mb-6">
+                <span className="font-display text-5xl font-bold text-primary">10 000</span>
+                <span className="text-muted-foreground text-lg ml-1">FCFA</span>
+                <p className="text-muted-foreground text-sm mt-1">/ an</p>
+              </div>
+              <ul className="space-y-3 mb-8 text-sm">
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>4 parutions papier livrées</span>
+                </li>
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>Accès numérique offert</span>
+                </li>
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>Livraison gratuite en CI</span>
+                </li>
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>Numéros spéciaux inclus</span>
+                </li>
+              </ul>
+              <Button variant="burgundy" className="w-full shadow-lg">
+                <a href="tel:0779104515" className="flex items-center gap-2 w-full justify-center">
+                  <Phone className="w-4 h-4" />
+                  S'abonner maintenant
+                </a>
+              </Button>
+            </div>
+
+            {/* Formule Premium */}
+            <div className="relative bg-card rounded-2xl border border-border p-8 shadow-card hover:shadow-elegant transition-all duration-300 group">
+              <div className="text-center mb-6">
+                <span className="inline-block px-3 py-1 bg-secondary/20 text-secondary rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                  Premium
+                </span>
+                <h3 className="font-display text-2xl font-bold text-foreground mb-2">Credo Intégral</h3>
+                <p className="text-muted-foreground text-sm">Papier + Numérique + Bonus</p>
+              </div>
+              <div className="text-center mb-6">
+                <span className="font-display text-5xl font-bold text-primary">15 000</span>
+                <span className="text-muted-foreground text-lg ml-1">FCFA</span>
+                <p className="text-muted-foreground text-sm mt-1">/ an</p>
+              </div>
+              <ul className="space-y-3 mb-8 text-sm">
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>Tout Credo Papier inclus</span>
+                </li>
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>Documents exclusifs CEDF</span>
+                </li>
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>Invitations aux événements</span>
+                </li>
+                <li className="flex items-start gap-2 text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
+                  <span>Mention dans la revue</span>
+                </li>
+              </ul>
+              <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <a href="tel:0779104515" className="flex items-center gap-2 w-full justify-center">
+                  <Phone className="w-4 h-4" />
+                  S'abonner
+                </a>
+              </Button>
+            </div>
+          </div>
+
+          {/* Moyens de paiement & Contact */}
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-card rounded-2xl border border-border p-8 shadow-card text-center">
+              <h3 className="font-display text-xl font-bold text-foreground mb-4">
+                Moyens de paiement acceptés
+              </h3>
+              <div className="flex justify-center mb-6">
+                <img 
+                  src={paydunyaPaymentMethods} 
+                  alt="Orange Money, Wave, MTN, Visa, Mastercard et plus"
+                  className="h-16 object-contain"
+                />
+              </div>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
+                <a href="tel:0779104515" className="flex items-center gap-2 text-primary font-semibold hover:underline">
+                  <Phone className="w-4 h-4" />
+                  07 79 10 45 15
+                </a>
+                <span className="hidden sm:inline text-muted-foreground">|</span>
+                <a href="tel:0507427398" className="flex items-center gap-2 text-primary font-semibold hover:underline">
+                  <Phone className="w-4 h-4" />
+                  05 07 42 73 98
+                </a>
+                <span className="hidden sm:inline text-muted-foreground">|</span>
+                <a href="mailto:production@cedfci.org" className="flex items-center gap-2 text-primary font-semibold hover:underline">
+                  production@cedfci.org
+                </a>
+              </div>
+              <p className="text-muted-foreground text-xs mt-4">
+                Pour toute commande, contactez-nous par téléphone ou par email.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Payment Modal - PayDunya */}
       <Dialog open={isPaymentOpen} onOpenChange={setIsPaymentOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
