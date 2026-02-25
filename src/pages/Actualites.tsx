@@ -58,7 +58,6 @@ interface Article {
   category: string;
 }
 
-// Événements statiques
 const staticEvents: StaticEvent[] = [
   {
     id: 1,
@@ -106,7 +105,6 @@ const staticEvents: StaticEvent[] = [
   },
 ];
 
-// Citations et commentaires
 const citations: Citation[] = [
   {
     id: 1,
@@ -130,7 +128,6 @@ const citations: Citation[] = [
   },
 ];
 
-// Articles statiques
 const staticArticles: Article[] = [
   {
     id: 1,
@@ -197,7 +194,7 @@ const Actualites = () => {
       title="Actualités"
       subtitle="Restez informé des dernières actualités de l'Église catholique en Côte d'Ivoire"
     >
-      {/* Section Événements à la Une */}
+      {/* 1. Section Événements à la Une */}
       <section className="py-16 bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -263,61 +260,7 @@ const Actualites = () => {
         </div>
       </section>
 
-      {/* Section Citations et Paroles */}
-      <section className="py-16 bg-deep-black text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium mb-4">
-              Paroles Inspirantes
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Commentaires & <span className="text-gradient-gold">Citations</span>
-            </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              Les paroles des évêques et des prêtres pour nourrir notre foi
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {citations.map((citation) => (
-              <motion.div
-                key={citation.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                onClick={() => setSelectedCitation(citation)}
-                className="relative cursor-pointer bg-white/5 rounded-xl md:rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-colors"
-              >
-                <div className="aspect-[4/5] sm:aspect-square overflow-hidden">
-                  <img 
-                    src={citation.image} 
-                    alt={citation.author}
-                    className="w-full h-full object-cover object-top"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6">
-                  <span className="inline-block px-3 py-1 bg-primary/80 text-white text-xs font-bold rounded-full w-fit mb-3">
-                    {citation.type}
-                  </span>
-                  <Quote className="w-8 h-8 text-primary/60 mb-2" />
-                  <p className="text-white text-lg font-medium leading-relaxed mb-4 italic">
-                    "{citation.quote}"
-                  </p>
-                  <div className="border-t border-white/20 pt-4">
-                    <p className="text-primary font-bold">{citation.author}</p>
-                    <p className="text-gray-400 text-sm">{citation.title}</p>
-                    <p className="text-gray-500 text-xs mt-1">{citation.date}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Section Actualités */}
+      {/* 2. Section Dernières Actualités */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -377,6 +320,60 @@ const Actualites = () => {
         </div>
       </section>
 
+      {/* 3. Section Citations et Paroles */}
+      <section className="py-16 bg-deep-black text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium mb-4">
+              Paroles Inspirantes
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Commentaires & <span className="text-gradient-gold">Citations</span>
+            </h2>
+            <p className="text-gray-300 max-w-2xl mx-auto">
+              Les paroles des évêques et des prêtres pour nourrir notre foi
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {citations.map((citation) => (
+              <motion.div
+                key={citation.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                onClick={() => setSelectedCitation(citation)}
+                className="relative cursor-pointer bg-white/5 rounded-xl md:rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-colors"
+              >
+                <div className="aspect-[4/5] sm:aspect-square overflow-hidden">
+                  <img 
+                    src={citation.image} 
+                    alt={citation.author}
+                    className="w-full h-full object-cover object-top"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6">
+                  <span className="inline-block px-3 py-1 bg-primary/80 text-white text-xs font-bold rounded-full w-fit mb-3">
+                    {citation.type}
+                  </span>
+                  <Quote className="w-8 h-8 text-primary/60 mb-2" />
+                  <p className="text-white text-lg font-medium leading-relaxed mb-4 italic">
+                    "{citation.quote}"
+                  </p>
+                  <div className="border-t border-white/20 pt-4">
+                    <p className="text-primary font-bold">{citation.author}</p>
+                    <p className="text-gray-400 text-sm">{citation.title}</p>
+                    <p className="text-gray-500 text-xs mt-1">{citation.date}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Modal Événement */}
       <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
         <DialogContent className="max-w-2xl">
@@ -402,7 +399,6 @@ const Actualites = () => {
                 </span>
               </div>
               <p className="text-foreground">{selectedEvent.fullDescription}</p>
-              <p className="text-sm text-muted-foreground italic">Thème: {selectedEvent.theme}</p>
             </div>
           )}
         </DialogContent>
@@ -421,16 +417,36 @@ const Actualites = () => {
                 alt={selectedCitation.author}
                 className="w-full h-64 object-cover object-top rounded-lg"
               />
-              <p className="text-muted-foreground">{selectedCitation.title}</p>
-              <blockquote className="border-l-4 border-primary pl-4 italic text-lg">
+              <div>
+                <p className="text-primary font-bold text-lg">{selectedCitation.author}</p>
+                <p className="text-muted-foreground">{selectedCitation.title}</p>
+                <p className="text-sm text-muted-foreground">{selectedCitation.date}</p>
+              </div>
+              <blockquote className="border-l-4 border-primary pl-4 italic text-foreground text-lg">
                 "{selectedCitation.quote}"
               </blockquote>
               <p className="text-foreground">{selectedCitation.fullText}</p>
-              <p className="text-sm text-muted-foreground">{selectedCitation.date}</p>
             </div>
           )}
         </DialogContent>
       </Dialog>
+
+      <SEO
+        title="Actualités"
+        description="Dernières actualités de l'Église catholique en Côte d'Ivoire - Événements, conférences et annonces de la CEDF"
+        keywords="actualités catholiques, Côte d'Ivoire, CEDF, événements église, conférence, synodalité"
+        url="/actualites"
+      />
+      <BreadcrumbSchema items={[{ name: "Actualités", url: "/actualites" }]} />
+      {staticEvents.map((event) => (
+        <EventSchema
+          key={event.id}
+          name={event.title}
+          startDate={event.date}
+          location={event.location}
+          description={event.fullDescription}
+        />
+      ))}
     </PageLayout>
   );
 };

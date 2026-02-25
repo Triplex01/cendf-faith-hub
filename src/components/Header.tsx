@@ -4,6 +4,8 @@ import { Menu, X, Radio, ShoppingCart, ChevronDown, ChevronRight } from "lucide-
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import logoCendf from "@/assets/logo-cendf.png";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Cart Context for sharing cart state across components
 export interface CartItem {
@@ -31,7 +33,6 @@ export const CartContext = createContext<CartContextType | null>(null);
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    // Return a default context for components not wrapped in CartProvider
     return {
       cart: [],
       addToCart: () => {},
@@ -47,44 +48,48 @@ export const useCart = () => {
 
 interface NavLink {
   name: string;
+  nameKey: string;
   href: string;
-  subLinks?: { name: string; href: string }[];
+  subLinks?: { name: string; nameKey: string; href: string }[];
 }
 
 const navLinks: NavLink[] = [
-  { name: "Accueil", href: "/" },
+  { name: "Accueil", nameKey: "nav.home", href: "/" },
   { 
     name: "CEDF", 
+    nameKey: "nav.cedf",
     href: "/a-propos",
     subLinks: [
-      { name: "À Propos", href: "/a-propos" },
-      { name: "Nos Missions", href: "/missions" },
-      { name: "Activités", href: "/activites" },
-      { name: "FAQ", href: "/faq" }
+      { name: "À Propos", nameKey: "nav.about", href: "/a-propos" },
+      { name: "Nos Missions", nameKey: "nav.missions", href: "/missions" },
+      { name: "Activités", nameKey: "nav.activities", href: "/activites" },
+      { name: "FAQ", nameKey: "nav.faq", href: "/faq" }
     ]
   },
-  { name: "Actualités", href: "/actualites" },
+  { name: "Actualités", nameKey: "nav.news", href: "/actualites" },
   { 
     name: "Enseignements", 
+    nameKey: "nav.teachings",
     href: "/enseignements",
     subLinks: [
-      { name: "Enseignements", href: "/enseignements" },
-      { name: "Documents & Archives", href: "/documents-archives" },
-      { name: "Bible en Ligne", href: "/bible" }
+      { name: "Enseignements", nameKey: "nav.teachings", href: "/enseignements" },
+      { name: "Documents & Archives", nameKey: "nav.documents", href: "/documents-archives" },
+      { name: "Bible en Ligne", nameKey: "nav.bible", href: "/bible" }
     ]
   },
-  { name: "Émissions & Radio", href: "/radio" },
+  { name: "Émissions & Radio", nameKey: "nav.radio", href: "/radio" },
   { 
     name: "Vie Spirituelle", 
+    nameKey: "nav.spiritual",
     href: "/prieres",
     subLinks: [
-      { name: "Prières", href: "/prieres" },
-      { name: "Saint du Jour", href: "/saint-du-jour" },
-      { name: "Calendrier Liturgique", href: "/calendrier-liturgique" }
+      { name: "Prières", nameKey: "nav.prayers", href: "/prieres" },
+      { name: "Saint du Jour", nameKey: "nav.saint", href: "/saint-du-jour" },
+      { name: "Calendrier Liturgique", nameKey: "nav.calendar", href: "/calendrier-liturgique" }
     ]
   },
-  { name: "Boutique", href: "/boutique" },
-  { name: "Contact", href: "/contact" },
+  { name: "Boutique", nameKey: "nav.shop", href: "/boutique" },
+  { name: "Contact", nameKey: "nav.contact", href: "/contact" },
 ];
 
 const Header = () => {
@@ -94,6 +99,7 @@ const Header = () => {
   const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(null);
   const location = useLocation();
   const { cartCount } = useCart();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -103,7 +109,6 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setOpenMobileDropdown(null);
@@ -145,11 +150,10 @@ const Header = () => {
                       onMouseEnter={() => setOpenDropdown(link.name)}
                       onMouseLeave={() => setOpenDropdown(null)}
                     >
-                      {link.name}
+                      {t(link.nameKey)}
                       <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
                     </button>
                     
-                    {/* Dropdown Menu */}
                     <div 
                       className={`absolute top-full left-0 mt-1 bg-card border border-border rounded-lg shadow-xl py-2 min-w-[180px] transition-all duration-200 ${
                         openDropdown === link.name ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
@@ -167,7 +171,7 @@ const Header = () => {
                               : "text-foreground hover:bg-primary/5 hover:text-primary"
                           }`}
                         >
-                          {subLink.name}
+                          {t(subLink.nameKey)}
                         </Link>
                       ))}
                     </div>
@@ -181,7 +185,7 @@ const Header = () => {
                         : "text-foreground hover:text-primary hover:bg-primary/10"
                     }`}
                   >
-                    {link.name}
+                    {t(link.nameKey)}
                   </Link>
                 )}
               </div>
@@ -189,8 +193,9 @@ const Header = () => {
           </nav>
 
           {/* Right Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            {/* Cart Button */}
+          <div className="hidden md:flex items-center gap-2">
+            <LanguageSelector />
+
             <Link to="/boutique" className="relative">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="w-5 h-5" />
@@ -205,14 +210,15 @@ const Header = () => {
             <Link to="/radio">
               <Button variant="burgundy" size="sm" className="gap-2">
                 <Radio className="w-4 h-4 animate-pulse" />
-                Écouter
+                {t("nav.listen")}
               </Button>
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 lg:hidden">
-            {/* Mobile Cart */}
+          <div className="flex items-center gap-1 lg:hidden">
+            <LanguageSelector />
+            
             <Link to="/boutique" className="relative">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="w-5 h-5" />
@@ -241,7 +247,6 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-elegant animate-slide-up max-h-[80vh] overflow-y-auto">
-
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
                 <div key={link.name}>
@@ -258,7 +263,7 @@ const Header = () => {
                               : "text-foreground hover:bg-muted"
                           }`}
                         >
-                          <span>{link.name}</span>
+                          <span>{t(link.nameKey)}</span>
                           <ChevronRight 
                             className={`w-5 h-5 transition-transform duration-200 ${
                               openMobileDropdown === link.name ? "rotate-90" : ""
@@ -278,7 +283,7 @@ const Header = () => {
                                 : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
                             }`}
                           >
-                            {subLink.name}
+                            {t(subLink.nameKey)}
                           </Link>
                         ))}
                       </CollapsibleContent>
@@ -293,17 +298,16 @@ const Header = () => {
                           : "text-foreground hover:bg-muted"
                       }`}
                     >
-                      {link.name}
+                      {t(link.nameKey)}
                     </Link>
                   )}
                 </div>
               ))}
               
-              {/* Mobile Radio Button */}
               <Link to="/radio" onClick={() => setIsMobileMenuOpen(false)} className="mt-4">
                 <Button variant="burgundy" className="w-full gap-2">
                   <Radio className="w-4 h-4 animate-pulse" />
-                  Écouter la Radio en direct
+                  {t("nav.listen_radio")}
                 </Button>
               </Link>
             </nav>
