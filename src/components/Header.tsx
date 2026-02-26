@@ -136,13 +136,13 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-0.5">
             {navLinks.map((link) => (
               <div key={link.name} className="relative group">
                 {link.subLinks ? (
                   <>
                     <button
-                      className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                      className={`flex items-center gap-0.5 px-2 py-1.5 text-xs font-semibold rounded-md transition-all duration-300 ${
                         isParentActive(link)
                           ? "bg-primary/10 text-primary"
                           : "text-foreground hover:text-primary hover:bg-primary/10"
@@ -179,7 +179,7 @@ const Header = () => {
                 ) : (
                   <Link
                     to={link.href}
-                    className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                    className={`px-2 py-1.5 text-xs font-semibold rounded-md transition-all duration-300 ${
                       isActive(link.href)
                         ? "bg-primary/10 text-primary"
                         : "text-foreground hover:text-primary hover:bg-primary/10"
