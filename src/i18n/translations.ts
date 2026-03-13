@@ -903,7 +903,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // A PROPOS
     "apropos.title": "Chi Siamo - CEDF", "apropos.subtitle": "Commissione Episcopale per la Dottrina della Fede in Costa d'Avorio",
     "apropos.identity": "La Nostra Identità", "apropos.commission_title": "Una Commissione al Servizio della", "apropos.faith": "Fede",
-    "apropos.intro_p1": "La Commissione Episcopale per la Dottrina della Fede (CEDF) è una delle dieci commissioni della Conferenza dei Vescovi Cattolici della Costa d'Avorio (CECCI). Rappresenta, a livello nazionale, il Dicastero per la Dottrina della Fede del Vaticano.",
+    "apropos.intro_p1": "La Commissione Episcopale per la Dottrina della Fede (CEDF) è una delle dieci commissioni della Conferenza dei Vescovi Cattolici della Costa d'Avorio (CECCI). È il loro strumento al servizio della Promozione e della Difesa della Fede.",
     "apropos.intro_p2": "In un contesto ecclesiale in mutamento, segnato dall'emergere di nuove realtà, la CEDF compie una missione essenziale: promuovere e proteggere il deposito della fede cattolica.",
     "apropos.intro_p3": "Il suo lavoro si basa sulla Parola di Dio, la Tradizione e il Magistero, con il dogma come fondamento.",
     "apropos.fidelity": "Fedeltà a Cristo", "apropos.communion": "Comunione ecclesiale",
