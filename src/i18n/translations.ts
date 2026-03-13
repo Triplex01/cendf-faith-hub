@@ -1207,7 +1207,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "apropos.service_desc": "A CEDF atua em quatro áreas fundamentais para o bem da Igreja na Costa do Marfim.",
     "apropos.guard_faith": "Guardar a Fé", "apropos.guard_desc": "Zelar pela pureza e integridade da doutrina católica.",
     "apropos.teach": "Ensinar", "apropos.teach_desc": "Formar os fiéis, catequistas e agentes pastorais.",
-    "apropos.evangelize": "Evangelizar", "apropos.evangelize_desc": "Levar a Boa Nova de Cristo a todos os povos da Costa do Marfim.",
+    "apropos.evangelize": "Evangelizar", "apropos.evangelize_desc": "Levar a luz do Evangelho às culturas locais.",
     "apropos.accompany": "Acompanhar", "apropos.accompany_desc": "Apoiar espiritualmente as comunidades cristãs.",
     "apropos.history": "Nossa História", "apropos.historical_evolution": "Evolução Histórica",
     "apropos.history_desc": "Do Dicastério para a Doutrina da Fé à Comissão Episcopal Nacional",
