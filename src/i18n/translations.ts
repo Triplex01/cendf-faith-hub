@@ -194,7 +194,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "apropos.teach": "Enseigner",
     "apropos.teach_desc": "Former les fidèles, catéchistes et agents pastoraux à une connaissance approfondie de la foi catholique.",
     "apropos.evangelize": "Évangéliser",
-    "apropos.evangelize_desc": "Porter la Bonne Nouvelle du Christ à tous les peuples de Côte d'Ivoire dans le respect des cultures locales.",
+    "apropos.evangelize_desc": "Apporter la lumière de l'Évangile aux cultures locales.",
     "apropos.accompany": "Accompagner",
     "apropos.accompany_desc": "Soutenir spirituellement les communautés chrétiennes dans leur chemin de foi et de sainteté.",
     "apropos.history": "Notre Histoire",
