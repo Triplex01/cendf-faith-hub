@@ -525,7 +525,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.activities": "Activities", "nav.faq": "FAQ", "nav.news": "News", "nav.teachings": "Teachings",
     "nav.documents": "Documents & Archives", "nav.bible": "Online Bible", "nav.radio": "Shows & Radio",
     "nav.spiritual": "Spiritual Life", "nav.prayers": "Prayers", "nav.saint": "Saint of the Day",
-    "nav.calendar": "Liturgical Calendar", "nav.shop": "Shop", "nav.contact": "Contact",
+    "nav.calendar": "Liturgical Calendar", "nav.shop": "Magazine", "nav.contact": "Contact",
     "nav.listen": "Listen", "nav.listen_radio": "Listen to Live Radio",
 
     // HERO
