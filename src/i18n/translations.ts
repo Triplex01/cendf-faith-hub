@@ -613,7 +613,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "apropos.intro_p3": "Its work is based on the Word of God, Tradition and the Magisterium, with dogma as its foundation, guiding theology, morality, spirituality, evangelization and liturgy.",
     "apropos.fidelity": "Fidelity to Christ", "apropos.communion": "Ecclesial Communion",
     "apropos.service": "Fraternal Service", "apropos.excellence": "Pastoral Excellence",
-    "apropos.vision_title": "Our Vision", "apropos.vision_quote": "\"A Church rooted in truth and radiant in the world\"",
+    "apropos.vision_title": "Our Vision", "apropos.vision_quote": "\"Accompany the evangelization initiatives of the Conference of Bishops of Côte d'Ivoire\"",
     "apropos.vision_desc": "CEDF aspires to a Catholic Church in Côte d'Ivoire that is a beacon of truth and holiness, positively influencing society.",
     "apropos.objectives": "Our Objectives", "apropos.strategic_objectives": "The 5 Strategic Objectives",
     "apropos.obj_1": "Structure and organize the Commission",
