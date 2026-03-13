@@ -280,8 +280,7 @@ const APropos = () => {
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 La <strong>Commission Épiscopale pour la Doctrine de la Foi (CEDF)</strong> est l'une des dix 
-                commissions de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI). Elle représente, 
-                à l'échelle nationale, le Dicastère pour la Doctrine de la Foi du Vatican.
+                commissions de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI). Elle est leur instrument au service de la Promotion et de la Défense de la Foi.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 Dans un contexte ecclésial en mutation, marqué par l'émergence de nouvelles réalités qui interpellent 
