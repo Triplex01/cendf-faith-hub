@@ -821,7 +821,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.activities": "Attività", "nav.faq": "FAQ", "nav.news": "Notizie", "nav.teachings": "Insegnamenti",
     "nav.documents": "Documenti & Archivi", "nav.bible": "Bibbia Online", "nav.radio": "Programmi & Radio",
     "nav.spiritual": "Vita Spirituale", "nav.prayers": "Preghiere", "nav.saint": "Santo del Giorno",
-    "nav.calendar": "Calendario Liturgico", "nav.shop": "Negozio", "nav.contact": "Contatto",
+    "nav.calendar": "Calendario Liturgico", "nav.shop": "Rivista", "nav.contact": "Contatto",
     "nav.listen": "Ascolta", "nav.listen_radio": "Ascolta la Radio in diretta",
 
     // HERO
