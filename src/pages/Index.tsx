@@ -38,7 +38,6 @@ const Index = () => {
       <RadiosSection />
       <PodcastSection />
       <ProgramSection />
-      <AboutSection />
       <Footer />
     </main>
   );
