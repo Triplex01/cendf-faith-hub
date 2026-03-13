@@ -623,7 +623,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "apropos.service_desc": "CEDF works in four fundamental areas for the good of the Church in Côte d'Ivoire.",
     "apropos.guard_faith": "Guard the Faith", "apropos.guard_desc": "Ensure the purity and integrity of Catholic doctrine transmitted by the Apostles and the Magisterium of the Church.",
     "apropos.teach": "Teach", "apropos.teach_desc": "Form the faithful, catechists and pastoral agents in a deep knowledge of the Catholic faith.",
-    "apropos.evangelize": "Evangelize", "apropos.evangelize_desc": "Bring the Good News of Christ to all peoples of Côte d'Ivoire with respect for local cultures.",
+    "apropos.evangelize": "Evangelize", "apropos.evangelize_desc": "Bring the light of the Gospel to local cultures.",
     "apropos.accompany": "Accompany", "apropos.accompany_desc": "Spiritually support Christian communities on their path of faith and holiness.",
     "apropos.history": "Our History", "apropos.historical_evolution": "Historical Evolution",
     "apropos.history_desc": "From the Dicastery for the Doctrine of the Faith to the National Episcopal Commission",
