@@ -532,7 +532,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
     // HERO
     "hero.badge": "EPISCOPAL COMMISSION FOR THE DOCTRINE OF THE FAITH – CI",
-    "hero.title1": "Promote and Protect", "hero.title2": "the Deposit of Faith",
+    "hero.title1": "Promote and Defend", "hero.title2": "the Deposit of Faith",
     "hero.quote": '"I am the Way, the Truth and the Life."', "hero.quote_ref": "— John 14:6",
     "hero.teachings_btn": "Teachings", "hero.teachings_full": "Discover the teachings",
     "hero.radio_playing": "Playing...", "hero.radio_btn": "🎧 Radio", "hero.scroll": "Scroll",
