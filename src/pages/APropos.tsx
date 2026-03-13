@@ -150,11 +150,9 @@ const organigramme = {
 };
 
 const objectives = [
-  "Structurer et organiser la Commission",
-  "Assurer la formation et la sensibilisation du clergé et des fidèles",
+  "Assurer la formation continue et la sensibilisation de tous les fidèles",
   "Défendre et promouvoir la doctrine catholique face aux défis actuels",
-  "Développer la présence médiatique et numérique de la Commission",
-  "Renforcer les relations entre l'Église et les autorités politiques, civiles et religieuses",
+  "Mieux faire connaître l'Église au monde",
 ];
 
 // Organigramme Node Component
