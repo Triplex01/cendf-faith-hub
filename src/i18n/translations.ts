@@ -830,7 +830,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
     // HERO
     "hero.badge": "COMMISSIONE EPISCOPALE PER LA DOTTRINA DELLA FEDE – CI",
-    "hero.title1": "Promuovere e Proteggere", "hero.title2": "il Deposito della Fede",
+    "hero.title1": "Promuovere e Difendere", "hero.title2": "il Deposito della Fede",
     "hero.quote": '"Io sono la Via, la Verità e la Vita."', "hero.quote_ref": "— Giovanni 14:6",
     "hero.teachings_btn": "Insegnamenti", "hero.teachings_full": "Scopri gli insegnamenti",
     "hero.radio_playing": "In onda...", "hero.radio_btn": "🎧 Radio", "hero.scroll": "Scorri",
