@@ -13,11 +13,11 @@ interface NewsItem {
 
 // Données de démonstration pour le bandeau défilant - Vœux 2026
 const demoNewsItems: NewsItem[] = [
-  { id: "1", text: "✨ BONNE ET SAINTE ANNÉE 2026 ! Que l'Esprit Saint guide vos pas vers la lumière du Christ", link: "/actualites" },
-  { id: "2", text: "🙏 Que cette nouvelle année soit remplie de grâce, de paix et d'amour fraternel pour toute la communauté chrétienne", link: "/actualites" },
+  { id: "1", text: "📢 BIENTÔT DISPONIBLE : Le paiement en ligne pour vos abonnements au Magazine Credo ! Restez connectés", link: "/boutique" },
+  { id: "2", text: "📖 Découvrez le dernier numéro du Magazine Credo — La foi expliquée, la foi vécue", link: "/boutique" },
   { id: "3", text: "📻 Écoutez les Radios Catholiques de Côte d'Ivoire 24h/24 - Radio Espoir, La Voix de l'Évangile, Radio Paix Sanwi", link: "/radio" },
-  { id: "4", text: "🎉 « Maintenant est le temps favorable, maintenant est le jour du salut » (2 Co 6,2) - La CENDF vous accompagne en 2026", link: "/a-propos" },
-  { id: "5", text: "📖 Découvrez nos nouveaux documents et enseignements pour fortifier votre foi cette année", link: "/documents-archives" },
+  { id: "4", text: "🙏 « Gardez le dépôt de la foi qui vous a été confié » (2 Tm 1,14) — La CEDF au service de la Foi", link: "/a-propos" },
+  { id: "5", text: "📖 Découvrez nos enseignements et documents pour fortifier votre foi", link: "/documents-archives" },
 ];
 
 // Récupérer les données du ticker depuis Supabase

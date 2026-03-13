@@ -22,9 +22,9 @@ const missions = [
     description: "Former les fidèles, catéchistes et agents pastoraux à une connaissance approfondie de la foi catholique.",
   },
   {
-    icon: Globe,
-    title: "Évangéliser",
-    description: "Porter la Bonne Nouvelle du Christ à tous les peuples de Côte d'Ivoire dans le respect des cultures locales.",
+     icon: Globe,
+     title: "Évangéliser",
+     description: "Apporter la lumière de l'Évangile aux cultures locales.",
   },
   {
     icon: Heart,
