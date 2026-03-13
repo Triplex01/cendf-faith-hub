@@ -608,7 +608,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "apropos.title": "About CEDF", "apropos.subtitle": "Episcopal Commission for the Doctrine of the Faith in Côte d'Ivoire",
     "apropos.identity": "Our Identity", "apropos.commission_title": "A Commission at the Service of",
     "apropos.faith": "Faith",
-    "apropos.intro_p1": "The Episcopal Commission for the Doctrine of the Faith (CEDF) is one of the ten commissions of the Conference of Catholic Bishops of Côte d'Ivoire (CECCI). It represents, at the national level, the Dicastery for the Doctrine of the Faith of the Vatican.",
+    "apropos.intro_p1": "The Episcopal Commission for the Doctrine of the Faith (CEDF) is one of the ten commissions of the Conference of Catholic Bishops of Côte d'Ivoire (CECCI). It is their instrument at the service of the Promotion and Defense of the Faith.",
     "apropos.intro_p2": "In a changing ecclesial context, marked by the emergence of new realities that challenge the conscience of the people of God, CEDF fulfills an essential mission: to promote and protect the deposit of the Catholic faith against deviations that could alter it.",
     "apropos.intro_p3": "Its work is based on the Word of God, Tradition and the Magisterium, with dogma as its foundation, guiding theology, morality, spirituality, evangelization and liturgy.",
     "apropos.fidelity": "Fidelity to Christ", "apropos.communion": "Ecclesial Communion",
