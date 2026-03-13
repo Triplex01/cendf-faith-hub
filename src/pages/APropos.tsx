@@ -321,16 +321,15 @@ const APropos = () => {
       <section className="py-16 bg-gradient-burgundy text-primary-foreground">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="font-display text-2xl md:text-3xl font-bold mb-6">
-              Notre Vision
-            </h2>
-            <p className="text-xl leading-relaxed opacity-90 italic">
-              "Une Église ancrée dans la vérité et rayonnante dans le monde"
-            </p>
-            <p className="mt-4 opacity-80">
-              La CEDF aspire à une Église catholique en Côte d'Ivoire qui soit un phare de vérité et de sainteté, 
-              influençant positivement la société.
-            </p>
+             <h2 className="font-display text-2xl md:text-3xl font-bold mb-6">
+               Notre Vision
+             </h2>
+             <p className="text-xl leading-relaxed opacity-90 italic">
+               "Accompagner les initiatives d'évangélisation de la conférence des évêques de Côte d'Ivoire"
+             </p>
+             <p className="mt-4 opacity-80">
+               Par la Promotion et la Défense de la Foi
+             </p>
           </div>
         </div>
       </section>
