@@ -339,9 +339,9 @@ const APropos = () => {
             <span className="inline-block px-4 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-4">
               Nos Objectifs
             </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Les 5 Objectifs Stratégiques
-            </h2>
+             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
+               Les 3 Objectifs Stratégiques
+             </h2>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-4">
