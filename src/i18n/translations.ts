@@ -18,7 +18,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.prayers": "Prières",
     "nav.saint": "Saint du Jour",
     "nav.calendar": "Calendrier Liturgique",
-    "nav.shop": "Boutique",
+    "nav.shop": "Magazine",
     "nav.contact": "Contact",
     "nav.listen": "Écouter",
     "nav.listen_radio": "Écouter la Radio en direct",
