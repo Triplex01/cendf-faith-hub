@@ -918,7 +918,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "apropos.service_desc": "La CEDF opera in quattro aree fondamentali per il bene della Chiesa in Costa d'Avorio.",
     "apropos.guard_faith": "Custodire la Fede", "apropos.guard_desc": "Vigilare sulla purezza e integrità della dottrina cattolica.",
     "apropos.teach": "Insegnare", "apropos.teach_desc": "Formare i fedeli, catechisti e agenti pastorali.",
-    "apropos.evangelize": "Evangelizzare", "apropos.evangelize_desc": "Portare la Buona Novella di Cristo a tutti i popoli della Costa d'Avorio.",
+    "apropos.evangelize": "Evangelizzare", "apropos.evangelize_desc": "Portare la luce del Vangelo alle culture locali.",
     "apropos.accompany": "Accompagnare", "apropos.accompany_desc": "Sostenere spiritualmente le comunità cristiane.",
     "apropos.history": "La Nostra Storia", "apropos.historical_evolution": "Evoluzione Storica",
     "apropos.history_desc": "Dal Dicastero per la Dottrina della Fede alla Commissione Episcopale Nazionale",
