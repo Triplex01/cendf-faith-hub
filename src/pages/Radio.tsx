@@ -181,7 +181,7 @@ const Radio = () => {
   };
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (isPodcastPlaying && selectedPodcast) {
       interval = setInterval(() => {
         setPodcastProgress((prev) => (prev >= 100 ? 0 : prev + 0.5));

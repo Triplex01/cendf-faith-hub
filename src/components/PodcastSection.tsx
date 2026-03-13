@@ -250,7 +250,7 @@ const PodcastPlayerModal = ({ podcast, isOpen, onClose, isPlaying, onTogglePlay 
 
   // Simulate audio progress
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (isPlaying && isOpen) {
       interval = setInterval(() => {
         setProgress((prev) => (prev >= 100 ? 0 : prev + 0.5));
