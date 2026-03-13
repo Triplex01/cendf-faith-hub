@@ -102,7 +102,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "news.all_news": "Toutes les actualités",
 
     // ===== FOOTER =====
-    "footer.stay_informed": "Restez informé",
+    "footer.stay_informed": "Restez informés",
     "footer.newsletter_desc": "Recevez les dernières actualités et enseignements de la CEDF",
     "footer.email_placeholder": "Votre adresse email",
     "footer.subscribe": "S'abonner",
