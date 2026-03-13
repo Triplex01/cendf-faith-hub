@@ -1110,7 +1110,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.activities": "Atividades", "nav.faq": "FAQ", "nav.news": "Notícias", "nav.teachings": "Ensinamentos",
     "nav.documents": "Documentos & Arquivos", "nav.bible": "Bíblia Online", "nav.radio": "Programas & Rádio",
     "nav.spiritual": "Vida Espiritual", "nav.prayers": "Orações", "nav.saint": "Santo do Dia",
-    "nav.calendar": "Calendário Litúrgico", "nav.shop": "Loja", "nav.contact": "Contato",
+    "nav.calendar": "Calendário Litúrgico", "nav.shop": "Revista", "nav.contact": "Contato",
     "nav.listen": "Ouvir", "nav.listen_radio": "Ouvir Rádio ao vivo",
 
     // HERO
