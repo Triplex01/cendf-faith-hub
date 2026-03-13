@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import NewsTicker from "@/components/NewsTicker";
 import NewsSection from "@/components/NewsSection";
-import AboutSection from "@/components/AboutSection";
+
 import DocumentsArchivesSection from "@/components/DocumentsArchivesSection";
 import RadiosSection from "@/components/RadiosSection";
 import EventsCitationsSection from "@/components/EventsCitationsSection";
@@ -38,7 +38,6 @@ const Index = () => {
       <RadiosSection />
       <PodcastSection />
       <ProgramSection />
-      <AboutSection />
       <Footer />
     </main>
   );

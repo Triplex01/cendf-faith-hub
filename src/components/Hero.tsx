@@ -86,7 +86,7 @@ const Hero = () => {
           </div>
 
           {/* Title */}
-          <h1 className="font-display text-lg md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-1.5 md:mb-4 leading-tight animate-slide-up uppercase">
+          <h1 className="font-display text-base md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-1.5 md:mb-4 leading-tight animate-slide-up uppercase">
             {t("hero.title1")}{" "}
             <span className="text-gold">{t("hero.title2")}</span>
           </h1>

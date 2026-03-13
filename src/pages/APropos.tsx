@@ -22,9 +22,9 @@ const missions = [
     description: "Former les fidèles, catéchistes et agents pastoraux à une connaissance approfondie de la foi catholique.",
   },
   {
-    icon: Globe,
-    title: "Évangéliser",
-    description: "Porter la Bonne Nouvelle du Christ à tous les peuples de Côte d'Ivoire dans le respect des cultures locales.",
+     icon: Globe,
+     title: "Évangéliser",
+     description: "Apporter la lumière de l'Évangile aux cultures locales.",
   },
   {
     icon: Heart,
@@ -150,11 +150,9 @@ const organigramme = {
 };
 
 const objectives = [
-  "Structurer et organiser la Commission",
-  "Assurer la formation et la sensibilisation du clergé et des fidèles",
+  "Assurer la formation continue et la sensibilisation de tous les fidèles",
   "Défendre et promouvoir la doctrine catholique face aux défis actuels",
-  "Développer la présence médiatique et numérique de la Commission",
-  "Renforcer les relations entre l'Église et les autorités politiques, civiles et religieuses",
+  "Mieux faire connaître l'Église au monde",
 ];
 
 // Organigramme Node Component
@@ -280,8 +278,7 @@ const APropos = () => {
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 La <strong>Commission Épiscopale pour la Doctrine de la Foi (CEDF)</strong> est l'une des dix 
-                commissions de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI). Elle représente, 
-                à l'échelle nationale, le Dicastère pour la Doctrine de la Foi du Vatican.
+                commissions de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI). Elle est leur instrument au service de la Promotion et de la Défense de la Foi.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 Dans un contexte ecclésial en mutation, marqué par l'émergence de nouvelles réalités qui interpellent 
@@ -322,16 +319,15 @@ const APropos = () => {
       <section className="py-16 bg-gradient-burgundy text-primary-foreground">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="font-display text-2xl md:text-3xl font-bold mb-6">
-              Notre Vision
-            </h2>
-            <p className="text-xl leading-relaxed opacity-90 italic">
-              "Une Église ancrée dans la vérité et rayonnante dans le monde"
-            </p>
-            <p className="mt-4 opacity-80">
-              La CEDF aspire à une Église catholique en Côte d'Ivoire qui soit un phare de vérité et de sainteté, 
-              influençant positivement la société.
-            </p>
+             <h2 className="font-display text-2xl md:text-3xl font-bold mb-6">
+               Notre Vision
+             </h2>
+             <p className="text-xl leading-relaxed opacity-90 italic">
+               "Accompagner les initiatives d'évangélisation de la conférence des évêques de Côte d'Ivoire"
+             </p>
+             <p className="mt-4 opacity-80">
+               Par la Promotion et la Défense de la Foi
+             </p>
           </div>
         </div>
       </section>
@@ -343,9 +339,9 @@ const APropos = () => {
             <span className="inline-block px-4 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-4">
               Nos Objectifs
             </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Les 5 Objectifs Stratégiques
-            </h2>
+             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
+               Les 3 Objectifs Stratégiques
+             </h2>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-4">

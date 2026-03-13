@@ -74,7 +74,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
               <h4 className="font-display font-bold text-xl text-primary-foreground mb-1">
-                Restez informé
+                Restez informés
               </h4>
               <p className="text-primary-foreground/80 text-sm">
                 Recevez les dernières actualités et enseignements de la CEDF

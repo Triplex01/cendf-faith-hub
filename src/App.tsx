@@ -24,6 +24,7 @@ import Actualites from "./pages/Actualites";
 import ArticleDetail from "./pages/ArticleDetail";
 import Contact from "./pages/Contact";
 import Boutique from "./pages/Boutique";
+import Abonnement from "./pages/Abonnement";
 import ConfirmationCommande from "./pages/ConfirmationCommande";
 import BibleEnLigne from "./pages/BibleEnLigne";
 import SaintDuJour from "./pages/SaintDuJour";
@@ -67,6 +68,7 @@ const AppRoutes = () => {
         <Route path="/actualites/:slug" element={<ArticleDetail />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/boutique" element={<Boutique />} />
+        <Route path="/abonnement" element={<Abonnement />} />
         <Route path="/confirmation-commande" element={<ConfirmationCommande />} />
         <Route path="/bible" element={<BibleEnLigne />} />
         <Route path="/saint-du-jour" element={<SaintDuJour />} />

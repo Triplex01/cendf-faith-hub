@@ -14,7 +14,7 @@ interface NewsletterSectionProps {
 
 const NewsletterSection = ({ 
   variant = "default", 
-  title = "Restez informé", 
+  title = "Restez informés", 
   subtitle = "Recevez les dernières actualités et enseignements de la CEDF" 
 }: NewsletterSectionProps) => {
   const { toast } = useToast();
