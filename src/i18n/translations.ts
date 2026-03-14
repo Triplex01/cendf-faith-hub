@@ -135,7 +135,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "about.formation": "Formation",
     "about.formation_desc": "Former les fidèles à une foi éclairée et vivante",
     "about.vigilance": "Vigilance",
-    "about.vigilance_desc": "Protéger contre les dérives et déviations doctrinales",
+    "about.vigilance_desc": "Défendre contre les dérives et déviations doctrinales",
     "about.mission": "Mission",
     "about.mission_label": "Évangéliser dans le respect des cultures africaines",
     "about.episcopal_conf": "Conférence Épiscopale",
