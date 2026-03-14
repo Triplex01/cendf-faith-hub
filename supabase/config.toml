@@ -2,3 +2,6 @@ project_id = "tcopofuxtzqpwryantou"
 
 [functions.paydunya-checkout]
 verify_jwt = false
+
+[functions.create-test-user]
+verify_jwt = false
