@@ -1172,7 +1172,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "about.mission_p2": "Num contexto marcado pelo surgimento de novas realidades, cumpre uma missão essencial: promover e defender o depósito da fé católica.",
     "about.learn_more": "Saiba mais", "about.doctrine": "Doutrina", "about.doctrine_desc": "Guardar e promover a integridade da doutrina católica",
     "about.formation": "Formação", "about.formation_desc": "Formar os fiéis numa fé esclarecida e viva",
-    "about.vigilance": "Vigilância", "about.vigilance_desc": "Proteger contra desvios doutrinais",
+    "about.vigilance": "Vigilância", "about.vigilance_desc": "Defender contra desvios doutrinais",
     "about.mission": "Missão", "about.mission_label": "Evangelizar com respeito pelas culturas africanas",
     "about.episcopal_conf": "Conferência Episcopal", "about.cote_ivoire": "Costa do Marfim",
 
