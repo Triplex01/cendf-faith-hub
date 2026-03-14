@@ -1169,7 +1169,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // ABOUT SECTION
     "about.badge": "Sobre Nós", "about.title": "A", "about.desc": "A Comissão Episcopal para a Doutrina da Fé representa, a nível nacional, o Dicastério para a Doutrina da Fé. Trabalha pela promoção e defesa da fé católica na Costa do Marfim.",
     "about.mission_title": "Nossa Missão", "about.mission_p1": "A CEDF, uma das dez comissões da Conferência dos Bispos Católicos da Costa do Marfim (CECCI), tem como missão principal zelar pela pureza da doutrina católica e promover uma formação sólida dos fiéis.",
-    "about.mission_p2": "Num contexto marcado pelo surgimento de novas realidades, cumpre uma missão essencial: promover e proteger o depósito da fé católica.",
+    "about.mission_p2": "Num contexto marcado pelo surgimento de novas realidades, cumpre uma missão essencial: promover e defender o depósito da fé católica.",
     "about.learn_more": "Saiba mais", "about.doctrine": "Doutrina", "about.doctrine_desc": "Guardar e promover a integridade da doutrina católica",
     "about.formation": "Formação", "about.formation_desc": "Formar os fiéis numa fé esclarecida e viva",
     "about.vigilance": "Vigilância", "about.vigilance_desc": "Proteger contra desvios doutrinais",
