@@ -128,7 +128,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "about.desc": "La Commission Épiscopale pour la Doctrine de la Foi représente, à l'échelle nationale, le Dicastère pour la Doctrine de la Foi. Elle œuvre pour la promotion et la défense de la foi catholique en Côte d'Ivoire, au service de l'Église universelle.",
     "about.mission_title": "Notre Mission",
     "about.mission_p1": "La CEDF, l'une des dix commissions de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI), a pour mission principale de veiller à la pureté de la doctrine catholique et de promouvoir une formation solide des fidèles.",
-    "about.mission_p2": "Dans un contexte marqué par l'émergence de nouvelles réalités, elle remplit une mission essentielle : promouvoir et protéger le dépôt de la foi catholique, face aux dérives qui pourraient l'altérer.",
+    "about.mission_p2": "Dans un contexte marqué par l'émergence de nouvelles réalités, elle remplit une mission essentielle : promouvoir et défendre le dépôt de la foi catholique, face aux dérives qui pourraient l'altérer.",
     "about.learn_more": "En savoir plus",
     "about.doctrine": "Doctrine",
     "about.doctrine_desc": "Garder et promouvoir l'intégrité de la doctrine catholique",
