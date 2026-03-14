@@ -172,7 +172,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "apropos.commission_title": "Une Commission au Service de la",
     "apropos.faith": "Foi",
     "apropos.intro_p1": "La Commission Épiscopale pour la Doctrine de la Foi (CEDF) est l'une des dix commissions de la Conférence des Évêques Catholiques de Côte d'Ivoire (CECCI). Elle est leur instrument au service de la Promotion et de la Défense de la Foi.",
-    "apropos.intro_p2": "Dans un contexte ecclésial en mutation, marqué par l'émergence de nouvelles réalités qui interpellent la conscience du peuple de Dieu, la CEDF remplit une mission essentielle : promouvoir et protéger le dépôt de la foi catholique, face aux dérives et déviations qui pourraient l'altérer.",
+    "apropos.intro_p2": "Dans un contexte ecclésial en mutation, marqué par l'émergence de nouvelles réalités qui interpellent la conscience du peuple de Dieu, la CEDF remplit une mission essentielle : promouvoir et défendre le dépôt de la foi catholique, face aux dérives et déviations qui pourraient l'altérer.",
     "apropos.intro_p3": "Son travail repose sur la Parole de Dieu, la Tradition et le Magistère, avec comme fondement le dogme, qui oriente la théologie, la morale, la spiritualité, l'évangélisation et la liturgie.",
     "apropos.fidelity": "Fidélité au Christ",
     "apropos.communion": "Communion ecclésiale",
