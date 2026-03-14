@@ -1,50 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Radio, ShoppingCart, ChevronDown, ChevronRight } from "lucide-react";
+import { Menu, X, Radio, UserCircle, ChevronDown, ChevronRight, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import logoCendf from "@/assets/logo-cendf.png";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
-
-// Cart Context for sharing cart state across components
-export interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
-interface CartContextType {
-  cart: CartItem[];
-  addToCart: (item: Omit<CartItem, "quantity">) => void;
-  removeFromCart: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
-  clearCart: () => void;
-  cartCount: number;
-  cartTotal: number;
-}
-
-import { createContext, useContext } from "react";
-
-export const CartContext = createContext<CartContextType | null>(null);
-
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    return {
-      cart: [],
-      addToCart: () => {},
-      removeFromCart: () => {},
-      updateQuantity: () => {},
-      clearCart: () => {},
-      cartCount: 0,
-      cartTotal: 0,
-    };
-  }
-  return context;
-};
+import { useAuth } from "@/contexts/AuthContext";
 
 interface NavLink {
   name: string;
@@ -98,8 +60,8 @@ const Header = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(null);
   const location = useLocation();
-  const { cartCount } = useCart();
   const { t } = useLanguage();
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -196,13 +158,12 @@ const Header = () => {
           <div className="hidden md:flex items-center gap-2">
             <LanguageSelector />
 
-            <Link to="/boutique" className="relative">
-              <Button variant="ghost" size="icon" className="relative">
-                <ShoppingCart className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-burgundy text-primary-foreground text-xs font-bold rounded-full flex items-center justify-center">
-                    {cartCount}
-                  </span>
+            <Link to={user ? "/espace-abonne" : "/connexion"}>
+              <Button variant="ghost" size="icon" className="relative" title={user ? "Mon espace" : "Se connecter"}>
+                {user ? (
+                  <UserCircle className="w-5 h-5 text-primary" />
+                ) : (
+                  <LogIn className="w-5 h-5" />
                 )}
               </Button>
             </Link>
@@ -219,13 +180,12 @@ const Header = () => {
           <div className="flex items-center gap-1 lg:hidden">
             <LanguageSelector />
             
-            <Link to="/boutique" className="relative">
+            <Link to={user ? "/espace-abonne" : "/connexion"}>
               <Button variant="ghost" size="icon" className="relative">
-                <ShoppingCart className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-burgundy text-primary-foreground text-xs font-bold rounded-full flex items-center justify-center">
-                    {cartCount}
-                  </span>
+                {user ? (
+                  <UserCircle className="w-5 h-5 text-primary" />
+                ) : (
+                  <LogIn className="w-5 h-5" />
                 )}
               </Button>
             </Link>

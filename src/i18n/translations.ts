@@ -1193,7 +1193,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "apropos.title": "Sobre a CEDF", "apropos.subtitle": "Comissão Episcopal para a Doutrina da Fé na Costa do Marfim",
     "apropos.identity": "Nossa Identidade", "apropos.commission_title": "Uma Comissão ao Serviço da", "apropos.faith": "Fé",
     "apropos.intro_p1": "A Comissão Episcopal para a Doutrina da Fé (CEDF) é uma das dez comissões da Conferência dos Bispos Católicos da Costa do Marfim (CECCI). É o seu instrumento ao serviço da Promoção e da Defesa da Fé.",
-    "apropos.intro_p2": "Num contexto eclesial em mutação, a CEDF cumpre uma missão essencial: promover e proteger o depósito da fé católica.",
+    "apropos.intro_p2": "Num contexto eclesial em mutação, a CEDF cumpre uma missão essencial: promover e defender o depósito da fé católica.",
     "apropos.intro_p3": "O seu trabalho baseia-se na Palavra de Deus, na Tradição e no Magistério, com o dogma como fundamento.",
     "apropos.fidelity": "Fidelidade a Cristo", "apropos.communion": "Comunhão eclesial",
     "apropos.service": "Serviço fraterno", "apropos.excellence": "Excelência pastoral",

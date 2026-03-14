@@ -37,6 +37,9 @@ import FAQ from "./pages/FAQ";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import MentionsLegales from "./pages/MentionsLegales";
 import NotFound from "./pages/NotFound";
+import Connexion from "./pages/Connexion";
+import Inscription from "./pages/Inscription";
+import EspaceAbonne from "./pages/EspaceAbonne";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +82,10 @@ const AppRoutes = () => {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/confidentialite" element={<PolitiqueConfidentialite />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
+        {/* Auth routes */}
+        <Route path="/connexion" element={<Connexion />} />
+        <Route path="/inscription" element={<Inscription />} />
+        <Route path="/espace-abonne" element={<EspaceAbonne />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <ScrollToTop />
