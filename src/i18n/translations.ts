@@ -880,7 +880,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // ABOUT SECTION
     "about.badge": "Chi Siamo", "about.title": "La", "about.desc": "La Commissione Episcopale per la Dottrina della Fede rappresenta, a livello nazionale, il Dicastero per la Dottrina della Fede. Opera per la promozione e la difesa della fede cattolica in Costa d'Avorio.",
     "about.mission_title": "La Nostra Missione", "about.mission_p1": "La CEDF, una delle dieci commissioni della Conferenza dei Vescovi Cattolici della Costa d'Avorio (CECCI), ha come missione principale vigilare sulla purezza della dottrina cattolica e promuovere una solida formazione dei fedeli.",
-    "about.mission_p2": "In un contesto segnato dall'emergere di nuove realtà, compie una missione essenziale: promuovere e proteggere il deposito della fede cattolica.",
+    "about.mission_p2": "In un contesto segnato dall'emergere di nuove realtà, compie una missione essenziale: promuovere e difendere il deposito della fede cattolica.",
     "about.learn_more": "Scopri di più", "about.doctrine": "Dottrina", "about.doctrine_desc": "Custodire e promuovere l'integrità della dottrina cattolica",
     "about.formation": "Formazione", "about.formation_desc": "Formare i fedeli a una fede illuminata e viva",
     "about.vigilance": "Vigilanza", "about.vigilance_desc": "Proteggere dalle deviazioni dottrinali",
