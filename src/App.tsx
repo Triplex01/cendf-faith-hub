@@ -41,24 +41,37 @@ import Connexion from "./pages/Connexion";
 import Inscription from "./pages/Inscription";
 import EspaceAbonne from "./pages/EspaceAbonne";
 
+// Admin
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminMagazines from "./pages/admin/AdminMagazines";
+import AdminActualites from "./pages/admin/AdminActualites";
+import AdminPaiements from "./pages/admin/AdminPaiements";
+import AdminStatistiques from "./pages/admin/AdminStatistiques";
+import AdminUtilisateurs from "./pages/admin/AdminUtilisateurs";
+import AdminParametres from "./pages/admin/AdminParametres";
+
 const queryClient = new QueryClient();
 
 const AppRoutes = () => {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const isAdmin = location.pathname.startsWith("/gestion");
 
   useEffect(() => {
+    if (isAdmin) return; // No page loader for admin
     setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 800);
     return () => clearTimeout(timer);
-  }, [location.pathname]);
+  }, [location.pathname, isAdmin]);
 
   return (
     <>
       <ScrollToTopOnNavigate />
-      <PageLoader isLoading={isLoading} />
+      {!isAdmin && <PageLoader isLoading={isLoading} />}
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Index />} />
@@ -86,12 +99,27 @@ const AppRoutes = () => {
         <Route path="/connexion" element={<Connexion />} />
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/espace-abonne" element={<EspaceAbonne />} />
+        {/* Admin routes */}
+        <Route path="/gestion/connexion" element={<AdminLogin />} />
+        <Route path="/gestion" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="magazines" element={<AdminMagazines />} />
+          <Route path="actualites" element={<AdminActualites />} />
+          <Route path="paiements" element={<AdminPaiements />} />
+          <Route path="statistiques" element={<AdminStatistiques />} />
+          <Route path="utilisateurs" element={<AdminUtilisateurs />} />
+          <Route path="parametres" element={<AdminParametres />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <ScrollToTop />
-      <FloatingMediaPlayer />
-      <AIAssistant />
-      <CookieConsent />
+      {!isAdmin && (
+        <>
+          <ScrollToTop />
+          <FloatingMediaPlayer />
+          <AIAssistant />
+          <CookieConsent />
+        </>
+      )}
     </>
   );
 };

@@ -63,18 +63,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   useEffect(() => {
+    let initialSessionHandled = false;
+
     // Set up auth state listener BEFORE checking session
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setAuthLoading(true);
+      // Skip if this is the initial session (handled by getSession below)
+      if (!initialSessionHandled) return;
 
       setSession(session);
       setUser(session?.user ?? null);
 
       if (session?.user) {
-        // Ensure we don't redirect while roles are still loading
-        await checkUserRoles(session.user.id);
+        try {
+          await checkUserRoles(session.user.id);
+        } catch {
+          setRolesLoading(false);
+        }
       } else {
         setIsAdmin(false);
         setIsEditor(false);
@@ -88,11 +94,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     supabase.auth
       .getSession()
       .then(async ({ data: { session } }) => {
+        initialSessionHandled = true;
         setSession(session);
         setUser(session?.user ?? null);
 
         if (session?.user) {
-          await checkUserRoles(session.user.id);
+          try {
+            await checkUserRoles(session.user.id);
+          } catch {
+            setRolesLoading(false);
+          }
         } else {
           setRolesLoading(false);
         }
@@ -100,6 +111,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setAuthLoading(false);
       })
       .catch((error) => {
+        initialSessionHandled = true;
         logger.error('Error getting session', error);
         setIsAdmin(false);
         setIsEditor(false);
@@ -107,7 +119,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setAuthLoading(false);
       });
 
-    return () => subscription.unsubscribe();
+    // Safety timeout: never stay loading more than 5 seconds
+    const safetyTimeout = setTimeout(() => {
+      setAuthLoading(false);
+      setRolesLoading(false);
+    }, 5000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(safetyTimeout);
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
