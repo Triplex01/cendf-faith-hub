@@ -276,7 +276,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.listen": "Ouvir",
     "nav.listen_radio": "Ouvir Rádio ao vivo",
     "hero.badge": "COMISSÃO EPISCOPAL PARA A DOUTRINA DA FÉ – CI",
-    "hero.title1": "Promover e Proteger",
+    "hero.title1": "Promover e Defender",
     "hero.title2": "o Depósito da Fé",
     "hero.quote": '"Eu sou o Caminho, a Verdade e a Vida."',
     "hero.quote_ref": "— João 14:6",
