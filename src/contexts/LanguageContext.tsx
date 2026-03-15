@@ -30,7 +30,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.listen": "Écouter",
     "nav.listen_radio": "Écouter la Radio en direct",
     "hero.badge": "COMMISSION EPISCOPALE POUR LA DOCTRINE DE LA FOI – CI",
-    "hero.title1": "Promouvoir et Protéger",
+    "hero.title1": "Promouvoir et Défendre",
     "hero.title2": "le Dépôt de la Foi",
     "hero.quote": "« Je suis le Chemin, la Vérité et la Vie. »",
     "hero.quote_ref": "— Jean 14:6",
