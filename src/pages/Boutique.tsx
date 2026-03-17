@@ -310,7 +310,7 @@ const Boutique = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/abonnement">
+              <Link to="/inscription?plan=digital">
                 <Button variant="outline" className="w-full border-primary/20 text-foreground hover:bg-primary/5 hover:border-primary/40 transition-all text-xs md:text-sm">
                   S'abonner
                 </Button>
