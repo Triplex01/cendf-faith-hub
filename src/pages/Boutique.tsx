@@ -347,7 +347,7 @@ const Boutique = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/abonnement">
+              <Link to="/inscription?plan=paper">
                 <Button variant="burgundy" className="w-full shadow-lg shadow-primary/20 text-xs md:text-base py-4 md:py-5">
                   S'abonner maintenant
                 </Button>
