@@ -157,7 +157,7 @@ const Boutique = () => {
                   Commander ce numéro
                   <ArrowRight className="w-4 h-4" />
                 </Button>
-                <Link to="/abonnement">
+                <Link to="/inscription?plan=paper">
                   <Button variant="outline" size="lg" className="gap-2 w-full sm:w-auto border-primary/20">
                     S'abonner
                     <ArrowRight className="w-4 h-4" />
@@ -310,7 +310,7 @@ const Boutique = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/abonnement">
+              <Link to="/inscription?plan=digital">
                 <Button variant="outline" className="w-full border-primary/20 text-foreground hover:bg-primary/5 hover:border-primary/40 transition-all text-xs md:text-sm">
                   S'abonner
                 </Button>
@@ -347,7 +347,7 @@ const Boutique = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/abonnement">
+              <Link to="/inscription?plan=paper">
                 <Button variant="burgundy" className="w-full shadow-lg shadow-primary/20 text-xs md:text-base py-4 md:py-5">
                   S'abonner maintenant
                 </Button>
@@ -378,7 +378,7 @@ const Boutique = () => {
                   </li>
                 ))}
               </ul>
-              <Link to="/abonnement">
+              <Link to="/inscription?plan=premium">
                 <Button variant="outline" className="w-full border-primary/20 text-foreground hover:bg-primary/5 hover:border-primary/40 transition-all text-xs md:text-sm">
                   S'abonner
                 </Button>
