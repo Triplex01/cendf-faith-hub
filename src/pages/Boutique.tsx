@@ -157,7 +157,7 @@ const Boutique = () => {
                   Commander ce numéro
                   <ArrowRight className="w-4 h-4" />
                 </Button>
-                <Link to="/abonnement">
+                <Link to="/inscription?plan=paper">
                   <Button variant="outline" size="lg" className="gap-2 w-full sm:w-auto border-primary/20">
                     S'abonner
                     <ArrowRight className="w-4 h-4" />

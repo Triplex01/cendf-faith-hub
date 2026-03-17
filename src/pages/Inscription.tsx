@@ -46,8 +46,10 @@ const Inscription = () => {
   const { signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [step, setStep] = useState<"plan" | "info">("plan");
-  const [selectedPlan, setSelectedPlan] = useState("paper");
+  const [searchParams] = useSearchParams();
+  const planFromUrl = searchParams.get("plan");
+  const [step, setStep] = useState<"plan" | "info">(planFromUrl ? "info" : "plan");
+  const [selectedPlan, setSelectedPlan] = useState(planFromUrl && ["digital", "paper", "premium"].includes(planFromUrl) ? planFromUrl : "paper");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
