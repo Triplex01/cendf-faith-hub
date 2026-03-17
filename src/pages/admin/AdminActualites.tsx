@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Newspaper, Plus, Search, Edit3, Trash2, Save, X,
-  Clock, Eye, EyeOff
+  Clock, Image as ImageIcon, Upload
 } from "lucide-react";
 
 const AdminActualites = () => {
@@ -15,17 +15,18 @@ const AdminActualites = () => {
   const [loading, setLoading] = useState(true);
   const [showEditor, setShowEditor] = useState(false);
   const [editArticle, setEditArticle] = useState<any>(null);
-  const [form, setForm] = useState({ title: "", slug: "", excerpt: "", content: "", category: "", status: "draft" });
+  const [form, setForm] = useState({ title: "", slug: "", excerpt: "", content: "", category: "", status: "draft", featured_image: "" });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     loadArticles();
-
-    // Realtime subscription
     const channel = supabase
       .channel("admin-articles")
       .on("postgres_changes", { event: "*", schema: "public", table: "articles" }, () => loadArticles())
       .subscribe();
-
     return () => { supabase.removeChannel(channel); };
   }, []);
 
@@ -35,23 +36,67 @@ const AdminActualites = () => {
     setLoading(false);
   };
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast({ title: "Image trop volumineuse", description: "Maximum 5 Mo", variant: "destructive" });
+      return;
+    }
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const uploadImage = async (): Promise<string | null> => {
+    if (!imageFile) return form.featured_image || null;
+    setUploading(true);
+    const ext = imageFile.name.split(".").pop();
+    const path = `articles/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error } = await supabase.storage.from("email-assets").upload(path, imageFile, { cacheControl: "3600", upsert: false });
+    setUploading(false);
+    if (error) {
+      toast({ title: "Erreur upload", description: error.message, variant: "destructive" });
+      return form.featured_image || null;
+    }
+    const { data: urlData } = supabase.storage.from("email-assets").getPublicUrl(path);
+    return urlData.publicUrl;
+  };
+
   const handleSave = async () => {
+    if (!form.title.trim()) {
+      toast({ title: "Le titre est requis", variant: "destructive" });
+      return;
+    }
+    setUploading(true);
+    const imageUrl = await uploadImage();
     const slug = form.slug || form.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-    const payload = { ...form, slug, published_at: form.status === "published" ? new Date().toISOString() : null };
+    const payload = {
+      ...form,
+      slug,
+      featured_image: imageUrl,
+      published_at: form.status === "published" ? new Date().toISOString() : null,
+    };
 
     if (editArticle) {
       const { error } = await supabase.from("articles").update(payload).eq("id", editArticle.id);
-      if (error) { toast({ title: "Erreur", description: error.message, variant: "destructive" }); return; }
+      if (error) { toast({ title: "Erreur", description: error.message, variant: "destructive" }); setUploading(false); return; }
       toast({ title: "Article mis à jour" });
     } else {
       const { error } = await supabase.from("articles").insert(payload);
-      if (error) { toast({ title: "Erreur", description: error.message, variant: "destructive" }); return; }
+      if (error) { toast({ title: "Erreur", description: error.message, variant: "destructive" }); setUploading(false); return; }
       toast({ title: "Article créé" });
     }
 
+    setUploading(false);
+    closeEditor();
+  };
+
+  const closeEditor = () => {
     setShowEditor(false);
     setEditArticle(null);
-    setForm({ title: "", slug: "", excerpt: "", content: "", category: "", status: "draft" });
+    setImageFile(null);
+    setImagePreview(null);
+    setForm({ title: "", slug: "", excerpt: "", content: "", category: "", status: "draft", featured_image: "" });
   };
 
   const handleEdit = (article: any) => {
@@ -63,7 +108,10 @@ const AdminActualites = () => {
       content: article.content || "",
       category: article.category || "",
       status: article.status,
+      featured_image: article.featured_image || "",
     });
+    setImagePreview(article.featured_image || null);
+    setImageFile(null);
     setShowEditor(true);
   };
 
@@ -97,8 +145,7 @@ const AdminActualites = () => {
           <p className="text-sm text-muted-foreground mt-1">{articles.length} articles</p>
         </div>
         <Button variant="burgundy" className="gap-2 shrink-0" onClick={() => {
-          setEditArticle(null);
-          setForm({ title: "", slug: "", excerpt: "", content: "", category: "", status: "draft" });
+          closeEditor();
           setShowEditor(true);
         }}>
           <Plus className="w-4 h-4" />
@@ -119,7 +166,7 @@ const AdminActualites = () => {
               <h3 className="font-display font-bold text-foreground">
                 {editArticle ? "Modifier l'article" : "Nouvel article"}
               </h3>
-              <button onClick={() => setShowEditor(false)} className="text-muted-foreground hover:text-foreground">
+              <button onClick={closeEditor} className="text-muted-foreground hover:text-foreground">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -128,6 +175,43 @@ const AdminActualites = () => {
                 <label className="text-sm font-medium text-foreground mb-1 block">Titre *</label>
                 <Input value={form.title} onChange={(e) => setForm(f => ({ ...f, title: e.target.value }))} className="h-11" />
               </div>
+
+              {/* Image upload */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1 block">Image à la une</label>
+                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageSelect} className="hidden" />
+                {imagePreview ? (
+                  <div className="relative rounded-xl overflow-hidden border border-border group">
+                    <img src={imagePreview} alt="Aperçu" className="w-full h-48 object-cover" />
+                    <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-colors flex items-center justify-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-full bg-background/90 text-foreground hover:bg-background"
+                      >
+                        <Upload className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => { setImageFile(null); setImagePreview(null); setForm(f => ({ ...f, featured_image: "" })); }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-full bg-background/90 text-destructive hover:bg-background"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full h-32 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors"
+                  >
+                    <ImageIcon className="w-8 h-8" />
+                    <span className="text-sm">Cliquer pour ajouter une image</span>
+                  </button>
+                )}
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-foreground mb-1 block">Catégorie</label>
@@ -164,11 +248,11 @@ const AdminActualites = () => {
                 />
               </div>
               <div className="flex gap-3 pt-2">
-                <Button variant="outline" onClick={() => setShowEditor(false)} className="flex-1 gap-2">
+                <Button variant="outline" onClick={closeEditor} className="flex-1 gap-2">
                   <X className="w-4 h-4" /> Annuler
                 </Button>
-                <Button variant="burgundy" onClick={handleSave} className="flex-1 gap-2">
-                  <Save className="w-4 h-4" /> {editArticle ? "Mettre à jour" : "Créer"}
+                <Button variant="burgundy" onClick={handleSave} disabled={uploading} className="flex-1 gap-2">
+                  <Save className="w-4 h-4" /> {uploading ? "Envoi..." : editArticle ? "Mettre à jour" : "Créer"}
                 </Button>
               </div>
             </div>
@@ -187,7 +271,7 @@ const AdminActualites = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border bg-muted/50">
-                  <th className="text-left text-xs font-bold text-muted-foreground uppercase tracking-wider px-5 py-3">Titre</th>
+                  <th className="text-left text-xs font-bold text-muted-foreground uppercase tracking-wider px-5 py-3">Article</th>
                   <th className="text-left text-xs font-bold text-muted-foreground uppercase tracking-wider px-5 py-3 hidden md:table-cell">Catégorie</th>
                   <th className="text-left text-xs font-bold text-muted-foreground uppercase tracking-wider px-5 py-3">Statut</th>
                   <th className="text-left text-xs font-bold text-muted-foreground uppercase tracking-wider px-5 py-3 hidden md:table-cell">Date</th>
@@ -198,7 +282,16 @@ const AdminActualites = () => {
                 {filtered.map((art) => (
                   <tr key={art.id} className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
                     <td className="px-5 py-4">
-                      <p className="font-medium text-sm text-foreground truncate max-w-xs">{art.title}</p>
+                      <div className="flex items-center gap-3">
+                        {art.featured_image ? (
+                          <img src={art.featured_image} alt="" className="w-10 h-10 rounded-lg object-cover shrink-0" />
+                        ) : (
+                          <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
+                            <ImageIcon className="w-4 h-4 text-muted-foreground" />
+                          </div>
+                        )}
+                        <p className="font-medium text-sm text-foreground truncate max-w-xs">{art.title}</p>
+                      </div>
                     </td>
                     <td className="px-5 py-4 hidden md:table-cell">
                       <span className="text-xs text-muted-foreground">{art.category || "—"}</span>

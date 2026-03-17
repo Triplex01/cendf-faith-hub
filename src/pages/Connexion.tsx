@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { LogIn, Mail, Lock, BookOpen, Eye, EyeOff } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { LogIn, Mail, Lock, BookOpen, Eye, EyeOff, KeyRound } from "lucide-react";
 import logoCendf from "@/assets/logo-cendf.png";
 import basiliqueImg from "@/assets/basilique-yamoussoukro-new.jpg";
 
@@ -16,8 +17,10 @@ const Connexion = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showReset, setShowReset] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetSent, setResetSent] = useState(false);
 
-  // Redirect if already logged in
   if (user) {
     navigate("/espace-abonne");
     return null;
@@ -33,6 +36,19 @@ const Connexion = () => {
     } else {
       toast({ title: "Bienvenue !", description: "Connexion réussie." });
       navigate("/espace-abonne");
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: `${window.location.origin}/connexion`,
+    });
+    if (error) {
+      toast({ title: "Erreur", description: "Impossible d'envoyer le lien.", variant: "destructive" });
+    } else {
+      setResetSent(true);
+      toast({ title: "Email envoyé", description: "Vérifiez votre boîte mail pour réinitialiser votre mot de passe." });
     }
   };
 
@@ -69,60 +85,121 @@ const Connexion = () => {
               Espace Abonné
             </h1>
             <p className="text-muted-foreground text-sm">
-              Connectez-vous pour accéder à vos magazines
+              {showReset ? "Réinitialisez votre mot de passe" : "Connectez-vous pour accéder à vos magazines"}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="text-sm font-medium text-foreground mb-1.5 flex items-center gap-2">
-                <Mail className="w-4 h-4 text-muted-foreground" />
-                Adresse email
-              </label>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="votre@email.com"
-                required
-                className="h-12"
-              />
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-foreground mb-1.5 flex items-center gap-2">
-                <Lock className="w-4 h-4 text-muted-foreground" />
-                Mot de passe
-              </label>
-              <div className="relative">
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="h-12 pr-12"
-                />
+          {showReset ? (
+            resetSent ? (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-secondary/10 flex items-center justify-center">
+                  <Mail className="w-8 h-8 text-secondary" />
+                </div>
+                <p className="font-display font-bold text-foreground mb-2">Lien envoyé !</p>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Vérifiez votre boîte mail pour réinitialiser votre mot de passe.
+                </p>
+                <Button variant="outline" onClick={() => { setShowReset(false); setResetSent(false); }} className="gap-2">
+                  Retour à la connexion
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleResetPassword} className="space-y-5">
+                <div className="text-center mb-4">
+                  <KeyRound className="w-10 h-10 text-primary mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">
+                    Entrez votre email pour recevoir un lien de réinitialisation.
+                  </p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground mb-1.5 flex items-center gap-2">
+                    <Mail className="w-4 h-4 text-muted-foreground" />
+                    Adresse email
+                  </label>
+                  <Input
+                    type="email"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    placeholder="votre@email.com"
+                    required
+                    className="h-12"
+                  />
+                </div>
+                <Button type="submit" variant="burgundy" className="w-full h-12 gap-2">
+                  <Mail className="w-4 h-4" />
+                  Envoyer le lien
+                </Button>
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={() => setShowReset(false)}
+                  className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  ← Retour à la connexion
+                </button>
+              </form>
+            )
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-muted-foreground" />
+                  Adresse email
+                </label>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="votre@email.com"
+                  required
+                  className="h-12"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-muted-foreground" />
+                  Mot de passe
+                </label>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    className="h-12 pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={() => setShowReset(true)}
+                  className="text-sm text-primary hover:underline font-medium"
+                >
+                  Mot de passe oublié ?
                 </button>
               </div>
-            </div>
 
-            <Button
-              type="submit"
-              variant="burgundy"
-              className="w-full h-12 text-base gap-2"
-              disabled={loading}
-            >
-              <LogIn className="w-4 h-4" />
-              {loading ? "Connexion en cours..." : "Se connecter"}
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                variant="burgundy"
+                className="w-full h-12 text-base gap-2"
+                disabled={loading}
+              >
+                <LogIn className="w-4 h-4" />
+                {loading ? "Connexion en cours..." : "Se connecter"}
+              </Button>
+            </form>
+          )}
 
           <div className="mt-8 text-center space-y-3">
             <p className="text-sm text-muted-foreground">
