@@ -18,6 +18,7 @@ import CookieConsent from "@/components/CookieConsent";
 import Index from "./pages/Index";
 import Enseignements from "./pages/Enseignements";
 import EnseignementDetail from "./pages/EnseignementDetail";
+import EnseignementArticle from "./pages/EnseignementArticle";
 import DocumentsArchives from "./pages/DocumentsArchives";
 import Radio from "./pages/Radio";
 import Actualites from "./pages/Actualites";
@@ -77,6 +78,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Index />} />
         <Route path="/enseignements" element={<Enseignements />} />
         <Route path="/enseignement/:slug" element={<EnseignementDetail />} />
+        <Route path="/enseignements/article/:slug" element={<EnseignementArticle />} />
         <Route path="/documents-archives" element={<DocumentsArchives />} />
         <Route path="/a-propos" element={<APropos />} />
         <Route path="/radio" element={<Radio />} />
