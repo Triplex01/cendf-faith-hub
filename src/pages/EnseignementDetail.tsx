@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
+import { getArticlesByCategory } from "@/config/enseignementsArticles";
 import { Button } from "@/components/ui/button";
 import { 
   BookOpen, 
@@ -306,6 +307,7 @@ const EnseignementDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const enseignement = enseignementsData[slug || ""] || enseignementsData["fondements-foi"];
   const IconComponent = enseignement.icon;
+  const categoryArticles = getArticlesByCategory(slug || "");
 
   return (
     <PageLayout 
@@ -410,7 +412,49 @@ const EnseignementDetail = () => {
             </div>
           </div>
 
-          {/* Articles complémentaires */}
+          {/* Articles d'enseignement */}
+          {categoryArticles.length > 0 && (
+            <div className="mb-16">
+              <h2 className="font-display text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+                <BookOpen className="w-6 h-6 text-primary" />
+                Articles d'enseignement
+              </h2>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                {categoryArticles.map((article) => (
+                  <Link 
+                    key={article.slug}
+                    to={`/enseignements/article/${article.slug}`}
+                    className="bg-card rounded-xl p-6 border border-border hover:border-primary/30 hover:shadow-elegant transition-all cursor-pointer group"
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="px-2 py-0.5 bg-primary/10 text-primary rounded text-xs font-medium">
+                        {article.categoryLabel}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        {new Date(article.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}
+                      </span>
+                    </div>
+                    <h3 className="font-display text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                      {article.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                      {article.excerpt}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground">{article.author}</span>
+                      <span className="inline-flex items-center gap-1 text-primary text-sm font-medium group-hover:gap-2 transition-all">
+                        Lire
+                        <ChevronRight className="w-4 h-4" />
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Articles complémentaires (anciens) */}
           {enseignement.articles.length > 0 && (
             <div className="mb-16">
               <h2 className="font-display text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
