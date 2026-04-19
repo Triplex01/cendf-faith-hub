@@ -1,19 +1,10 @@
 import { useParams, Link } from "react-router-dom";
-import PageLayout from "@/components/PageLayout";
 import { getArticleBySlug, enseignementsArticles } from "@/config/enseignementsArticles";
-import { ArrowLeft, Calendar, User, BookOpen, Share2, Bookmark, ChevronRight, Clock } from "lucide-react";
+import { ArrowLeft, BookOpen, Share2, Printer, ChevronRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import teachingImage from "@/assets/teaching-priest.jpg";
-import basiliquImage from "@/assets/basilique-notredame.jpg";
-import reunionImage from "@/assets/reunion-eglise.jpg";
-
-const categoryImages: Record<string, string> = {
-  liturgie: teachingImage,
-  "fondements-foi": basiliquImage,
-  "vie-spirituelle": reunionImage,
-  "etudes-bibliques": basiliquImage,
-  "vie-familiale": reunionImage,
-};
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import logoCendf from "@/assets/logo-cendf.png";
 
 const EnseignementArticle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -21,22 +12,23 @@ const EnseignementArticle = () => {
 
   if (!article) {
     return (
-      <PageLayout title="Article introuvable" subtitle="Cet enseignement n'existe pas" backgroundImage={teachingImage}>
-        <div className="py-20 text-center">
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-32 text-center">
           <BookOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
           <h2 className="font-display text-2xl font-bold text-foreground mb-4">Article introuvable</h2>
           <Link to="/enseignements">
             <Button variant="burgundy">Retour aux enseignements</Button>
           </Link>
         </div>
-      </PageLayout>
+        <Footer />
+      </div>
     );
   }
 
-  const bgImage = categoryImages[article.category] || teachingImage;
   const relatedArticles = enseignementsArticles
     .filter((a) => a.category === article.category && a.slug !== article.slug)
-    .slice(0, 3);
+    .slice(0, 4);
 
   const handleShare = () => {
     if (navigator.share) {
@@ -46,150 +38,203 @@ const EnseignementArticle = () => {
     }
   };
 
+  const handlePrint = () => window.print();
+
+  const formattedDate = new Date(article.date).toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
-    <PageLayout title={article.title} subtitle={article.categoryLabel} backgroundImage={bgImage}>
-      <article className="py-12 lg:py-20">
-        <div className="container mx-auto px-4">
-          {/* Breadcrumb */}
-          <nav className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
-            <Link to="/enseignements" className="hover:text-primary transition-colors">Enseignements</Link>
-            <ChevronRight className="w-4 h-4" />
-            <Link to={`/enseignement/${article.category}`} className="hover:text-primary transition-colors">
-              {article.categoryLabel}
-            </Link>
-            <ChevronRight className="w-4 h-4" />
-            <span className="text-foreground truncate max-w-[200px]">{article.title}</span>
-          </nav>
+    <div className="min-h-screen bg-background">
+      <Header />
 
-          <div className="grid lg:grid-cols-[1fr_320px] gap-12">
-            {/* Main content */}
-            <div>
-              {/* Article header */}
-              <header className="mb-10">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold uppercase tracking-wider">
-                    {article.categoryLabel}
-                  </span>
+      {/* Vatican-style document container */}
+      <main className="bg-[hsl(45,30%,94%)] py-8 md:py-12 print:bg-white print:py-0">
+        <article className="container mx-auto max-w-5xl bg-white shadow-elegant print:shadow-none">
+          {/* Document Header — style Saint-Siège */}
+          <div className="border-b border-border/50 px-6 md:px-16 py-10 md:py-14">
+            <div className="flex items-start justify-between gap-6 mb-8">
+              {/* Left: site name */}
+              <Link to="/" className="font-display italic text-xl md:text-2xl text-foreground/90 hover:text-primary transition-colors">
+                <span className="text-sm md:text-base font-light">La </span>
+                <span className="tracking-wider">CEDF</span>
+              </Link>
+
+              {/* Center: logo */}
+              <Link to="/" className="flex-shrink-0">
+                <img src={logoCendf} alt="CEDF" className="h-16 md:h-20 w-auto" />
+              </Link>
+
+              {/* Right: actions */}
+              <div className="flex items-center gap-2 md:gap-3">
+                <button
+                  onClick={handlePrint}
+                  className="text-secondary hover:text-primary transition-colors p-2"
+                  aria-label="Imprimer"
+                  title="Imprimer"
+                >
+                  <Printer className="w-5 h-5 md:w-6 md:h-6" />
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="text-secondary hover:text-primary transition-colors p-2"
+                  aria-label="Partager"
+                  title="Partager"
+                >
+                  <Share2 className="w-5 h-5 md:w-6 md:h-6" />
+                </button>
+                <div className="hidden md:flex items-center gap-1 text-secondary text-sm uppercase tracking-wider ml-2">
+                  <Globe className="w-4 h-4" />
+                  <span>FR</span>
                 </div>
-                <h1 className="font-display text-3xl md:text-4xl lg:text-[2.5rem] font-bold text-foreground leading-tight mb-6">
-                  {article.title}
-                </h1>
-                <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground border-b border-border pb-6">
-                  <span className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-primary" />
-                    {article.author}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-primary" />
-                    {new Date(article.date).toLocaleDateString("fr-FR", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-primary" />
-                    {Math.ceil(article.content.split(" ").length / 200)} min de lecture
-                  </span>
-                </div>
-              </header>
-
-              {/* Decorative initial line */}
-              <div className="w-16 h-1 bg-primary mb-8 rounded-full" />
-
-              {/* Article body */}
-              <div
-                className="prose prose-lg max-w-none
-                  prose-headings:font-display prose-headings:text-foreground prose-headings:font-bold
-                  prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-4
-                  prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-                  prose-p:text-muted-foreground prose-p:leading-[1.85] prose-p:mb-5 prose-p:text-[1.05rem]
-                  prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5
-                  prose-blockquote:rounded-r-xl prose-blockquote:py-4 prose-blockquote:px-6
-                  prose-blockquote:text-foreground prose-blockquote:italic prose-blockquote:font-display
-                  prose-blockquote:not-italic prose-blockquote:text-lg
-                  prose-strong:text-foreground
-                  prose-em:text-primary/80
-                  [&_.lead]:text-lg [&_.lead]:font-medium [&_.lead]:text-foreground [&_.lead]:leading-relaxed [&_.lead]:mb-8
-                  [&_cite]:block [&_cite]:text-sm [&_cite]:text-muted-foreground [&_cite]:mt-2 [&_cite]:not-italic
-                "
-                dangerouslySetInnerHTML={{ __html: article.content }}
-              />
-
-              {/* Author box */}
-              <div className="mt-12 p-6 bg-card border border-border rounded-2xl">
-                <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <User className="w-7 h-7 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-display font-bold text-foreground text-lg">{article.author}</h4>
-                    <p className="text-muted-foreground text-sm mt-1 leading-relaxed">{article.authorBio}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex gap-3 mt-8">
-                <Button variant="outline" className="gap-2" onClick={handleShare}>
-                  <Share2 className="w-4 h-4" />
-                  Partager
-                </Button>
-                <Button variant="outline" className="gap-2">
-                  <Bookmark className="w-4 h-4" />
-                  Sauvegarder
-                </Button>
-                <Link to="/enseignements" className="ml-auto">
-                  <Button variant="burgundy" className="gap-2">
-                    <ArrowLeft className="w-4 h-4" />
-                    Tous les enseignements
-                  </Button>
-                </Link>
               </div>
             </div>
 
-            {/* Sidebar */}
-            <aside className="space-y-8">
-              {/* Category nav */}
-              <div className="bg-card border border-border rounded-2xl p-6 sticky top-24">
-                <h3 className="font-display font-bold text-foreground mb-4 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-primary" />
-                  Dans cette catégorie
-                </h3>
-                <div className="space-y-3">
-                  {relatedArticles.length > 0 ? (
-                    relatedArticles.map((a) => (
-                      <Link
-                        key={a.slug}
-                        to={`/enseignements/article/${a.slug}`}
-                        className="block p-3 rounded-xl hover:bg-primary/5 transition-colors group"
-                      >
-                        <h4 className="font-medium text-sm text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                          {a.title}
-                        </h4>
-                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{a.excerpt}</p>
-                      </Link>
-                    ))
-                  ) : (
-                    <p className="text-sm text-muted-foreground">D'autres articles seront bientôt disponibles.</p>
-                  )}
-                </div>
-
-                <div className="mt-4 pt-4 border-t border-border">
-                  <Link
-                    to={`/enseignement/${article.category}`}
-                    className="text-sm text-primary font-medium hover:underline flex items-center gap-1"
-                  >
-                    Voir tous les enseignements
-                    <ChevronRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
-            </aside>
+            {/* Breadcrumb chapeau */}
+            <div className="text-xs md:text-sm uppercase tracking-[0.2em] text-secondary font-display">
+              <Link to="/enseignements" className="hover:text-primary transition-colors">
+                ENSEIGNEMENTS
+              </Link>
+              <span className="mx-2 text-muted-foreground">|</span>
+              <Link to={`/enseignement/${article.category}`} className="hover:text-primary transition-colors">
+                {article.categoryLabel.toUpperCase()}
+              </Link>
+              <span className="mx-2 text-muted-foreground">|</span>
+              <span>{new Date(article.date).getFullYear()}</span>
+            </div>
           </div>
-        </div>
-      </article>
-    </PageLayout>
+
+          {/* Document body */}
+          <div className="px-6 md:px-16 py-10 md:py-16">
+            {/* Language strip */}
+            <div className="flex justify-center items-center gap-3 md:gap-4 mb-10 text-secondary font-display text-sm md:text-base">
+              <span className="text-secondary font-semibold">FR</span>
+              <span className="text-muted-foreground">-</span>
+              <span className="text-muted-foreground hover:text-secondary cursor-pointer transition-colors">EN</span>
+              <span className="text-muted-foreground">-</span>
+              <span className="text-muted-foreground hover:text-secondary cursor-pointer transition-colors">IT</span>
+              <span className="text-muted-foreground">-</span>
+              <span className="text-muted-foreground hover:text-secondary cursor-pointer transition-colors">PT</span>
+            </div>
+
+            {/* Title block — central, italic, bold like Vatican */}
+            <header className="text-center mb-12 md:mb-16">
+              <h1 className="font-display italic font-bold text-foreground text-2xl md:text-3xl lg:text-[2rem] leading-tight uppercase tracking-wide max-w-3xl mx-auto">
+                {article.title}
+              </h1>
+
+              <div className="mt-8 text-foreground/80 italic font-display text-base md:text-lg space-y-1">
+                <p>Commission Épiscopale pour la Doctrine de la Foi</p>
+                <p className="capitalize">{formattedDate}</p>
+              </div>
+
+              {/* Decorative separator */}
+              <div className="flex items-center justify-center gap-4 mt-10">
+                <div className="h-px w-16 md:w-24 bg-secondary/40" />
+                <div className="w-2 h-2 rounded-full bg-secondary" />
+                <div className="h-px w-16 md:w-24 bg-secondary/40" />
+              </div>
+            </header>
+
+            {/* Article body — serif, justified */}
+            <div
+              className="prose prose-lg max-w-none mx-auto
+                prose-headings:font-display prose-headings:text-foreground prose-headings:font-bold prose-headings:italic
+                prose-h2:text-xl md:prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-5 prose-h2:text-center prose-h2:uppercase prose-h2:tracking-wide
+                prose-h3:text-lg md:prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-secondary
+                prose-p:text-foreground/90 prose-p:leading-[1.9] prose-p:mb-5 prose-p:text-base md:prose-p:text-[1.0625rem] prose-p:text-justify
+                prose-p:font-serif
+                prose-blockquote:border-l-4 prose-blockquote:border-secondary prose-blockquote:bg-secondary/5
+                prose-blockquote:rounded-r-lg prose-blockquote:py-3 prose-blockquote:px-6 prose-blockquote:my-6
+                prose-blockquote:text-foreground prose-blockquote:italic prose-blockquote:font-display
+                prose-blockquote:text-base md:prose-blockquote:text-lg prose-blockquote:not-italic
+                prose-strong:text-foreground prose-strong:font-semibold
+                prose-em:text-foreground/95
+                [&_.lead]:text-base md:[&_.lead]:text-lg [&_.lead]:font-medium [&_.lead]:text-foreground
+                [&_.lead]:leading-relaxed [&_.lead]:mb-8 [&_.lead]:text-justify [&_.lead]:font-serif
+                [&_cite]:block [&_cite]:text-sm [&_cite]:text-secondary [&_cite]:mt-2 [&_cite]:not-italic [&_cite]:text-right
+              "
+              dangerouslySetInnerHTML={{ __html: article.content }}
+            />
+
+            {/* Signature/Author block — Vatican style */}
+            <div className="mt-16 pt-8 border-t border-border/50 text-center">
+              <p className="font-display italic text-foreground text-lg md:text-xl">
+                {article.author}
+              </p>
+              <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto">
+                {article.authorBio}
+              </p>
+            </div>
+
+            {/* Decorative bottom seal */}
+            <div className="flex items-center justify-center gap-4 mt-10">
+              <div className="h-px w-20 bg-secondary/40" />
+              <div className="text-secondary font-display text-2xl">✠</div>
+              <div className="h-px w-20 bg-secondary/40" />
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-wrap gap-3 justify-center mt-10 print:hidden">
+              <Link to={`/enseignement/${article.category}`}>
+                <Button variant="outline" className="gap-2">
+                  <ArrowLeft className="w-4 h-4" />
+                  Retour à la catégorie
+                </Button>
+              </Link>
+              <Link to="/enseignements">
+                <Button variant="burgundy" className="gap-2">
+                  <BookOpen className="w-4 h-4" />
+                  Tous les enseignements
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Related articles */}
+          {relatedArticles.length > 0 && (
+            <div className="border-t border-border/50 px-6 md:px-16 py-10 md:py-14 bg-[hsl(45,30%,97%)] print:hidden">
+              <h2 className="font-display italic font-bold text-foreground text-xl md:text-2xl text-center uppercase tracking-wide mb-2">
+                Dans la même catégorie
+              </h2>
+              <div className="flex items-center justify-center gap-3 mb-10">
+                <div className="h-px w-12 bg-secondary/40" />
+                <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                <div className="h-px w-12 bg-secondary/40" />
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
+                {relatedArticles.map((a) => (
+                  <Link
+                    key={a.slug}
+                    to={`/enseignements/article/${a.slug}`}
+                    className="group bg-white border border-border rounded-lg p-5 hover:border-secondary/50 hover:shadow-md transition-all"
+                  >
+                    <span className="text-xs uppercase tracking-wider text-secondary font-display font-semibold">
+                      {a.categoryLabel}
+                    </span>
+                    <h3 className="font-display italic font-bold text-foreground mt-2 mb-2 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                      {a.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground line-clamp-2 mb-3 font-serif">
+                      {a.excerpt}
+                    </p>
+                    <span className="inline-flex items-center gap-1 text-primary text-sm font-medium group-hover:gap-2 transition-all">
+                      Lire <ChevronRight className="w-4 h-4" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </article>
+      </main>
+
+      <Footer />
+    </div>
   );
 };
 
