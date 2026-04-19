@@ -311,6 +311,215 @@ export const enseignementsArticles: EnseignementArticle[] = [
       <p>L'être humain est défini par l'initiative de Dieu qui se tourne vers lui. Un être de relation appelé à répondre librement à l'amour reçu. Sa vérité n'est ni dans l'autosuffisance, ni dans la performance, mais dans cette parole fondatrice par laquelle Dieu se souvient de lui.</p>
     `,
   },
+  {
+    slug: "le-dieu-juif",
+    title: "Le Dieu juif !",
+    author: "Père Jean-Marc Abel KAMLAN",
+    authorBio: "Exégète, Grand Séminaire de Gagnoa.",
+    category: "fondements-foi",
+    categoryLabel: "Fondements de la Foi",
+    excerpt: "Une plongée dans l'expérience d'Israël avec le Dieu unique, à travers l'Ancien et le Nouveau Testament jusqu'à la pleine révélation en Jésus-Christ.",
+    date: "2026-03-05",
+    content: `
+      <p class="lead">Voici un titre qui à bien des égards pourrait paraître polémique et équivoque. Parler d'un Dieu juif voudrait dire qu'il y aurait aussi un Dieu africain, tout comme il y aurait un Dieu chinois ou encore un Dieu américain. Non, il n'y a pas une multiplicité de dieux : il y a bel et bien un seul Dieu, immuable, omniscient et omnipotent, dont la transcendance n'exclut pas l'immanence.</p>
+
+      <p>De ce Dieu, le peuple juif en tant que peuple de l'Alliance, en a fait le premier l'expérience, à tâtons, à travers ombres et lumières, échecs et victoires, avant la pleine, définitive et complète révélation accomplie en Jésus-Christ. C'est le fruit de cette expérience, consignée dans les Saintes Écritures, que nous nous proposons de faire ressortir.</p>
+
+      <h2>1. Dans l'Ancien Testament</h2>
+
+      <h3>1.1. L'existence de Dieu</h3>
+
+      <p>La réalité de l'existence de Dieu est confessée dans les écrits vétérotestamentaires non pas comme le fruit d'un raisonnement philosophique mais comme une vérité allant de soi. Les miracles de Dieu sur les éléments de la nature, ou dans la vie de l'homme, ne sont pas rappelés pour prouver son existence mais pour affermir la foi des hommes (Ex 4,1-8 ; Is 40,5) ou pour faire naître leur louange (Ps 19,8-10 ; Is 40,27-31).</p>
+
+      <p>Il s'agit moins de spéculer sur la nature de Dieu que de montrer aux hommes la vérité de sa présence et de sa proximité : <strong>Dieu est et vit avec eux.</strong></p>
+
+      <h3>1.2. Les attributs de Dieu</h3>
+
+      <p>Plusieurs noms émergent, ce qui montre que Dieu est plus considéré comme un être personnel qu'une réalité évanescente et abstraite. Mais plus qu'un homme, il est puissant et immortel : YHWH est Dieu et non un homme (Os 11, 9).</p>
+
+      <h3>La puissance de Dieu</h3>
+
+      <p>Elle est exprimée à travers le nom très ancien de « puissant de Jacob » (Gn 49,24 ; Is 1,24 ; 60,16) et louée dans les plus anciens cantiques (Ex 15,3 ; Ps 24,8). Cette puissance, Dieu l'exerce de manière jalouse sur son peuple en tant que maître, et sur le monde entier en tant que Seigneur. Par son intervention puissante lors de la délivrance d'Égypte, il a montré la réalité d'un Dieu qui est et qui agit (Ex 3,14).</p>
+
+      <h3>Dieu est vivant</h3>
+
+      <p>Cette vie est un bien propre dont les anciennes formules de serment font état : « Dieu est vivant » (1 S 14,39-45 ; 1 R 17,12). Par là, il se distingue des divinités cananéennes de la nature qui subissent le cycle annuel de la mort et de la renaissance, car lui ne meurt pas (Ha 1,12). Seul le Dieu vivant auquel l'Israélite se confie est la source de la vie (Ps 36,10).</p>
+
+      <h3>La sainteté de Dieu</h3>
+
+      <p>L'attribut qui caractérise le plus la nature de Dieu, c'est la sainteté. Dieu est confessé comme le « Saint » (Is 40,25 ; Ha 3,3), le « Saint d'Israël » (Is 1,4 ; 5,19.24), le « trois fois Saint » (Is 6,3).</p>
+
+      <blockquote>Cette sainteté signifie que Dieu est séparé de toute chose et qu'il est élevé au-dessus de tout ce qui est créé et faible. Il est le tout Autre (Is 40,25 ; 46,5), l'indicible, devant qui l'homme est conscient de n'être que cendre et poussière.</blockquote>
+
+      <p>Cette sainteté métaphysique reçoit, surtout chez les prophètes, un caractère moral : sa colère n'est pas inexorable (Os 11,9) ; sa sainteté se montre dans sa justice (Is 5,6) ; elle est offensée par l'infidélité d'Israël ; et elle se révèle dans la constance de son amour (Os 11,9).</p>
+
+      <h2>2. Dans le Nouveau Testament</h2>
+
+      <h3>2.1. L'héritage vétérotestamentaire</h3>
+
+      <p>Dans le NT, on rencontre pour le moins la même notion de Dieu que dans l'AT : « Dieu des pères » (Ac 3,13 ; 5,30), « d'Abraham, Isaac et Jacob » (Mt 22,32), « d'Israël » (Mt 15,31 ; Lc 1,68), « notre Dieu » (Mc 12,29 ; Ac 2,39). Cependant le Nouveau Testament a moins d'anthropomorphismes.</p>
+
+      <h3>2.2. Les attributs de Dieu</h3>
+
+      <h3>Dieu Père</h3>
+
+      <p>La paternité divine remonte déjà à l'AT où Dieu est Père d'Israël ou des justes parmi eux. Mais cette filiation va évoluer avec Jésus et les apôtres qui enseignent que Dieu est le Père de <strong>tous les hommes</strong>, sans distinction entre Juifs et non-Juifs ou entre pécheurs et justes (Mt 5,45 ; Lc 6,32-36 ; Ac 17,28).</p>
+
+      <h3>Amour</h3>
+
+      <p>S'il est vrai que les prophètes et les psalmistes l'avaient souvent chanté (Os 3,1 ; 11,1 ; Jr 31,3 ; Is 43,4), c'est seulement dans le NT que cet amour est affirmé avec autant d'insistance. Dieu aime tous les hommes sans distinction, au point de donner son Fils pour eux (Jn 3,16). Ce Fils bien-aimé est la « révélation de la bonté de Dieu et de son amour » (Tt 3,4).</p>
+
+      <h2>3. La pleine et définitive révélation en Jésus-Christ</h2>
+
+      <p>Avec Jésus, nous avons la plénitude de l'être divin. Le Dieu invisible et inaccessible s'est révélé dans le Verbe fait chair (Jn 1,18). Instrument de la révélation du Père, parce qu'il est dans le Père et que le Père est en lui, Jésus par ses paroles et par ses actes va montrer le visage plein de miséricorde de Dieu qui sait emprunter les chemins des hommes pour venir à leur rencontre.</p>
+
+      <blockquote>En Jésus, la toute-puissance de Dieu et sa transcendance se révèlent être au service d'un amour qui prend plaisir à pardonner en multipliant les occasions de conversion et de repentir.</blockquote>
+
+      <p>Jésus montre finalement que ce qui fait la grandeur de Dieu, c'est sa capacité non seulement à entrer en relation avec l'homme mais aussi à se rendre tellement présent à lui qu'il puisse sentir et expérimenter sa proximité bienfaisante et salvifique. Il est l'accès le plus autorisé et le plus sûr pour expérimenter pleinement la présence et l'action de Dieu.</p>
+    `,
+  },
+  {
+    slug: "homme-vu-par-les-philosophes",
+    title: "L'homme vu par les philosophes : vers une promotion de la dignité humaine dans l'humilité",
+    author: "Elvis Aubin KLAOUROU",
+    authorBio: "Enseignant Permanent à la Faculté de Philosophie UCAO-UUA.",
+    category: "fondements-foi",
+    categoryLabel: "Fondements de la Foi",
+    excerpt: "De Platon à Heidegger, un parcours philosophique sur l'homme : être tendu entre ciel et terre, entre raison et désir, à la quête d'une dignité dans l'humilité.",
+    date: "2026-03-12",
+    content: `
+      <p class="lead">Observer le XXIᵉ siècle, c'est discerner l'ambivalence d'un horizon à la fois lumineux et menaçant. Dans nos tropiques africaines comme ailleurs, l'humanité oscille entre l'exultation des prouesses technologiques et l'angoisse ontologique d'un être happé par la vitesse, privé de la douceur fragile qui relie au Tout Autre.</p>
+
+      <p>Asphyxié par un rythme imposé, l'homme s'interroge : n'a-t-il pas besoin d'un instant d'authenticité, d'une redécouverte de son <em>esse</em>, de cette vérité que la sagesse philosophique n'a cessé de dévoiler ?</p>
+
+      <h2>1. L'homme à travers les âges philosophiques</h2>
+
+      <p>Depuis l'Antiquité grecque, l'homme est contemplé comme un cosmos en miniature. Chez Platon, il apparaît comme un être double, déchiré entre le sensible et l'intelligible. Dans le <em>Phèdre</em>, il est comparé à un attelage ailé dont l'âme aspire à s'élever vers le monde des Idées :</p>
+
+      <blockquote>« L'âme est semblable à un attelage ailé et son cocher dirige deux chevaux. »<cite>— Platon, Phèdre, 246a</cite></blockquote>
+
+      <p>Aristote prolonge cette vision en définissant l'homme comme <em>zoon logon echon</em>, un « animal doué de logos » (<em>Politique</em>, I, 2), destiné par nature à la vie en cité. Quant aux stoïciens, tels Épictète, ils déplacent la réflexion vers l'intériorité : « Ce qui trouble les hommes, ce ne sont pas les choses, mais les jugements qu'ils portent sur les choses » (<em>Manuel</em>, §5).</p>
+
+      <h3>L'homme médiéval : imago Dei</h3>
+
+      <p>Le Moyen Âge pose l'homme comme <em>imago Dei</em>, image de Dieu, reflet de la transcendance dans la finitude. Saint Augustin écrit :</p>
+
+      <blockquote>« Tu nous as faits pour toi, Seigneur, et notre cœur est sans repos tant qu'il ne repose en toi. »<cite>— Saint Augustin, Confessions, I, 1</cite></blockquote>
+
+      <p>À sa suite, Thomas d'Aquin, dans une synthèse entre Aristote et la théologie chrétienne, affirme que l'homme est composé d'âme et de corps, ordonné à la béatitude par la connaissance de Dieu (<em>Somme théologique</em>, Ia, q. 12, art. 1).</p>
+
+      <h3>L'homme moderne : la subjectivité</h3>
+
+      <p>Avec la modernité, une autre orientation s'impose : l'homme n'est plus perçu que dans sa rationalité. Descartes inaugure le règne du <em>cogito</em> : « Je pense, donc je suis ». Kant voit en lui un être autonome, capable de légiférer moralement : « Agis de telle sorte que tu traites l'humanité […] toujours en même temps comme une fin, et jamais simplement comme un moyen. »</p>
+
+      <h3>L'homme contemporain : décentré</h3>
+
+      <p>Nietzsche annonce que l'homme cesse d'être le centre du monde : « L'homme est une corde tendue entre la bête et le surhumain ». Heidegger le décrit comme <em>Dasein</em>, être-pour-la-mort, jeté dans le monde. Foucault, dans <em>Les mots et les choses</em>, annonce la fin de l'homme comme figure centrale du savoir.</p>
+
+      <h2>2. Deux voies classiques pour saisir l'homme</h2>
+
+      <h3>L'homme produit du milieu</h3>
+
+      <p>La première thèse classique présente l'homme comme produit des influences du milieu. Possédant un corps soumis à la causalité des événements, il n'aurait pas le choix de ce qui lui arrive. Descartes écrit dans le <em>Traité de l'homme</em> : « le corps n'est autre chose qu'une statue ou machine de terre, que Dieu forme tout exprès, pour faire qu'elle marche, qu'elle mange, qu'elle respire ».</p>
+
+      <h3>L'homme essentiellement esprit</h3>
+
+      <p>Merleau-Ponty propose une seconde thèse : l'homme est libre parce qu'il est essentiellement esprit. Bergson souligne : « la conscience correspond exactement à la puissance de choix dont l'être vivant dispose ». Rousseau ajoute : « Conscience ! conscience ! instinct divin, immortel et céleste voix […] juge infaillible du bien et du mal qui rend l'homme semblable à Dieu ».</p>
+
+      <h2>3. Vers une métaphysique de la parenté</h2>
+
+      <p>Maurice Merleau-Ponty marque son désaccord avec ces deux thèses. La première est insuffisante : si l'homme était un objet, il n'aurait aucune compétence et ne pourrait se représenter le monde. Mais définir l'homme par son seul esprit ne serait pas exact non plus. <strong>L'homme est autant esprit que corps</strong>, et c'est son corps qui le lie à la terre.</p>
+
+      <blockquote>L'homme est un être en tension, un vivant entre deux infinis. Il est à la fois poussière et prière, instinct et offrande, cri et silence. Il est ce paradoxe vivant, ce « composé bizarre » dont parlait Pascal, capable de Dieu et pourtant si prompt à la chute.</blockquote>
+
+      <p>Cette métaphysique est celle de la parenthèse. Elle suspend le jugement, elle ouvre un espace d'écoute, elle accueille l'ambivalence sans vouloir la résoudre trop vite. Elle sait, avec Montaigne, que « chaque homme porte en soi la forme entière de l'humaine condition ».</p>
+
+      <p>L'éthique de la parenté n'est pas une morale molle. C'est une exigence de lucidité et de tendresse. Elle appelle à une dignité humble — non proclamée, mais vécue. Elle s'enracine dans cette vérité que Zundel pressentait : <em>« L'homme ne devient lui-même qu'en se donnant. »</em></p>
+
+      <p>S'engager dans cette voie, c'est choisir de penser l'homme non comme un projet à dominer, mais comme une énigme à aimer. C'est faire de l'humilité une lumière, de la fragilité une force, et de la parenthèse — ce lieu de suspension, d'accueil, de respiration — le berceau d'une humanité réconciliée.</p>
+    `,
+  },
+  {
+    slug: "homme-aujourdhui-reponse-theologique",
+    title: "L'homme d'aujourd'hui : réponse théologique",
+    author: "Théologien CEDF",
+    authorBio: "Réflexion théologique sur l'homme contemporain.",
+    category: "fondements-foi",
+    categoryLabel: "Fondements de la Foi",
+    excerpt: "L'homme d'aujourd'hui à la lumière de la théologie : créé à l'image de Dieu, être relationnel, libre et responsable, en dialogue avec la modernité.",
+    date: "2026-03-18",
+    content: `
+      <p class="lead">La théologie, comme « discours rationnel sur la divinité », touche également l'homme compris dans la création. Théologiquement parlant, l'homme d'aujourd'hui est défini par sa double nature (corps et esprit) et sa création à l'image de Dieu, doté de liberté de choix et d'une relation fondamentale avec le divin.</p>
+
+      <h2>I. Caractéristiques théologiques de l'homme</h2>
+
+      <h3>1. Création à l'image de Dieu</h3>
+
+      <p>L'affirmation de l'homme créé à l'image de Dieu trouve ses origines dans le livre de la Genèse. Cette « image de Dieu » confère à l'être humain une dignité unique, une capacité de relation avec lui et une nature à la fois corporelle et spirituelle.</p>
+
+      <p>L'homme et la femme sont créés à l'image de Dieu, ce qui fonde leur dignité et leur originalité par rapport au reste de la création. Cette ressemblance s'exprime dans :</p>
+
+      <p><strong>L'intelligence et l'esprit</strong> : L'homme partage avec Dieu l'intelligence, le pouvoir créateur et la capacité à entretenir des relations.</p>
+
+      <p><strong>Le pouvoir créateur</strong> : L'homme imite son Créateur en construisant des cités, des navires, des maisons, et en créant des œuvres d'art.</p>
+
+      <p><strong>Le libre arbitre, la domination et la responsabilité</strong> : La capacité à choisir entre le bien et le mal est une manifestation de l'image de Dieu.</p>
+
+      <p><strong>La nature corporelle et spirituelle</strong> : L'homme est une unité de corps et d'âme. L'unité de l'esprit humain, de l'âme et du corps est souvent comparée à la Trinité (Père, Fils et Saint-Esprit).</p>
+
+      <blockquote>La théologie reconnaît que l'homme, bien que créé à l'image de Dieu, en raison du péché, n'est pas une copie parfaite et que cette image est souvent « blessée ». Pour la théologie, cette image est restaurée par Jésus-Christ, pleine image de Dieu.</blockquote>
+
+      <h3>2. Être relationnel</h3>
+
+      <p>L'homme est un être de relation, sa nature et son existence sont définies en partie par sa relation avec Dieu, avec les autres, et avec le monde. L'homme est créé relationnel à l'image d'un Dieu en communion, et son épanouissement se réalise dans la relation avec Dieu et ses semblables.</p>
+
+      <p>Le mystère de l'Incarnation, où Dieu se fait homme, révèle que <strong>Dieu se met à la hauteur de l'homme pour lui permettre de s'élever vers lui.</strong> La dimension relationnelle de l'homme n'est pas une facette de sa vie, mais sa nature même.</p>
+
+      <h3>3. Double nature : corps et âme/esprit</h3>
+
+      <p>L'homme est à la fois un être matériel (corps) et spirituel (esprit), une unité qui le distingue des animaux. Cette double nature peut se comprendre de deux manières principales : la dualité humaine (nature physique et spirituelle) et le dogme de l'union des natures divine et humaine en la Personne de Jésus-Christ.</p>
+
+      <h3>4. Capacité de choix</h3>
+
+      <p>Contrairement aux animaux guidés par leurs instincts, l'homme a la capacité de choisir, une liberté qui est au cœur de son être. Créé libre et responsable, mais déchu par le péché original, il est appelé à être racheté par le Christ pour retrouver sa pleine vocation. <strong>Sa liberté s'épanouit quand elle est tournée vers Dieu.</strong></p>
+
+      <h3>5. Intégrité et imperfection</h3>
+
+      <p>Le péché impacte tout ce qui constitue l'homme, créant une situation de dualité constante, où l'homme vit simultanément comme « juste » et « pécheur » (<em>simul iustus et peccator</em>). L'homme est créé bon, mais son être est affecté par le péché originel, le rendant imparfait et soumis à la souffrance et à la mort.</p>
+
+      <h3>6. Égalité fondamentale</h3>
+
+      <p>L'égalité fondamentale de l'homme découle de sa création à l'image de Dieu, ce qui lui confère une dignité intrinsèque et égale à celle de tout autre être humain. Cette égalité implique une obligation de traiter chacun sans discrimination fondée sur le sexe, l'origine sociale ou la race.</p>
+
+      <h2>II. Défis et opportunités de l'homme contemporain</h2>
+
+      <h3>1. Dialogue entre théologie et modernité</h3>
+
+      <p>Le dialogue entre l'homme et la modernité dans la théologie se caractérise par une tension entre la foi et la raison, l'individu et la communauté, et l'engagement envers le monde et la recherche de transcendance.</p>
+
+      <p>Certains courants théologiques perçoivent la modernité comme une source de problèmes — perte de sens, déclin des liens sociaux — et proposent la religion comme un rempart. D'autres théologiens voient dans la modernité l'opportunité d'un dialogue constructif, soulignant que la citoyenneté dans le « royaume de Dieu » implique une responsabilité pour le présent et l'avenir.</p>
+
+      <h3>2. Le « Dieu crucifié » et la gratuité</h3>
+
+      <p>Le mystère de Dieu et le mystère de l'homme sont liés indissolublement. La gratuité du don de Dieu, manifestée par la crucifixion de Jésus, implique que le salut et la vie éternelle sont des dons immérités offerts par grâce, et non des récompenses obtenues par les œuvres.</p>
+
+      <blockquote>« Vous avez reçu gratuitement, donnez gratuitement ! » (Matthieu 10, 8)</blockquote>
+
+      <p>Cette idée appelle à une réponse de gratuité dans les relations humaines, encourageant l'amour désintéressé, l'humilité et le partage de ce que l'on a reçu gratuitement.</p>
+
+      <h3>3. Remise en cause de l'utilité de Dieu</h3>
+
+      <p>L'homme moderne, se sentant plus autonome, questionne la fonction et l'utilité de Dieu. Pour certains, l'utilité de Dieu réside dans sa capacité à donner un sens à l'existence, à offrir un cadre moral. Dieu fournit un cadre de valeurs et de principes moraux qui aide l'homme à distinguer le bien du mal.</p>
+
+      <p>La remise en question de la foi peut être une partie normale du cheminement, qui mène à un approfondissement de la foi et à une recherche plus ardente de Dieu. Le doute est une occasion de renforcer la foi, tandis que l'utilité de Dieu est perçue comme une source de sens, d'harmonie, de soutien face aux épreuves et un guide moral.</p>
+
+      <h2>Conclusion</h2>
+
+      <p>L'utilité de Dieu pour l'homme moderne est complexe et varie selon les perspectives, allant de la quête de sens et de l'harmonie intérieure à la recherche de réponses morales et d'une perspective de vie. La théologie offre Dieu à l'homme comme un fondement pour le sens de la vie, un sens du sacré, et un but ultime qui transcende le monde matériel, tout en procurant une espérance de vie après la mort.</p>
+
+      <p>Et la foi est une source de force face aux difficultés, d'encadrement moral et de conseils pratiques pour les relations et la vie quotidienne avec la Sainte Trinité. <strong>Dieu est le même hier, aujourd'hui et demain.</strong></p>
+    `,
+  },
 ];
 
 // Helper to get articles by category
