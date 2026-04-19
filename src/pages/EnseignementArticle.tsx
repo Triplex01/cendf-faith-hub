@@ -52,7 +52,7 @@ const EnseignementArticle = () => {
       <Header />
 
       {/* Vatican-style document container */}
-      <main className="bg-[hsl(45,30%,94%)] py-8 md:py-12 print:bg-white print:py-0">
+      <main className="bg-[hsl(45,30%,94%)] py-3 sm:py-8 md:py-12 print:bg-white print:py-0">
         <article className="container mx-auto max-w-5xl bg-white shadow-elegant print:shadow-none">
           {/* Document Header — style Saint-Siège */}
           <div className="border-b border-border/50 px-4 sm:px-6 md:px-16 py-6 sm:py-8 md:py-14">
