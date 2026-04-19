@@ -191,34 +191,34 @@ const EnseignementArticle = () => {
 
           {/* Related articles */}
           {relatedArticles.length > 0 && (
-            <div className="border-t border-border/50 px-6 md:px-16 py-10 md:py-14 bg-[hsl(45,30%,97%)] print:hidden">
-              <h2 className="font-display italic font-bold text-foreground text-xl md:text-2xl text-center uppercase tracking-wide mb-2">
+            <div className="border-t border-border/50 px-4 sm:px-6 md:px-16 py-8 sm:py-10 md:py-14 bg-[hsl(45,30%,97%)] print:hidden">
+              <h2 className="font-display italic font-bold text-foreground text-lg sm:text-xl md:text-2xl text-center uppercase tracking-wide mb-2">
                 Dans la même catégorie
               </h2>
-              <div className="flex items-center justify-center gap-3 mb-10">
-                <div className="h-px w-12 bg-secondary/40" />
+              <div className="flex items-center justify-center gap-3 mb-8 sm:mb-10">
+                <div className="h-px w-10 sm:w-12 bg-secondary/40" />
                 <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                <div className="h-px w-12 bg-secondary/40" />
+                <div className="h-px w-10 sm:w-12 bg-secondary/40" />
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-5 max-w-4xl mx-auto">
                 {relatedArticles.map((a) => (
                   <Link
                     key={a.slug}
                     to={`/enseignements/article/${a.slug}`}
-                    className="group bg-white border border-border rounded-lg p-5 hover:border-secondary/50 hover:shadow-md transition-all"
+                    className="group bg-white border border-border rounded-lg p-4 sm:p-5 hover:border-secondary/50 hover:shadow-md transition-all"
                   >
-                    <span className="text-xs uppercase tracking-wider text-secondary font-display font-semibold">
+                    <span className="text-[10px] sm:text-xs uppercase tracking-wider text-secondary font-display font-semibold">
                       {a.categoryLabel}
                     </span>
-                    <h3 className="font-display italic font-bold text-foreground mt-2 mb-2 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="font-display italic font-bold text-foreground text-sm sm:text-base mt-2 mb-2 leading-snug group-hover:text-primary transition-colors line-clamp-2">
                       {a.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2 mb-3 font-serif">
+                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-3 font-serif">
                       {a.excerpt}
                     </p>
-                    <span className="inline-flex items-center gap-1 text-primary text-sm font-medium group-hover:gap-2 transition-all">
-                      Lire <ChevronRight className="w-4 h-4" />
+                    <span className="inline-flex items-center gap-1 text-primary text-xs sm:text-sm font-medium group-hover:gap-2 transition-all">
+                      Lire <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </span>
                   </Link>
                 ))}
