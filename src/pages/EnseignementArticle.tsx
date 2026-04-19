@@ -55,36 +55,32 @@ const EnseignementArticle = () => {
       <main className="bg-[hsl(45,30%,94%)] py-8 md:py-12 print:bg-white print:py-0">
         <article className="container mx-auto max-w-5xl bg-white shadow-elegant print:shadow-none">
           {/* Document Header — style Saint-Siège */}
-          <div className="border-b border-border/50 px-6 md:px-16 py-10 md:py-14">
-            <div className="flex items-start justify-between gap-6 mb-8">
-              {/* Left: site name */}
-              <Link to="/" className="font-display italic text-xl md:text-2xl text-foreground/90 hover:text-primary transition-colors">
-                <span className="text-sm md:text-base font-light">La </span>
-                <span className="tracking-wider">CEDF</span>
-              </Link>
+          <div className="border-b border-border/50 px-4 sm:px-6 md:px-16 py-6 sm:py-8 md:py-14">
+            <div className="flex items-center justify-between gap-3 sm:gap-6 mb-5 sm:mb-8">
+              {/* Left: actions (print) */}
+              <button
+                onClick={handlePrint}
+                className="text-secondary hover:text-primary transition-colors p-1.5 sm:p-2"
+                aria-label="Imprimer"
+                title="Imprimer"
+              >
+                <Printer className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+              </button>
 
               {/* Center: logo */}
               <Link to="/" className="flex-shrink-0">
-                <img src={logoCendf} alt="CEDF" className="h-16 md:h-20 w-auto" />
+                <img src={logoCendf} alt="CEDF" className="h-12 sm:h-16 md:h-20 w-auto" />
               </Link>
 
-              {/* Right: actions */}
-              <div className="flex items-center gap-2 md:gap-3">
-                <button
-                  onClick={handlePrint}
-                  className="text-secondary hover:text-primary transition-colors p-2"
-                  aria-label="Imprimer"
-                  title="Imprimer"
-                >
-                  <Printer className="w-5 h-5 md:w-6 md:h-6" />
-                </button>
+              {/* Right: actions (share + lang) */}
+              <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
                 <button
                   onClick={handleShare}
-                  className="text-secondary hover:text-primary transition-colors p-2"
+                  className="text-secondary hover:text-primary transition-colors p-1.5 sm:p-2"
                   aria-label="Partager"
                   title="Partager"
                 >
-                  <Share2 className="w-5 h-5 md:w-6 md:h-6" />
+                  <Share2 className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
                 </button>
                 <div className="hidden md:flex items-center gap-1 text-secondary text-sm uppercase tracking-wider ml-2">
                   <Globe className="w-4 h-4" />
@@ -94,15 +90,15 @@ const EnseignementArticle = () => {
             </div>
 
             {/* Breadcrumb chapeau */}
-            <div className="text-xs md:text-sm uppercase tracking-[0.2em] text-secondary font-display">
+            <div className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.15em] sm:tracking-[0.2em] text-secondary font-display text-center sm:text-left leading-relaxed">
               <Link to="/enseignements" className="hover:text-primary transition-colors">
                 ENSEIGNEMENTS
               </Link>
-              <span className="mx-2 text-muted-foreground">|</span>
+              <span className="mx-1.5 sm:mx-2 text-muted-foreground">|</span>
               <Link to={`/enseignement/${article.category}`} className="hover:text-primary transition-colors">
                 {article.categoryLabel.toUpperCase()}
               </Link>
-              <span className="mx-2 text-muted-foreground">|</span>
+              <span className="mx-1.5 sm:mx-2 text-muted-foreground">|</span>
               <span>{new Date(article.date).getFullYear()}</span>
             </div>
           </div>
