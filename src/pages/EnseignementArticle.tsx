@@ -104,9 +104,9 @@ const EnseignementArticle = () => {
           </div>
 
           {/* Document body */}
-          <div className="px-6 md:px-16 py-10 md:py-16">
+          <div className="px-4 sm:px-6 md:px-16 py-8 sm:py-10 md:py-16">
             {/* Language strip */}
-            <div className="flex justify-center items-center gap-3 md:gap-4 mb-10 text-secondary font-display text-sm md:text-base">
+            <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3 md:gap-4 mb-8 sm:mb-10 text-secondary font-display text-xs sm:text-sm md:text-base">
               <span className="text-secondary font-semibold">FR</span>
               <span className="text-muted-foreground">-</span>
               <span className="text-muted-foreground hover:text-secondary cursor-pointer transition-colors">EN</span>
@@ -116,74 +116,73 @@ const EnseignementArticle = () => {
               <span className="text-muted-foreground hover:text-secondary cursor-pointer transition-colors">PT</span>
             </div>
 
-            {/* Title block — central, italic, bold like Vatican */}
-            <header className="text-center mb-12 md:mb-16">
-              <h1 className="font-display italic font-bold text-foreground text-2xl md:text-3xl lg:text-[2rem] leading-tight uppercase tracking-wide max-w-3xl mx-auto">
+            {/* Title block */}
+            <header className="text-center mb-10 sm:mb-12 md:mb-16">
+              <h1 className="font-display italic font-bold text-foreground text-xl sm:text-2xl md:text-3xl lg:text-[2rem] leading-tight uppercase tracking-wide max-w-3xl mx-auto px-2">
                 {article.title}
               </h1>
 
-              <div className="mt-8 text-foreground/80 italic font-display text-base md:text-lg space-y-1">
+              <div className="mt-6 sm:mt-8 text-foreground/80 italic font-display text-sm sm:text-base md:text-lg space-y-1 px-2">
                 <p>Commission Épiscopale pour la Doctrine de la Foi</p>
                 <p className="capitalize">{formattedDate}</p>
               </div>
 
-              {/* Decorative separator */}
-              <div className="flex items-center justify-center gap-4 mt-10">
-                <div className="h-px w-16 md:w-24 bg-secondary/40" />
+              <div className="flex items-center justify-center gap-3 sm:gap-4 mt-8 sm:mt-10">
+                <div className="h-px w-12 sm:w-16 md:w-24 bg-secondary/40" />
                 <div className="w-2 h-2 rounded-full bg-secondary" />
-                <div className="h-px w-16 md:w-24 bg-secondary/40" />
+                <div className="h-px w-12 sm:w-16 md:w-24 bg-secondary/40" />
               </div>
             </header>
 
-            {/* Article body — serif, justified */}
+            {/* Article body */}
             <div
-              className="prose prose-lg max-w-none mx-auto
+              className="prose prose-sm sm:prose-base md:prose-lg max-w-none mx-auto
                 prose-headings:font-display prose-headings:text-foreground prose-headings:font-bold prose-headings:italic
-                prose-h2:text-xl md:prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-5 prose-h2:text-center prose-h2:uppercase prose-h2:tracking-wide
-                prose-h3:text-lg md:prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-secondary
-                prose-p:text-foreground/90 prose-p:leading-[1.9] prose-p:mb-5 prose-p:text-base md:prose-p:text-[1.0625rem] prose-p:text-justify
+                prose-h2:text-lg sm:prose-h2:text-xl md:prose-h2:text-2xl prose-h2:mt-10 sm:prose-h2:mt-12 prose-h2:mb-4 sm:prose-h2:mb-5 prose-h2:text-center prose-h2:uppercase prose-h2:tracking-wide
+                prose-h3:text-base sm:prose-h3:text-lg md:prose-h3:text-xl prose-h3:mt-6 sm:prose-h3:mt-8 prose-h3:mb-2 sm:prose-h3:mb-3 prose-h3:text-secondary
+                prose-p:text-foreground/90 prose-p:leading-[1.75] sm:prose-p:leading-[1.9] prose-p:mb-4 sm:prose-p:mb-5 prose-p:text-[0.9375rem] sm:prose-p:text-base md:prose-p:text-[1.0625rem] prose-p:text-justify
                 prose-p:font-serif
                 prose-blockquote:border-l-4 prose-blockquote:border-secondary prose-blockquote:bg-secondary/5
-                prose-blockquote:rounded-r-lg prose-blockquote:py-3 prose-blockquote:px-6 prose-blockquote:my-6
+                prose-blockquote:rounded-r-lg prose-blockquote:py-2 sm:prose-blockquote:py-3 prose-blockquote:px-4 sm:prose-blockquote:px-6 prose-blockquote:my-5 sm:prose-blockquote:my-6
                 prose-blockquote:text-foreground prose-blockquote:italic prose-blockquote:font-display
-                prose-blockquote:text-base md:prose-blockquote:text-lg prose-blockquote:not-italic
+                prose-blockquote:text-sm sm:prose-blockquote:text-base md:prose-blockquote:text-lg prose-blockquote:not-italic
                 prose-strong:text-foreground prose-strong:font-semibold
                 prose-em:text-foreground/95
-                [&_.lead]:text-base md:[&_.lead]:text-lg [&_.lead]:font-medium [&_.lead]:text-foreground
-                [&_.lead]:leading-relaxed [&_.lead]:mb-8 [&_.lead]:text-justify [&_.lead]:font-serif
-                [&_cite]:block [&_cite]:text-sm [&_cite]:text-secondary [&_cite]:mt-2 [&_cite]:not-italic [&_cite]:text-right
+                [&_.lead]:text-sm sm:[&_.lead]:text-base md:[&_.lead]:text-lg [&_.lead]:font-medium [&_.lead]:text-foreground
+                [&_.lead]:leading-relaxed [&_.lead]:mb-6 sm:[&_.lead]:mb-8 [&_.lead]:text-justify [&_.lead]:font-serif
+                [&_cite]:block [&_cite]:text-xs sm:[&_cite]:text-sm [&_cite]:text-secondary [&_cite]:mt-2 [&_cite]:not-italic [&_cite]:text-right
               "
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
 
-            {/* Signature/Author block — Vatican style */}
-            <div className="mt-16 pt-8 border-t border-border/50 text-center">
-              <p className="font-display italic text-foreground text-lg md:text-xl">
+            {/* Signature/Author block */}
+            <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-border/50 text-center">
+              <p className="font-display italic text-foreground text-base sm:text-lg md:text-xl">
                 {article.author}
               </p>
-              <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-2 max-w-xl mx-auto px-2">
                 {article.authorBio}
               </p>
             </div>
 
             {/* Decorative bottom seal */}
-            <div className="flex items-center justify-center gap-4 mt-10">
-              <div className="h-px w-20 bg-secondary/40" />
-              <div className="text-secondary font-display text-2xl">✠</div>
-              <div className="h-px w-20 bg-secondary/40" />
+            <div className="flex items-center justify-center gap-3 sm:gap-4 mt-8 sm:mt-10">
+              <div className="h-px w-16 sm:w-20 bg-secondary/40" />
+              <div className="text-secondary font-display text-xl sm:text-2xl">✠</div>
+              <div className="h-px w-16 sm:w-20 bg-secondary/40" />
             </div>
 
             {/* Actions */}
-            <div className="flex flex-wrap gap-3 justify-center mt-10 print:hidden">
+            <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mt-8 sm:mt-10 print:hidden">
               <Link to={`/enseignement/${article.category}`}>
-                <Button variant="outline" className="gap-2">
-                  <ArrowLeft className="w-4 h-4" />
+                <Button variant="outline" size="sm" className="gap-2 text-xs sm:text-sm">
+                  <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   Retour à la catégorie
                 </Button>
               </Link>
               <Link to="/enseignements">
-                <Button variant="burgundy" className="gap-2">
-                  <BookOpen className="w-4 h-4" />
+                <Button variant="burgundy" size="sm" className="gap-2 text-xs sm:text-sm">
+                  <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   Tous les enseignements
                 </Button>
               </Link>
