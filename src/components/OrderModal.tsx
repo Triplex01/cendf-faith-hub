@@ -23,7 +23,9 @@ const formatPrice = (price: number) =>
 
 const OrderModal = ({ open, onOpenChange, product }: OrderModalProps) => {
   const [step, setStep] = useState<"info" | "payment" | "success">("info");
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", city: "" });
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,12 +34,47 @@ const OrderModal = ({ open, onOpenChange, product }: OrderModalProps) => {
     }
   };
 
-  const handlePaymentChoice = (method: string) => {
-    setStep("success");
+  const handlePay = async () => {
+    if (!product) return;
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("genius-checkout", {
+        body: {
+          amount: product.price,
+          description: `Commande - ${product.name}`,
+          customer: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            country: "CI",
+          },
+          metadata: {
+            product: product.name,
+            city: form.city,
+          },
+          success_url: `${window.location.origin}/confirmation-commande?status=success`,
+          error_url: `${window.location.origin}/confirmation-commande?status=error`,
+        },
+      });
+
+      if (error || !data?.success || !data?.checkout_url) {
+        throw new Error(data?.error || error?.message || "Paiement indisponible");
+      }
+      // Redirect to secure GeniusPay checkout
+      window.location.href = data.checkout_url;
+    } catch (err: any) {
+      toast({
+        title: "Erreur de paiement",
+        description: err?.message || "Impossible d'initier le paiement. Réessayez.",
+        variant: "destructive",
+      });
+      setLoading(false);
+    }
   };
 
   const handleClose = () => {
     setStep("info");
+    setLoading(false);
     setForm({ name: "", email: "", phone: "", city: "" });
     onOpenChange(false);
   };
