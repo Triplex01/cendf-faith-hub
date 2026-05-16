@@ -3,8 +3,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Phone, Mail, CreditCard, CheckCircle2, User, MapPin } from "lucide-react";
+import { Phone, Mail, CreditCard, CheckCircle2, User, MapPin, Loader2, ShieldCheck } from "lucide-react";
 import paydunyaPaymentMethods from "@/assets/paydunya-payment-methods.png";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface OrderModalProps {
   open: boolean;
