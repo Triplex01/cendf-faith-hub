@@ -3,8 +3,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Phone, Mail, CreditCard, CheckCircle2, User, MapPin } from "lucide-react";
+import { Phone, Mail, CreditCard, CheckCircle2, User, MapPin, Loader2, ShieldCheck } from "lucide-react";
 import paydunyaPaymentMethods from "@/assets/paydunya-payment-methods.png";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface OrderModalProps {
   open: boolean;
@@ -21,7 +23,9 @@ const formatPrice = (price: number) =>
 
 const OrderModal = ({ open, onOpenChange, product }: OrderModalProps) => {
   const [step, setStep] = useState<"info" | "payment" | "success">("info");
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", city: "" });
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,12 +34,47 @@ const OrderModal = ({ open, onOpenChange, product }: OrderModalProps) => {
     }
   };
 
-  const handlePaymentChoice = (method: string) => {
-    setStep("success");
+  const handlePay = async () => {
+    if (!product) return;
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("genius-checkout", {
+        body: {
+          amount: product.price,
+          description: `Commande - ${product.name}`,
+          customer: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            country: "CI",
+          },
+          metadata: {
+            product: product.name,
+            city: form.city,
+          },
+          success_url: `${window.location.origin}/confirmation-commande?status=success`,
+          error_url: `${window.location.origin}/confirmation-commande?status=error`,
+        },
+      });
+
+      if (error || !data?.success || !data?.checkout_url) {
+        throw new Error(data?.error || error?.message || "Paiement indisponible");
+      }
+      // Redirect to secure GeniusPay checkout
+      window.location.href = data.checkout_url;
+    } catch (err: any) {
+      toast({
+        title: "Erreur de paiement",
+        description: err?.message || "Impossible d'initier le paiement. Réessayez.",
+        variant: "destructive",
+      });
+      setLoading(false);
+    }
   };
 
   const handleClose = () => {
     setStep("info");
+    setLoading(false);
     setForm({ name: "", email: "", phone: "", city: "" });
     onOpenChange(false);
   };
@@ -142,40 +181,63 @@ const OrderModal = ({ open, onOpenChange, product }: OrderModalProps) => {
         {step === "payment" && (
           <>
             <DialogHeader>
-              <DialogTitle className="font-display text-xl text-foreground">
-                Choisir un moyen de paiement
+              <DialogTitle className="font-display text-xl text-foreground flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-primary" />
+                Paiement sécurisé
               </DialogTitle>
             </DialogHeader>
 
-            <div className="space-y-3 mt-2">
-              {/* Payment methods */}
-              {[
-                { id: "orange", name: "Orange Money", color: "bg-orange-500", icon: "🟠" },
-                { id: "wave", name: "Wave", color: "bg-blue-500", icon: "🔵" },
-                { id: "mtn", name: "MTN Mobile Money", color: "bg-yellow-500", icon: "🟡" },
-                { id: "card", name: "Visa / Mastercard", color: "bg-indigo-500", icon: "💳" },
-              ].map((method) => (
-                <button
-                  key={method.id}
-                  onClick={() => handlePaymentChoice(method.id)}
-                  className="w-full flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted hover:border-primary/30 transition-all duration-200 group"
-                >
-                  <span className="text-2xl">{method.icon}</span>
-                  <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {method.name}
-                  </span>
-                  <span className="ml-auto text-sm text-muted-foreground">
-                    {formatPrice(product.price)}
-                  </span>
-                </button>
-              ))}
+            <div className="space-y-4 mt-2">
+              <div className="p-4 rounded-xl bg-muted border border-border">
+                <div className="flex justify-between items-center mb-1 text-sm">
+                  <span className="text-muted-foreground">Total à payer</span>
+                  <span className="font-bold text-primary text-lg">{formatPrice(product.price)}</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Vous serez redirigé(e) vers la page de paiement sécurisée GeniusPay.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-4 gap-2">
+                {[
+                  { name: "Wave", icon: "🔵" },
+                  { name: "Orange", icon: "🟠" },
+                  { name: "MTN", icon: "🟡" },
+                  { name: "Carte", icon: "💳" },
+                ].map((m) => (
+                  <div key={m.name} className="flex flex-col items-center gap-1 p-2 rounded-lg border border-border bg-card">
+                    <span className="text-2xl">{m.icon}</span>
+                    <span className="text-[10px] font-medium text-muted-foreground">{m.name}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Button
+                variant="burgundy"
+                className="w-full py-5 text-base gap-2"
+                onClick={handlePay}
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Redirection...
+                  </>
+                ) : (
+                  <>
+                    <ShieldCheck className="w-4 h-4" />
+                    Procéder au paiement
+                  </>
+                )}
+              </Button>
+
+              <p className="text-[11px] text-center text-muted-foreground flex items-center justify-center gap-1">
+                <ShieldCheck className="w-3 h-3" />
+                Paiement chiffré et sécurisé via GeniusPay
+              </p>
             </div>
 
-            <div className="mt-4 flex justify-center">
-              <img src={paydunyaPaymentMethods} alt="Moyens de paiement" className="h-10 object-contain opacity-60" />
-            </div>
-
-            <Button variant="ghost" className="w-full mt-2" onClick={() => setStep("info")}>
+            <Button variant="ghost" className="w-full mt-2" onClick={() => setStep("info")} disabled={loading}>
               ← Retour
             </Button>
           </>
