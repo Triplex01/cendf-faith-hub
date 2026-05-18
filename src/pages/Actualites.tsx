@@ -88,17 +88,6 @@ const staticEvents: StaticEvent[] = [
     fullDescription: "Cette grande conférence publique explorera les impacts du Synode sur la synodalité pour l'Église Famille de Dieu en Côte d'Ivoire. Des théologiens, évêques et experts ecclésiaux analyseront comment mettre en œuvre les fruits du synode dans notre contexte local.",
   },
   {
-    id: 3,
-    title: "Abidjan 2025 - Jubilé de l'Espérance",
-    subtitle: "Journeying Together in Hope as Church Family of God in Africa",
-    date: "5-10 Août 2025",
-    location: "Abidjan",
-    theme: "Jubilé 2025",
-    image: eventAbidjan2025,
-    type: "Événement Continental",
-    fullDescription: "Abidjan sera le cœur battant du Jubilé de l'Espérance 2025 pour l'Afrique. Cet événement continental réunira des pèlerins de tout le continent pour célébrer ensemble notre foi et notre espérance en Christ.",
-  },
-  {
     id: 4,
     title: "Journée Scientifique ISTAY",
     subtitle: "Réception du Document Final de la XVIe Assemblée du Synode",
