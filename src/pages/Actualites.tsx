@@ -14,16 +14,22 @@ import {
 
 // Images importées
 import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
-import eventAbidjan2025 from "@/assets/event-abidjan-2025.jpg";
 import eventSynode from "@/assets/event-synode.jpg";
 import eventCongresPanafricain from "@/assets/event-congres-panafricain.jpg";
 import eventJourneeScientifique from "@/assets/event-journee-scientifique.jpg";
 import citationLeonXIV from "@/assets/citation-leon-xiv.jpg";
 import citationCardinal from "@/assets/citation-cardinal.jpg";
+import citationJeanChrisostome from "@/assets/citation-jean-chrisostome.jpg";
+import citationCardinalSarah from "@/assets/citation-cardinal-sarah.jpg";
+import citationPieX from "@/assets/citation-pie-x.jpg";
+import citationSarahAfrique from "@/assets/citation-sarah-afrique.jpg";
+import citationBenoitXVI from "@/assets/citation-benoit-xvi.jpg";
 import reunionEglise from "@/assets/reunion-eglise.jpg";
 import interieurBasilique from "@/assets/interieur-basilique.jpg";
 import basilique from "@/assets/basilique-notredame.jpg";
 import voeux2026 from "@/assets/voeux-2026.jpg";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 interface StaticEvent {
   id: number;
