@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Phone, Mail, CreditCard, CheckCircle2, User, MapPin, Loader2, ShieldCheck } from "lucide-react";
-import paydunyaPaymentMethods from "@/assets/paydunya-payment-methods.png";
+import paymentMethodsGenius from "@/assets/payment-methods-genius.png";
+import paymentMoovMoney from "@/assets/payment-moov-money.png";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -38,6 +39,25 @@ const OrderModal = ({ open, onOpenChange, product }: OrderModalProps) => {
     if (!product) return;
     setLoading(true);
     try {
+      // Send notification emails (client + CEDF) — non-blocking on failure
+      supabase.functions.invoke("send-order-email", {
+        body: {
+          type: "magazine",
+          customer: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            city: form.city,
+          },
+          product: {
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+          },
+          paymentStatus: "pending",
+        },
+      }).catch((e) => console.warn("email notification failed", e));
+
       const { data, error } = await supabase.functions.invoke("genius-checkout", {
         body: {
           amount: product.price,
@@ -60,7 +80,6 @@ const OrderModal = ({ open, onOpenChange, product }: OrderModalProps) => {
       if (error || !data?.success || !data?.checkout_url) {
         throw new Error(data?.error || error?.message || "Paiement indisponible");
       }
-      // Redirect to secure GeniusPay checkout
       window.location.href = data.checkout_url;
     } catch (err: any) {
       toast({
@@ -198,18 +217,24 @@ const OrderModal = ({ open, onOpenChange, product }: OrderModalProps) => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-4 gap-2">
-                {[
-                  { name: "Wave", icon: "🔵" },
-                  { name: "Orange", icon: "🟠" },
-                  { name: "MTN", icon: "🟡" },
-                  { name: "Carte", icon: "💳" },
-                ].map((m) => (
-                  <div key={m.name} className="flex flex-col items-center gap-1 p-2 rounded-lg border border-border bg-card">
-                    <span className="text-2xl">{m.icon}</span>
-                    <span className="text-[10px] font-medium text-muted-foreground">{m.name}</span>
-                  </div>
-                ))}
+              <div className="space-y-2">
+                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide text-center">
+                  Moyens de paiement acceptés
+                </p>
+                <div className="rounded-xl border border-border bg-card p-3 flex items-center justify-center">
+                  <img
+                    src={paymentMethodsGenius}
+                    alt="Wave, Orange Money, MTN Mobile Money, Visa, Mastercard"
+                    className="max-h-14 w-auto object-contain"
+                  />
+                </div>
+                <div className="rounded-xl border border-border bg-card p-3 flex items-center justify-center">
+                  <img
+                    src={paymentMoovMoney}
+                    alt="Moov Money"
+                    className="max-h-10 w-auto object-contain"
+                  />
+                </div>
               </div>
 
               <Button

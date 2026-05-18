@@ -20,7 +20,10 @@ import {
 } from "lucide-react";
 
 import basiliqueCover from "@/assets/basilique-notredame.jpg";
-import paydunyaPaymentMethods from "@/assets/paydunya-payment-methods.png";
+import paymentMethodsGenius from "@/assets/payment-methods-genius.png";
+import paymentMoovMoney from "@/assets/payment-moov-money.png";
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react";
 
 const plans = [
   {
@@ -34,7 +37,7 @@ const plans = [
   {
     id: "paper",
     name: "Papier",
-    price: 10000,
+    price: 15000,
     icon: Crown,
     features: ["4 parutions papier livrées", "Accès numérique offert", "Livraison gratuite en CI", "Numéros spéciaux inclus"],
     popular: true,
@@ -42,7 +45,7 @@ const plans = [
   {
     id: "premium",
     name: "Intégral",
-    price: 15000,
+    price: 25000,
     icon: Sparkles,
     features: ["Tout Credo Papier inclus", "Documents exclusifs CEDF", "Invitations aux événements", "Mention dans la revue"],
     popular: false,
@@ -54,6 +57,7 @@ const Abonnement = () => {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState("paper");
   const [step, setStep] = useState<"plan" | "info" | "payment" | "success">("plan");
+  const [paying, setPaying] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -77,9 +81,62 @@ const Abonnement = () => {
     setStep("payment");
   };
 
-  const handlePaymentSelect = () => {
-    setStep("success");
-    toast({ title: "Demande d'abonnement enregistrée !", description: "Vous serez contacté(e) sous 24h." });
+  const handlePaymentSelect = async () => {
+    if (paying) return;
+    setPaying(true);
+    try {
+      // Send subscription notification emails (client + CEDF)
+      supabase.functions.invoke("send-order-email", {
+        body: {
+          type: "subscription",
+          customer: {
+            name: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            city: formData.city,
+            address: formData.address,
+          },
+          product: {
+            name: `Credo ${currentPlan.name}`,
+            plan: currentPlan.name,
+            price: currentPlan.price,
+          },
+          paymentStatus: "pending",
+        },
+      }).catch((e) => console.warn("subscription email failed", e));
+
+      const { data, error } = await supabase.functions.invoke("genius-checkout", {
+        body: {
+          amount: currentPlan.price,
+          description: `Abonnement Credo ${currentPlan.name}`,
+          customer: {
+            name: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            country: "CI",
+          },
+          metadata: {
+            plan: currentPlan.id,
+            city: formData.city,
+            address: formData.address,
+          },
+          success_url: `${window.location.origin}/confirmation-commande?status=success&type=subscription`,
+          error_url: `${window.location.origin}/confirmation-commande?status=error`,
+        },
+      });
+
+      if (error || !data?.success || !data?.checkout_url) {
+        throw new Error(data?.error || error?.message || "Paiement indisponible");
+      }
+      window.location.href = data.checkout_url;
+    } catch (err: any) {
+      toast({
+        title: "Erreur de paiement",
+        description: err?.message || "Impossible d'initier le paiement.",
+        variant: "destructive",
+      });
+      setPaying(false);
+    }
   };
 
   if (step === "success") {
@@ -312,36 +369,34 @@ const Abonnement = () => {
                   Choisir un moyen de paiement
                 </h3>
 
-                <div className="mb-6">
-                  <img 
-                    src={paydunyaPaymentMethods}
-                    alt="Moyens de paiement"
-                    className="h-12 object-contain mx-auto opacity-80"
-                  />
+                <div className="space-y-3 mb-6">
+                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide text-center">
+                    Moyens de paiement acceptés
+                  </p>
+                  <div className="rounded-xl border border-border bg-card p-3 flex items-center justify-center">
+                    <img src={paymentMethodsGenius} alt="Wave, Orange Money, MTN, Visa, Mastercard" className="max-h-14 w-auto object-contain" />
+                  </div>
+                  <div className="rounded-xl border border-border bg-card p-3 flex items-center justify-center">
+                    <img src={paymentMoovMoney} alt="Moov Money" className="max-h-10 w-auto object-contain" />
+                  </div>
                 </div>
 
-                {/* Payment options */}
-                <div className="space-y-3 mb-8">
-                  {[
-                    { label: "Orange Money", color: "bg-orange-500" },
-                    { label: "Wave", color: "bg-blue-500" },
-                    { label: "MTN Mobile Money", color: "bg-yellow-500" },
-                    { label: "Visa / Mastercard", color: "bg-gray-700" },
-                  ].map((method) => (
-                    <button
-                      key={method.label}
-                      onClick={handlePaymentSelect}
-                      className="w-full flex items-center gap-3 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 hover:border-primary/30 transition-all"
-                    >
-                      <div className={`w-3 h-3 rounded-full ${method.color}`} />
-                      <span className="font-medium text-foreground text-sm">{method.label}</span>
-                    </button>
-                  ))}
-                </div>
+                <Button
+                  variant="burgundy"
+                  className="w-full py-5 text-base gap-2"
+                  onClick={handlePaymentSelect}
+                  disabled={paying}
+                >
+                  {paying ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Redirection vers le paiement…</>
+                  ) : (
+                    <><Shield className="w-4 h-4" /> Procéder au paiement sécurisé</>
+                  )}
+                </Button>
 
-                <div className="flex items-center gap-2 justify-center text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 justify-center text-xs text-muted-foreground mt-4">
                   <Shield className="w-3.5 h-3.5" />
-                  <span>Paiement sécurisé — Vous serez contacté(e) pour finaliser</span>
+                  <span>Paiement chiffré et sécurisé via GeniusPay</span>
                 </div>
               </div>
             </div>
