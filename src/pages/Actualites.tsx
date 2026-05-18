@@ -380,42 +380,54 @@ const Actualites = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {citations.map((citation) => (
-              <motion.div
-                key={citation.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                onClick={() => setSelectedCitation(citation)}
-                className="relative cursor-pointer bg-white/5 rounded-xl md:rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-colors"
-              >
-                <div className="aspect-[4/5] sm:aspect-square overflow-hidden">
-                  <img 
-                    src={citation.image} 
-                    alt={citation.author}
-                    className="w-full h-full object-cover object-top"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6">
-                  <span className="inline-block px-3 py-1 bg-primary/80 text-white text-xs font-bold rounded-full w-fit mb-3">
-                    {citation.type}
-                  </span>
-                  <Quote className="w-8 h-8 text-primary/60 mb-2" />
-                  <p className="text-white text-lg font-medium leading-relaxed mb-4 italic">
-                    "{citation.quote}"
-                  </p>
-                  <div className="border-t border-white/20 pt-4">
-                    <p className="text-primary font-bold">{citation.author}</p>
-                    <p className="text-gray-400 text-sm">{citation.title}</p>
-                    <p className="text-gray-500 text-xs mt-1">{citation.date}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]}
+            className="max-w-6xl mx-auto"
+          >
+            <CarouselContent className="-ml-4">
+              {citations.map((citation) => (
+                <CarouselItem
+                  key={citation.id}
+                  className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    onClick={() => setSelectedCitation(citation)}
+                    className="relative cursor-pointer bg-white/5 rounded-xl md:rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-colors h-full"
+                  >
+                    <div className="aspect-[4/5] overflow-hidden">
+                      <img
+                        src={citation.image}
+                        alt={citation.author}
+                        className="w-full h-full object-cover object-top"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent flex flex-col justify-end p-5">
+                      <span className="inline-block px-3 py-1 bg-primary/80 text-white text-[10px] font-bold rounded-full w-fit mb-2 uppercase tracking-wide">
+                        {citation.type}
+                      </span>
+                      <Quote className="w-6 h-6 text-primary/60 mb-2" />
+                      <p className="text-white text-sm md:text-base font-medium leading-relaxed mb-3 italic line-clamp-5">
+                        "{citation.quote}"
+                      </p>
+                      <div className="border-t border-white/20 pt-3">
+                        <p className="text-primary font-bold text-sm">{citation.author}</p>
+                        <p className="text-gray-400 text-xs">{citation.title}</p>
+                        <p className="text-gray-500 text-[10px] mt-1">{citation.date}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12 bg-primary/20 border-primary/40 text-white hover:bg-primary hover:text-white" />
+            <CarouselNext className="hidden md:flex -right-4 lg:-right-12 bg-primary/20 border-primary/40 text-white hover:bg-primary hover:text-white" />
+          </Carousel>
         </div>
       </section>
 
