@@ -369,36 +369,34 @@ const Abonnement = () => {
                   Choisir un moyen de paiement
                 </h3>
 
-                <div className="mb-6">
-                  <img 
-                    src={paydunyaPaymentMethods}
-                    alt="Moyens de paiement"
-                    className="h-12 object-contain mx-auto opacity-80"
-                  />
+                <div className="space-y-3 mb-6">
+                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide text-center">
+                    Moyens de paiement acceptés
+                  </p>
+                  <div className="rounded-xl border border-border bg-card p-3 flex items-center justify-center">
+                    <img src={paymentMethodsGenius} alt="Wave, Orange Money, MTN, Visa, Mastercard" className="max-h-14 w-auto object-contain" />
+                  </div>
+                  <div className="rounded-xl border border-border bg-card p-3 flex items-center justify-center">
+                    <img src={paymentMoovMoney} alt="Moov Money" className="max-h-10 w-auto object-contain" />
+                  </div>
                 </div>
 
-                {/* Payment options */}
-                <div className="space-y-3 mb-8">
-                  {[
-                    { label: "Orange Money", color: "bg-orange-500" },
-                    { label: "Wave", color: "bg-blue-500" },
-                    { label: "MTN Mobile Money", color: "bg-yellow-500" },
-                    { label: "Visa / Mastercard", color: "bg-gray-700" },
-                  ].map((method) => (
-                    <button
-                      key={method.label}
-                      onClick={handlePaymentSelect}
-                      className="w-full flex items-center gap-3 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 hover:border-primary/30 transition-all"
-                    >
-                      <div className={`w-3 h-3 rounded-full ${method.color}`} />
-                      <span className="font-medium text-foreground text-sm">{method.label}</span>
-                    </button>
-                  ))}
-                </div>
+                <Button
+                  variant="burgundy"
+                  className="w-full py-5 text-base gap-2"
+                  onClick={handlePaymentSelect}
+                  disabled={paying}
+                >
+                  {paying ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Redirection vers le paiement…</>
+                  ) : (
+                    <><Shield className="w-4 h-4" /> Procéder au paiement sécurisé</>
+                  )}
+                </Button>
 
-                <div className="flex items-center gap-2 justify-center text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 justify-center text-xs text-muted-foreground mt-4">
                   <Shield className="w-3.5 h-3.5" />
-                  <span>Paiement sécurisé — Vous serez contacté(e) pour finaliser</span>
+                  <span>Paiement chiffré et sécurisé via GeniusPay</span>
                 </div>
               </div>
             </div>
