@@ -14,16 +14,22 @@ import {
 
 // Images importées
 import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
-import eventAbidjan2025 from "@/assets/event-abidjan-2025.jpg";
 import eventSynode from "@/assets/event-synode.jpg";
 import eventCongresPanafricain from "@/assets/event-congres-panafricain.jpg";
 import eventJourneeScientifique from "@/assets/event-journee-scientifique.jpg";
 import citationLeonXIV from "@/assets/citation-leon-xiv.jpg";
 import citationCardinal from "@/assets/citation-cardinal.jpg";
+import citationJeanChrisostome from "@/assets/citation-jean-chrisostome.jpg";
+import citationCardinalSarah from "@/assets/citation-cardinal-sarah.jpg";
+import citationPieX from "@/assets/citation-pie-x.jpg";
+import citationSarahAfrique from "@/assets/citation-sarah-afrique.jpg";
+import citationBenoitXVI from "@/assets/citation-benoit-xvi.jpg";
 import reunionEglise from "@/assets/reunion-eglise.jpg";
 import interieurBasilique from "@/assets/interieur-basilique.jpg";
 import basilique from "@/assets/basilique-notredame.jpg";
 import voeux2026 from "@/assets/voeux-2026.jpg";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 interface StaticEvent {
   id: number;
@@ -82,17 +88,6 @@ const staticEvents: StaticEvent[] = [
     fullDescription: "Cette grande conférence publique explorera les impacts du Synode sur la synodalité pour l'Église Famille de Dieu en Côte d'Ivoire. Des théologiens, évêques et experts ecclésiaux analyseront comment mettre en œuvre les fruits du synode dans notre contexte local.",
   },
   {
-    id: 3,
-    title: "Abidjan 2025 - Jubilé de l'Espérance",
-    subtitle: "Journeying Together in Hope as Church Family of God in Africa",
-    date: "5-10 Août 2025",
-    location: "Abidjan",
-    theme: "Jubilé 2025",
-    image: eventAbidjan2025,
-    type: "Événement Continental",
-    fullDescription: "Abidjan sera le cœur battant du Jubilé de l'Espérance 2025 pour l'Afrique. Cet événement continental réunira des pèlerins de tout le continent pour célébrer ensemble notre foi et notre espérance en Christ.",
-  },
-  {
     id: 4,
     title: "Journée Scientifique ISTAY",
     subtitle: "Réception du Document Final de la XVIe Assemblée du Synode",
@@ -125,6 +120,56 @@ const citations: Citation[] = [
     image: citationCardinal,
     type: "Commentaire spirituel",
     fullText: "Le Cardinal Cantalamessa, dans ce commentaire spirituel, nous rappelle le paradoxe évangélique de l'humilité. Ceux qui cherchent les honneurs et la reconnaissance mondaine les voient s'échapper, tandis que ceux qui s'abaissent dans le service désintéressé sont élevés par Dieu.",
+  },
+  {
+    id: 3,
+    author: "Saint Jean Chrysostome",
+    title: "Père et Docteur de l'Église",
+    date: "Homélie sur le sacerdoce",
+    quote: "Les prêtres ont reçu un pouvoir que Dieu n'a donné ni aux anges ni aux archanges… Celui qui offense un prêtre offense Dieu.",
+    image: citationJeanChrisostome,
+    type: "Parole des Pères",
+    fullText: "Saint Jean Chrysostome souligne la dignité incomparable du sacerdoce ministériel. Le prêtre, par l'imposition des mains, reçoit un pouvoir sacramentel — pardonner les péchés et consacrer l'Eucharistie — que même les puissances angéliques n'ont pas reçu. Respecter le prêtre, c'est honorer le Christ qui agit à travers lui.",
+  },
+  {
+    id: 4,
+    author: "Cardinal Robert Sarah",
+    title: "Cardinal de la Sainte Église romaine",
+    date: "Intervention publique",
+    quote: "Comment la doctrine de l'Église pourrait-elle changer ? Notre unité ne peut pas se construire autour d'opinions à la mode.",
+    image: citationCardinalSarah,
+    type: "Parole d'un Cardinal",
+    fullText: "Le Cardinal Sarah rappelle avec force que la foi catholique repose sur la Révélation divine et la Tradition apostolique, non sur les fluctuations de l'opinion publique. L'unité de l'Église se construit dans la fidélité à la vérité reçue, non dans l'accommodation aux modes du temps.",
+  },
+  {
+    id: 5,
+    author: "Saint Pape Pie X",
+    title: "Souverain Pontife",
+    date: "25 août 1910",
+    quote: "La doctrine catholique nous enseigne que le premier devoir de la charité n'est pas dans la tolérance des convictions erronées.",
+    image: citationPieX,
+    type: "Magistère pontifical",
+    fullText: "Saint Pie X enseigne que la véritable charité ne consiste pas à laisser autrui dans l'erreur sous prétexte de respect, mais à lui transmettre la vérité qui sauve. Tolérer l'erreur n'est pas un acte de bonté ; le premier service de charité est de témoigner de la foi authentique reçue du Christ et de son Église.",
+  },
+  {
+    id: 6,
+    author: "Cardinal Robert Sarah",
+    title: "Cardinal de la Sainte Église romaine",
+    date: "Sur la liturgie en Afrique",
+    quote: "La croissance rapide du catholicisme en Afrique appelle une formation théologique et liturgique solide. Sans cela, la célébration risque d'être absorbée par des formes extérieures, au détriment du silence, du recueillement et du caractère sacré de l'Eucharistie.",
+    image: citationSarahAfrique,
+    type: "Réflexion liturgique",
+    fullText: "Le Cardinal Sarah, fin connaisseur de l'Église en Afrique, met en garde contre une liturgie réduite au folklore. La vitalité du catholicisme africain exige une formation rigoureuse pour que les célébrations conservent leur dimension de mystère, d'adoration silencieuse et de communion réelle avec le Christ Eucharistie.",
+  },
+  {
+    id: 7,
+    author: "Benoît XVI",
+    title: "Pape émérite",
+    date: "Homélie du 1er décembre 2007",
+    quote: "La célébration de l'Avent est la réponse de l'Église Épouse à l'initiative toujours nouvelle de Dieu Époux, 'qui était et qui vient'. À l'humanité qui n'a plus de temps pour Lui, Dieu offre à nouveau du temps, un nouvel espace pour revenir sur elle-même, pour se remettre en marche, pour retrouver le sens de l'espérance.",
+    image: citationBenoitXVI,
+    type: "Homélie pontificale",
+    fullText: "Benoît XVI, dans cette homélie de l'Avent, présente le temps liturgique comme un don : Dieu, qui se révèle dans l'histoire, offre à l'humanité distraite un espace de conversion. L'Avent n'est pas un simple compte à rebours vers Noël, mais une nouvelle chance offerte de retrouver le sens de l'espérance chrétienne.",
   },
 ];
 
@@ -335,42 +380,54 @@ const Actualites = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {citations.map((citation) => (
-              <motion.div
-                key={citation.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                onClick={() => setSelectedCitation(citation)}
-                className="relative cursor-pointer bg-white/5 rounded-xl md:rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-colors"
-              >
-                <div className="aspect-[4/5] sm:aspect-square overflow-hidden">
-                  <img 
-                    src={citation.image} 
-                    alt={citation.author}
-                    className="w-full h-full object-cover object-top"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6">
-                  <span className="inline-block px-3 py-1 bg-primary/80 text-white text-xs font-bold rounded-full w-fit mb-3">
-                    {citation.type}
-                  </span>
-                  <Quote className="w-8 h-8 text-primary/60 mb-2" />
-                  <p className="text-white text-lg font-medium leading-relaxed mb-4 italic">
-                    "{citation.quote}"
-                  </p>
-                  <div className="border-t border-white/20 pt-4">
-                    <p className="text-primary font-bold">{citation.author}</p>
-                    <p className="text-gray-400 text-sm">{citation.title}</p>
-                    <p className="text-gray-500 text-xs mt-1">{citation.date}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]}
+            className="max-w-6xl mx-auto"
+          >
+            <CarouselContent className="-ml-4">
+              {citations.map((citation) => (
+                <CarouselItem
+                  key={citation.id}
+                  className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    onClick={() => setSelectedCitation(citation)}
+                    className="relative cursor-pointer bg-white/5 rounded-xl md:rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-colors h-full"
+                  >
+                    <div className="aspect-[4/5] overflow-hidden">
+                      <img
+                        src={citation.image}
+                        alt={citation.author}
+                        className="w-full h-full object-cover object-top"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent flex flex-col justify-end p-5">
+                      <span className="inline-block px-3 py-1 bg-primary/80 text-white text-[10px] font-bold rounded-full w-fit mb-2 uppercase tracking-wide">
+                        {citation.type}
+                      </span>
+                      <Quote className="w-6 h-6 text-primary/60 mb-2" />
+                      <p className="text-white text-sm md:text-base font-medium leading-relaxed mb-3 italic line-clamp-5">
+                        "{citation.quote}"
+                      </p>
+                      <div className="border-t border-white/20 pt-3">
+                        <p className="text-primary font-bold text-sm">{citation.author}</p>
+                        <p className="text-gray-400 text-xs">{citation.title}</p>
+                        <p className="text-gray-500 text-[10px] mt-1">{citation.date}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12 bg-primary/20 border-primary/40 text-white hover:bg-primary hover:text-white" />
+            <CarouselNext className="hidden md:flex -right-4 lg:-right-12 bg-primary/20 border-primary/40 text-white hover:bg-primary hover:text-white" />
+          </Carousel>
         </div>
       </section>
 
