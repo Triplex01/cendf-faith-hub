@@ -334,7 +334,7 @@ const Boutique = () => {
               </div>
               <div className="mb-6 md:mb-8">
                 <div className="flex items-baseline gap-1">
-                  <span className="font-display text-4xl md:text-5xl font-bold text-foreground">10</span>
+                  <span className="font-display text-4xl md:text-5xl font-bold text-foreground">15</span>
                   <span className="text-muted-foreground text-base md:text-lg">.000</span>
                 </div>
                 <p className="text-muted-foreground/60 text-xs md:text-sm mt-1">FCFA / an</p>
