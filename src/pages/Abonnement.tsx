@@ -20,7 +20,10 @@ import {
 } from "lucide-react";
 
 import basiliqueCover from "@/assets/basilique-notredame.jpg";
-import paydunyaPaymentMethods from "@/assets/paydunya-payment-methods.png";
+import paymentMethodsGenius from "@/assets/payment-methods-genius.png";
+import paymentMoovMoney from "@/assets/payment-moov-money.png";
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react";
 
 const plans = [
   {
@@ -34,7 +37,7 @@ const plans = [
   {
     id: "paper",
     name: "Papier",
-    price: 10000,
+    price: 15000,
     icon: Crown,
     features: ["4 parutions papier livrées", "Accès numérique offert", "Livraison gratuite en CI", "Numéros spéciaux inclus"],
     popular: true,
@@ -42,7 +45,7 @@ const plans = [
   {
     id: "premium",
     name: "Intégral",
-    price: 15000,
+    price: 25000,
     icon: Sparkles,
     features: ["Tout Credo Papier inclus", "Documents exclusifs CEDF", "Invitations aux événements", "Mention dans la revue"],
     popular: false,
@@ -54,6 +57,7 @@ const Abonnement = () => {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState("paper");
   const [step, setStep] = useState<"plan" | "info" | "payment" | "success">("plan");
+  const [paying, setPaying] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -77,9 +81,62 @@ const Abonnement = () => {
     setStep("payment");
   };
 
-  const handlePaymentSelect = () => {
-    setStep("success");
-    toast({ title: "Demande d'abonnement enregistrée !", description: "Vous serez contacté(e) sous 24h." });
+  const handlePaymentSelect = async () => {
+    if (paying) return;
+    setPaying(true);
+    try {
+      // Send subscription notification emails (client + CEDF)
+      supabase.functions.invoke("send-order-email", {
+        body: {
+          type: "subscription",
+          customer: {
+            name: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            city: formData.city,
+            address: formData.address,
+          },
+          product: {
+            name: `Credo ${currentPlan.name}`,
+            plan: currentPlan.name,
+            price: currentPlan.price,
+          },
+          paymentStatus: "pending",
+        },
+      }).catch((e) => console.warn("subscription email failed", e));
+
+      const { data, error } = await supabase.functions.invoke("genius-checkout", {
+        body: {
+          amount: currentPlan.price,
+          description: `Abonnement Credo ${currentPlan.name}`,
+          customer: {
+            name: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            country: "CI",
+          },
+          metadata: {
+            plan: currentPlan.id,
+            city: formData.city,
+            address: formData.address,
+          },
+          success_url: `${window.location.origin}/confirmation-commande?status=success&type=subscription`,
+          error_url: `${window.location.origin}/confirmation-commande?status=error`,
+        },
+      });
+
+      if (error || !data?.success || !data?.checkout_url) {
+        throw new Error(data?.error || error?.message || "Paiement indisponible");
+      }
+      window.location.href = data.checkout_url;
+    } catch (err: any) {
+      toast({
+        title: "Erreur de paiement",
+        description: err?.message || "Impossible d'initier le paiement.",
+        variant: "destructive",
+      });
+      setPaying(false);
+    }
   };
 
   if (step === "success") {
