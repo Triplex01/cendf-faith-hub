@@ -27,6 +27,8 @@ import Contact from "./pages/Contact";
 import Boutique from "./pages/Boutique";
 import Abonnement from "./pages/Abonnement";
 import ConfirmationCommande from "./pages/ConfirmationCommande";
+import PaiementSucces from "./pages/PaiementSucces";
+import PaiementEchec from "./pages/PaiementEchec";
 import BibleEnLigne from "./pages/BibleEnLigne";
 import SaintDuJour from "./pages/SaintDuJour";
 import Prieres from "./pages/Prieres";
@@ -88,6 +90,8 @@ const AppRoutes = () => {
         <Route path="/boutique" element={<Boutique />} />
         <Route path="/abonnement" element={<Abonnement />} />
         <Route path="/confirmation-commande" element={<ConfirmationCommande />} />
+        <Route path="/paiement-succes" element={<PaiementSucces />} />
+        <Route path="/paiement-echec" element={<PaiementEchec />} />
         <Route path="/bible" element={<BibleEnLigne />} />
         <Route path="/saint-du-jour" element={<SaintDuJour />} />
         <Route path="/prieres" element={<Prieres />} />
