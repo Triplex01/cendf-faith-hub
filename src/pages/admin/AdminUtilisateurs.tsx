@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  Users, Search, Shield, UserPlus, Clock, Mail, X, Save
+  Users, Search, Shield, UserPlus, Clock, Mail, X, Save, Trash2
 } from "lucide-react";
 
 const AdminUtilisateurs = () => {
@@ -39,6 +39,17 @@ const AdminUtilisateurs = () => {
     // This would require creating the user first, simplified for now
     toast({ title: "Fonctionnalité en cours", description: "L'invitation par email sera bientôt disponible." });
     setShowInvite(false);
+  };
+
+  const handleDelete = async (user: any) => {
+    if (!confirm(`Supprimer définitivement le compte de ${user.email} ? Cette action est irréversible.`)) return;
+    const { error } = await supabase.rpc("admin_delete_user" as any, { _user_id: user.id });
+    if (error) {
+      toast({ title: "Erreur", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Utilisateur supprimé" });
+    loadData();
   };
 
   const filtered = profiles.filter(p =>
@@ -123,6 +134,7 @@ const AdminUtilisateurs = () => {
                   <th className="text-left text-xs font-bold text-muted-foreground uppercase tracking-wider px-5 py-3 hidden md:table-cell">Email</th>
                   <th className="text-left text-xs font-bold text-muted-foreground uppercase tracking-wider px-5 py-3">Rôle</th>
                   <th className="text-left text-xs font-bold text-muted-foreground uppercase tracking-wider px-5 py-3 hidden md:table-cell">Inscrit le</th>
+                  <th className="text-right text-xs font-bold text-muted-foreground uppercase tracking-wider px-5 py-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -155,6 +167,16 @@ const AdminUtilisateurs = () => {
                           <Clock className="w-3 h-3" />
                           {new Date(p.created_at).toLocaleDateString("fr-FR")}
                         </span>
+                      </td>
+                      <td className="px-5 py-4 text-right">
+                        <button
+                          onClick={() => handleDelete(p)}
+                          className="inline-flex items-center gap-1 text-xs text-destructive hover:bg-destructive/10 px-2 py-1 rounded-md transition-colors"
+                          title="Supprimer l'utilisateur"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span className="hidden sm:inline">Supprimer</span>
+                        </button>
                       </td>
                     </tr>
                   );
