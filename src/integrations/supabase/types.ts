@@ -69,6 +69,7 @@ export type Database = {
           file_url: string
           id: string
           status: string
+          tier_required: string
           title: string
           updated_at: string
         }
@@ -81,6 +82,7 @@ export type Database = {
           file_url: string
           id?: string
           status?: string
+          tier_required?: string
           title: string
           updated_at?: string
         }
@@ -93,6 +95,7 @@ export type Database = {
           file_url?: string
           id?: string
           status?: string
+          tier_required?: string
           title?: string
           updated_at?: string
         }
@@ -221,6 +224,51 @@ export type Database = {
         }
         Relationships: []
       }
+      pending_subscriptions: {
+        Row: {
+          amount: number
+          consumed_at: string | null
+          country: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          password_hash: string
+          phone: string
+          plan: string
+          reference: string | null
+          status: string
+        }
+        Insert: {
+          amount: number
+          consumed_at?: string | null
+          country?: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          password_hash: string
+          phone: string
+          plan?: string
+          reference?: string | null
+          status?: string
+        }
+        Update: {
+          amount?: number
+          consumed_at?: string | null
+          country?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          password_hash?: string
+          phone?: string
+          plan?: string
+          reference?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -343,6 +391,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_delete_user: { Args: { _user_id: string }; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
