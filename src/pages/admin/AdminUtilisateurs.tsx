@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  Users, Search, Shield, UserPlus, Clock, Mail, X, Save
+  Users, Search, Shield, UserPlus, Clock, Mail, X, Save, Trash2
 } from "lucide-react";
 
 const AdminUtilisateurs = () => {
@@ -39,6 +39,17 @@ const AdminUtilisateurs = () => {
     // This would require creating the user first, simplified for now
     toast({ title: "Fonctionnalité en cours", description: "L'invitation par email sera bientôt disponible." });
     setShowInvite(false);
+  };
+
+  const handleDelete = async (user: any) => {
+    if (!confirm(`Supprimer définitivement le compte de ${user.email} ? Cette action est irréversible.`)) return;
+    const { error } = await supabase.rpc("admin_delete_user" as any, { _user_id: user.id });
+    if (error) {
+      toast({ title: "Erreur", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Utilisateur supprimé" });
+    loadData();
   };
 
   const filtered = profiles.filter(p =>
