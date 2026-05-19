@@ -14,3 +14,9 @@ verify_jwt = false
 
 [functions.send-newsletter-email]
 verify_jwt = false
+
+[functions.create-pending-subscription]
+verify_jwt = false
+
+[functions.genius-webhook]
+verify_jwt = false
