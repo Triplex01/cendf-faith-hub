@@ -10,9 +10,6 @@ const prayerCategories = [
   "Toutes",
   "Prières quotidiennes",
   "Prières mariales",
-  "Prières aux saints",
-  "Psaumes",
-  "Prières pour les défunts",
 ];
 
 const prayers = [
@@ -45,87 +42,6 @@ Priez pour nous, pauvres pécheurs,
 Maintenant et à l'heure de notre mort.
 Amen.`,
     isFavorite: true,
-  },
-  {
-    id: 3,
-    title: "Gloire au Père",
-    category: "Prières quotidiennes",
-    text: `Gloire au Père, au Fils et au Saint-Esprit,
-comme il était au commencement, maintenant et toujours,
-pour les siècles des siècles.
-Amen.`,
-    isFavorite: false,
-  },
-  {
-    id: 4,
-    title: "Acte de contrition",
-    category: "Prières quotidiennes",
-    text: `Mon Dieu, j'ai un très grand regret de vous avoir offensé,
-parce que vous êtes infiniment bon, infiniment aimable,
-et que le péché vous déplaît.
-Je prends la ferme résolution,
-avec le secours de votre sainte grâce,
-de ne plus vous offenser
-et de faire pénitence.
-Amen.`,
-    isFavorite: false,
-  },
-  {
-    id: 5,
-    title: "Prière à l'Ange Gardien",
-    category: "Prières aux saints",
-    text: `Ange de Dieu, qui êtes mon gardien
-et à qui j'ai été confié par la bonté divine,
-éclairez-moi, gardez-moi, dirigez-moi et gouvernez-moi.
-Amen.`,
-    isFavorite: false,
-  },
-  {
-    id: 6,
-    title: "Salve Regina",
-    category: "Prières mariales",
-    text: `Salut, ô Reine, Mère de miséricorde,
-notre vie, notre douceur, notre espérance, salut !
-Vers vous nous élevons nos cris,
-pauvres enfants d'Ève exilés.
-Vers vous nous soupirons, gémissant et pleurant
-dans cette vallée de larmes.
-Ô vous, notre Avocate,
-tournez vers nous vos regards miséricordieux.
-Et après cet exil, montrez-nous Jésus,
-le fruit béni de vos entrailles.
-Ô clémente, ô miséricordieuse, ô douce Vierge Marie.
-Amen.`,
-    isFavorite: true,
-  },
-  {
-    id: 7,
-    title: "Psaume 23 - Le Seigneur est mon berger",
-    category: "Psaumes",
-    text: `Le Seigneur est mon berger : je ne manque de rien.
-Sur des prés d'herbe fraîche, il me fait reposer.
-Il me mène vers les eaux tranquilles et me fait revivre ;
-il me conduit par le juste chemin pour l'honneur de son nom.
-Si je traverse les ravins de la mort, je ne crains aucun mal,
-car tu es avec moi : ton bâton me guide et me rassure.
-Tu prépares la table pour moi devant mes ennemis ;
-tu répands le parfum sur ma tête, ma coupe est débordante.
-Grâce et bonheur m'accompagnent tous les jours de ma vie ;
-j'habiterai la maison du Seigneur pour la durée de mes jours.`,
-    isFavorite: false,
-  },
-  {
-    id: 8,
-    title: "Prière pour les défunts",
-    category: "Prières pour les défunts",
-    text: `Dieu de miséricorde et de pardon,
-donne à nos frères et sœurs défunts
-de trouver le repos éternel.
-Que la lumière sans déclin brille sur eux.
-Que leur âme et les âmes de tous les fidèles défunts,
-par la miséricorde de Dieu, reposent en paix.
-Amen.`,
-    isFavorite: false,
   },
 ];
 
