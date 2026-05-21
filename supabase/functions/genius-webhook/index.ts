@@ -13,8 +13,44 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
   try {
-    const body = await req.json().catch(() => ({}));
-    // Genius Pay webhook payload (defensive parsing)
+    const rawBody = await req.text();
+
+    // Verify HMAC signature when webhook secret is configured
+    const webhookSecret = Deno.env.get('GENIUS_WEBHOOK_SECRET');
+    if (webhookSecret) {
+      const sigHeader =
+        req.headers.get('x-genius-signature') ||
+        req.headers.get('x-webhook-signature') ||
+        req.headers.get('x-signature') ||
+        '';
+      const provided = sigHeader.replace(/^sha256=/i, '').trim().toLowerCase();
+      try {
+        const key = await crypto.subtle.importKey(
+          'raw',
+          new TextEncoder().encode(webhookSecret),
+          { name: 'HMAC', hash: 'SHA-256' },
+          false,
+          ['sign'],
+        );
+        const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(rawBody));
+        const expected = Array.from(new Uint8Array(sig))
+          .map((b) => b.toString(16).padStart(2, '0'))
+          .join('');
+        if (!provided || provided !== expected) {
+          console.warn('Invalid webhook signature', { provided: provided.slice(0, 8) });
+          return new Response(JSON.stringify({ error: 'invalid signature' }), {
+            status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+      } catch (e) {
+        console.error('signature verify error', e);
+        return new Response(JSON.stringify({ error: 'signature error' }), {
+          status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
+    const body = JSON.parse(rawBody || '{}');
     const data = body?.data ?? body;
     const reference: string | undefined = data?.reference || data?.payment_reference || body?.reference;
     const status: string = (data?.status || body?.status || '').toString().toLowerCase();
