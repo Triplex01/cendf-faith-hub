@@ -107,8 +107,8 @@ Deno.serve(async (req) => {
         country: body.country,
       },
       metadata: { pending_id: pending.id, plan },
-      success_url: `${origin}/paiement-succes?ref={REFERENCE}`,
-      error_url: `${origin}/paiement-echec?ref={REFERENCE}`,
+      success_url: `${origin}/paiement-succes?pid=${pending.id}`,
+      error_url: `${origin}/paiement-echec?pid=${pending.id}`,
       webhook_url: webhookUrl,
       callback_url: webhookUrl,
     };
