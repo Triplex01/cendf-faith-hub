@@ -52,10 +52,21 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
     );
 
-    // Check existing user
+    // Check existing user — allow retry if account has no active subscription (orphan from prior failed attempt)
     const { data: list } = await supabase.auth.admin.listUsers();
-    if (list?.users?.some((u) => u.email?.toLowerCase() === body.email.toLowerCase())) {
-      return bad('Un compte existe déjà avec cet email. Connectez-vous.', 409);
+    const existing = list?.users?.find((u) => u.email?.toLowerCase() === body.email.toLowerCase());
+    if (existing) {
+      const { data: subs } = await supabase
+        .from('subscriptions')
+        .select('id')
+        .eq('user_id', existing.id)
+        .eq('status', 'active')
+        .limit(1);
+      if (subs && subs.length > 0) {
+        return bad('Un compte existe déjà avec cet email. Connectez-vous.', 409);
+      }
+      // Orphan account (signed up but never paid) — remove so webhook can re-provision cleanly
+      await supabase.auth.admin.deleteUser(existing.id);
     }
 
     const { data: pending, error: insErr } = await supabase
@@ -96,8 +107,8 @@ Deno.serve(async (req) => {
         country: body.country,
       },
       metadata: { pending_id: pending.id, plan },
-      success_url: `${origin}/paiement-succes?ref={REFERENCE}`,
-      error_url: `${origin}/paiement-echec?ref={REFERENCE}`,
+      success_url: `${origin}/paiement-succes?pid=${pending.id}`,
+      error_url: `${origin}/paiement-echec?pid=${pending.id}`,
       webhook_url: webhookUrl,
       callback_url: webhookUrl,
     };
