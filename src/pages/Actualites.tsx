@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 
 // Images importées
-import basiliqueYamoussoukro from "@/assets/basilique-yamoussoukro.jpg";
 import eventSynode from "@/assets/event-synode.jpg";
 import eventCongresPanafricain from "@/assets/event-congres-panafricain.jpg";
 import eventJourneeScientifique from "@/assets/event-journee-scientifique.jpg";
@@ -24,10 +23,10 @@ import citationCardinalSarah from "@/assets/citation-cardinal-sarah.jpg";
 import citationPieX from "@/assets/citation-pie-x.jpg";
 import citationSarahAfrique from "@/assets/citation-sarah-afrique.jpg";
 import citationBenoitXVI from "@/assets/citation-benoit-xvi.jpg";
-import reunionEglise from "@/assets/reunion-eglise.jpg";
-import interieurBasilique from "@/assets/interieur-basilique.jpg";
-import basilique from "@/assets/basilique-notredame.jpg";
-import voeux2026 from "@/assets/voeux-2026.jpg";
+import vaticanBenedictions from "@/assets/actu-vatican-benedictions.png";
+import assisesCatechese from "@/assets/actu-assises-catechese.png";
+import encycliqueLeonXIV from "@/assets/actu-encyclique-leon-xiv.png";
+import evangeliserReseaux from "@/assets/actu-evangeliser-reseaux.png";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -176,57 +175,39 @@ const citations: Citation[] = [
 const staticArticles: Article[] = [
   {
     id: 1,
-    slug: "celebration-noel-2024",
-    title: "Célébration de Noël 2024",
-    excerpt: "La Commission Épiscopale pour la Doctrine de la Foi a célébré avec ferveur la naissance du Christ lors de la messe de Noël 2024.",
-    image: interieurBasilique,
-    date: "25 décembre 2024",
-    category: "Célébration",
+    slug: "encyclique-leon-xiv-magnifica-humanitas",
+    title: "1ère Encyclique du Pape Léon XIV : Magnifica Humanitas",
+    excerpt: "Le Saint-Père publie sa première encyclique consacrée à l'attention portée à la personne humaine à l'ère de l'intelligence artificielle.",
+    image: encycliqueLeonXIV,
+    date: "25 mai 2026",
+    category: "Magistère",
   },
   {
     id: 2,
-    slug: "voeux-nouvel-an-2026",
-    title: "Vœux du Nouvel An 2026",
-    excerpt: "Que cette nouvelle année soit remplie de la grâce divine et de la paix du Christ pour tous les fidèles de Côte d'Ivoire.",
-    image: voeux2026,
-    date: "1er janvier 2026",
-    category: "Message",
+    slug: "soiree-evangeliser-reseaux",
+    title: "Soirée : Évangéliser par les Réseaux",
+    excerpt: "Rencontre des missionnaires du numérique à Paris avec Mgr Rey, l'Abbé Raffray et les abbés de CREDO.",
+    image: evangeliserReseaux,
+    date: "28 mai 2026",
+    category: "Événement",
   },
   {
     id: 3,
-    slug: "reunion-commission-janvier",
-    title: "Réunion de la Commission Épiscopale",
-    excerpt: "Les membres de la Commission se sont réunis pour planifier les activités pastorales de l'année 2026.",
-    image: reunionEglise,
-    date: "10 janvier 2026",
-    category: "Actualité",
+    slug: "lancement-assises-catechese-2026",
+    title: "Lancement officiel des Assises Nationales de la Catéchèse",
+    excerpt: "L'Église catholique en Côte d'Ivoire lance les Assises Nationales de la Catéchèse à la Paroisse Notre-Dame de l'Annonciation, Auribat.",
+    image: assisesCatechese,
+    date: "17 mai 2026",
+    category: "Événement",
   },
   {
     id: 4,
-    slug: "pelerinage-yamoussoukro",
-    title: "Pèlerinage à la Basilique de Yamoussoukro",
-    excerpt: "Des milliers de fidèles ont participé au pèlerinage annuel à la Basilique Notre-Dame de la Paix.",
-    image: basiliqueYamoussoukro,
-    date: "15 janvier 2026",
-    category: "Pèlerinage",
-  },
-  {
-    id: 5,
-    slug: "formation-catechistes",
-    title: "Formation des Catéchistes",
-    excerpt: "Une session de formation pour les catéchistes a eu lieu à l'archidiocèse d'Abidjan.",
-    image: basilique,
-    date: "20 janvier 2026",
-    category: "Formation",
-  },
-  {
-    id: 6,
-    slug: "messe-unite-chretiens",
-    title: "Messe pour l'Unité des Chrétiens",
-    excerpt: "Une messe solennelle a été célébrée à l'occasion de la Semaine de prière pour l'unité des chrétiens.",
-    image: interieurBasilique,
-    date: "25 janvier 2026",
-    category: "Œcuménisme",
+    slug: "vatican-benedictions-couples",
+    title: "Le Vatican interdit les bénédictions officielles pour les couples homosexuels",
+    excerpt: "Le Saint-Siège publie une lettre rappelant la doctrine de l'Église sur le mariage et les bénédictions officielles.",
+    image: vaticanBenedictions,
+    date: "10 mai 2026",
+    category: "Actualité",
   },
 ];
 
