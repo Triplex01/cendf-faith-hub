@@ -21,6 +21,15 @@ import { enseignementsArticles } from "@/config/enseignementsArticles";
 import teachingImage from "@/assets/teaching-priest.jpg";
 import basiliquImage from "@/assets/basilique-notredame.jpg";
 import reunionImage from "@/assets/reunion-eglise.jpg";
+import imgLiturgieCulture from "@/assets/ens-liturgie-culture.jpg";
+import imgTheologieLiturgie from "@/assets/ens-theologie-liturgie.jpg";
+import imgUniteLiturgie from "@/assets/ens-unite-liturgie.webp";
+import imgPetiteHistoire from "@/assets/ens-petite-histoire-liturgie.webp";
+import imgDieuTrinite from "@/assets/ens-dieu-trinite.jpg";
+import imgAProposReligion from "@/assets/ens-a-propos-religion.jpg";
+import imgAnthropologie from "@/assets/ens-anthropologie.jpeg";
+import imgDieuJuif from "@/assets/ens-dieu-juif.jpg";
+import imgHommePhilosophes from "@/assets/ens-homme-philosophes.webp";
 
 const categories = [
   { id: "all", slug: "", icon: BookOpen, title: "Tous", description: "Tous les enseignements" },
@@ -30,6 +39,18 @@ const categories = [
   { id: "liturgie", slug: "liturgie", icon: Church, title: "Liturgie", description: "Vivre les célébrations" },
   { id: "vie-familiale", slug: "vie-familiale", icon: Users, title: "Vie Familiale", description: "La famille chrétienne" },
 ];
+
+const articleImages: Record<string, string> = {
+  "liturgie-et-culture": imgLiturgieCulture,
+  "theologie-de-la-liturgie": imgTheologieLiturgie,
+  "unite-liturgie-et-mission": imgUniteLiturgie,
+  "petite-histoire-de-la-liturgie": imgPetiteHistoire,
+  "dieu-trinite-mystere-de-communion": imgDieuTrinite,
+  "de-religionis-a-propos-de-religion": imgAProposReligion,
+  "anthropologie-biblique-che-cosa-e-l-uomo": imgAnthropologie,
+  "le-dieu-juif": imgDieuJuif,
+  "homme-vu-par-les-philosophes": imgHommePhilosophes,
+};
 
 const categoryImages: Record<string, string> = {
   liturgie: teachingImage,
@@ -148,7 +169,7 @@ const Enseignements = () => {
             {filteredArticles.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredArticles.map((article) => {
-                  const img = categoryImages[article.category] || teachingImage;
+                  const img = articleImages[article.slug] || categoryImages[article.category] || teachingImage;
                   return (
                     <article
                       key={article.slug}
