@@ -3,101 +3,75 @@ import PageLayout from "@/components/PageLayout";
 import { Calendar, ArrowLeft, Share2, Facebook, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { sanitizeHtml } from "@/lib/sanitize";
-import vaticanBenedictions from "@/assets/actu-vatican-benedictions.png";
-import assisesCatechese from "@/assets/actu-assises-catechese.png";
-import encycliqueLeonXIV from "@/assets/actu-encyclique-leon-xiv.png";
-import evangeliserReseaux from "@/assets/actu-evangeliser-reseaux.png";
+import pelerinageImg from "@/assets/basilique-yamoussoukro.jpg";
+import reunionImg from "@/assets/news-reunion-cedf.jpg";
+import voeuxImg from "@/assets/voeux-2026.jpg";
 
 const staticArticles = [
   {
     id: 1,
-    slug: "encyclique-leon-xiv-magnifica-humanitas",
-    title: "1ère Encyclique du Pape Léon XIV : Magnifica Humanitas",
-    excerpt: "Le Saint-Père publie sa première encyclique consacrée à l'attention portée à la personne humaine à l'ère de l'intelligence artificielle.",
+    slug: "pelerinage-yamoussoukro",
+    title: "Pèlerinage à la Basilique de Yamoussoukro",
+    excerpt: "Des milliers de fidèles ont participé au pèlerinage annuel à la Basilique Notre-Dame de la Paix de Yamoussoukro.",
     content: `
-      <p>Officiellement annoncée pour le 25 mai 2026, la première encyclique du Pape Léon XIV, intitulée <em>Magnifica Humanitas</em> (« Magnifique humanité »), porte sur l'attention à la personne humaine à l'ère de l'intelligence artificielle.</p>
+      <p>Le 15 janvier 2026, des milliers de fidèles venus de toute la Côte d'Ivoire et de la sous-région se sont rassemblés à la <strong>Basilique Notre-Dame de la Paix de Yamoussoukro</strong> pour le pèlerinage annuel organisé par la Conférence Épiscopale.</p>
 
-      <h2>Une réflexion sur l'humain à l'ère numérique</h2>
-      <p>Dans ce texte programmatique, le Saint-Père invite l'Église et le monde à redécouvrir la dignité inaliénable de chaque personne humaine, face aux bouleversements provoqués par les nouvelles technologies, l'automatisation et l'intelligence artificielle.</p>
+      <h2>Une démarche de foi et de prière</h2>
+      <p>Sous la conduite de leurs évêques, prêtres et catéchistes, les pèlerins ont vécu une journée de prière, d'adoration eucharistique et de méditation mariale, dans la plus grande basilique d'Afrique consacrée à la Vierge Marie.</p>
 
-      <h2>Une boussole pour le 21e siècle</h2>
-      <p>L'encyclique rappelle que le progrès technique ne peut être une fin en soi : il doit toujours être au service de la personne humaine, créée à l'image de Dieu. Le Pape invite les chrétiens à un discernement éclairé et à un engagement responsable dans la culture numérique.</p>
+      <h2>Un appel à la paix</h2>
+      <p>Dans son homélie, le président de la Conférence Épiscopale a invité les fidèles à être <em>« des artisans de paix »</em> dans leurs familles, leurs paroisses et la société ivoirienne, à la veille d'échéances importantes pour le pays.</p>
 
-      <p>Le texte intégral sera publié simultanément en plusieurs langues sur le site du Saint-Siège.</p>
+      <p>La journée s'est achevée par la procession mariale et la bénédiction solennelle, dans une ambiance de ferveur et de communion fraternelle.</p>
     `,
-    image: encycliqueLeonXIV,
-    date: "25 Mai 2026",
-    category: "Magistère",
+    image: pelerinageImg,
+    date: "15 Janvier 2026",
+    category: "Événement",
   },
   {
     id: 2,
-    slug: "soiree-evangeliser-reseaux",
-    title: "Soirée : Évangéliser par les Réseaux",
-    excerpt: "Rencontre des missionnaires du numérique à Paris avec Mgr Rey, l'Abbé Raffray et les abbés de CREDO.",
+    slug: "reunion-commission-janvier",
+    title: "Réunion de la Commission Épiscopale",
+    excerpt: "Les membres de la Commission se sont réunis pour planifier les activités de l'année 2026.",
     content: `
-      <p>Le jeudi 28 mai 2026, de 20h00 à 23h30, l'Espace Charenton (Paris 12) accueille une soirée exceptionnelle intitulée <strong>« Évangéliser par les Réseaux »</strong>.</p>
+      <p>Le 10 janvier 2026, les membres de la <strong>Commission Épiscopale pour la Doctrine de la Foi (CEDF)</strong> se sont réunis au siège de la Conférence Épiscopale pour leur première session de travail de l'année.</p>
 
-      <h2>Les missionnaires du numérique</h2>
-      <p>Cette rencontre rassemblera Mgr Rey, l'Abbé Raffray, les abbés de CREDO, l'Abbé Laguérie, le Catho de Service, Paul d'Amen Media et bien d'autres acteurs catholiques du numérique.</p>
+      <h2>Bilan et perspectives</h2>
+      <p>Cette rencontre a permis de dresser le bilan des activités menées en 2025 et d'arrêter le programme pastoral, théologique et de formation de l'année 2026, notamment autour des Assises Nationales de la Catéchèse.</p>
 
-      <h2>Informations pratiques</h2>
+      <h2>Priorités pour 2026</h2>
       <ul>
-        <li><strong>Date :</strong> Jeudi 28 mai 2026</li>
-        <li><strong>Horaires :</strong> 20h00 - 23h30 (Accès VIP dès 18h30)</li>
-        <li><strong>Lieu :</strong> Espace Charenton, Paris 12</li>
+        <li>Renforcer la formation doctrinale des catéchistes et animateurs pastoraux</li>
+        <li>Poursuivre la publication des magazines <em>Credo</em> et des enseignements en ligne</li>
+        <li>Développer la présence numérique de la CEDF (radio, podcasts, plateforme web)</li>
+        <li>Accompagner les diocèses dans la mise en œuvre des orientations synodales</li>
       </ul>
 
-      <p>Une soirée de témoignages, d'échanges et de prière pour tous ceux qui veulent annoncer le Christ sur les réseaux sociaux.</p>
+      <p>La séance s'est conclue par un temps de prière et l'envoi en mission de chaque membre dans son champ d'apostolat.</p>
     `,
-    image: evangeliserReseaux,
-    date: "28 Mai 2026",
-    category: "Événement",
+    image: reunionImg,
+    date: "10 Janvier 2026",
+    category: "Vie de la CEDF",
   },
   {
     id: 3,
-    slug: "lancement-assises-catechese-2026",
-    title: "Lancement officiel des Assises Nationales de la Catéchèse",
-    excerpt: "L'Église catholique en Côte d'Ivoire lance les Assises Nationales de la Catéchèse à la Paroisse Notre-Dame de l'Annonciation, Auribat.",
+    slug: "voeux-nouvel-an-2026",
+    title: "Vœux du Nouvel An 2026",
+    excerpt: "Que cette nouvelle année soit remplie de la grâce divine et de la paix du Christ.",
     content: `
-      <p>La Commission Épiscopale Nationale de la Catéchèse organise le lancement officiel des <strong>Assises Nationales de la Catéchèse</strong> le dimanche 17 mai 2026 à 09h.</p>
+      <p>À l'occasion de l'entrée dans la nouvelle année, la <strong>Commission Épiscopale pour la Doctrine de la Foi</strong> adresse ses vœux les plus fervents à tous les fidèles de Côte d'Ivoire et à tous les hommes de bonne volonté.</p>
 
-      <h2>Un moment historique pour la catéchèse en Côte d'Ivoire</h2>
-      <p>Cet événement marquera le coup d'envoi d'une démarche nationale visant à repenser et à dynamiser la transmission de la foi dans l'Église catholique en Côte d'Ivoire.</p>
+      <h2>Une année placée sous le signe de l'espérance</h2>
+      <p>« Que cette nouvelle année soit remplie de la grâce divine et de la paix du Christ. » Tel est le souhait que nous formulons pour chaque famille, chaque communauté chrétienne et chaque nation.</p>
 
-      <h2>Public cible</h2>
-      <p>Évêques, prêtres, responsables diocésains, religieux et religieuses, catéchistes, animateurs de catéchuménat, fidèles laïcs.</p>
+      <h2>Un appel à la conversion et à la mission</h2>
+      <p>Que 2026 soit pour chacun une année de croissance dans la foi, l'espérance et la charité ; une année d'engagement renouvelé au service de l'Évangile et de nos frères, particulièrement les plus pauvres et les plus fragiles.</p>
 
-      <h2>Informations pratiques</h2>
-      <ul>
-        <li><strong>Date :</strong> Dimanche 17 mai 2026 - 09h</li>
-        <li><strong>Lieu :</strong> Paroisse Notre Dame de l'Annonciation / AURIBAT – route Bingerville</li>
-        <li><strong>Contacts :</strong> +225 07 07 38 75 81 / +225 07 77 30 92 30 / +225 07 07 18 75 69</li>
-        <li><strong>Email :</strong> catechesenationale@gmail.com</li>
-      </ul>
+      <p>Que Marie, Mère de l'Église et Reine de la Paix, intercède pour nous tout au long de cette année. Bonne et sainte année 2026 !</p>
     `,
-    image: assisesCatechese,
-    date: "17 Mai 2026",
-    category: "Événement",
-  },
-  {
-    id: 4,
-    slug: "vatican-benedictions-couples",
-    title: "Le Vatican interdit les bénédictions officielles pour les couples homosexuels",
-    excerpt: "Le Saint-Siège publie une lettre rappelant la doctrine de l'Église sur le mariage et les bénédictions officielles.",
-    content: `
-      <p>Le Vatican a publié une lettre officielle clarifiant la position de l'Église catholique concernant les bénédictions officielles pour les couples de personnes de même sexe.</p>
-
-      <h2>Une clarification doctrinale</h2>
-      <p>Le document rappelle que le mariage, selon la doctrine catholique, est l'union exclusive entre un homme et une femme, ouverte à la transmission de la vie. Toute bénédiction officielle qui pourrait laisser entendre une reconnaissance d'unions contraires à cet enseignement est exclue.</p>
-
-      <h2>L'accueil pastoral des personnes</h2>
-      <p>Tout en réaffirmant la doctrine, le texte souligne que chaque personne, quelle que soit son orientation, doit être accueillie avec respect, compassion et délicatesse dans la communauté chrétienne. La distinction entre la personne et les actes demeure un principe fondamental de la pastorale de l'Église.</p>
-
-      <p>La Commission Épiscopale pour la Doctrine de la Foi salue cette clarification et invite les fidèles à approfondir la richesse de l'enseignement de l'Église sur la sexualité humaine et le mariage.</p>
-    `,
-    image: vaticanBenedictions,
-    date: "10 Mai 2026",
-    category: "Actualité",
+    image: voeuxImg,
+    date: "1er Janvier 2026",
+    category: "Message",
   },
 ];
 

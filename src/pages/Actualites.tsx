@@ -23,10 +23,9 @@ import citationCardinalSarah from "@/assets/citation-cardinal-sarah.jpg";
 import citationPieX from "@/assets/citation-pie-x.jpg";
 import citationSarahAfrique from "@/assets/citation-sarah-afrique.jpg";
 import citationBenoitXVI from "@/assets/citation-benoit-xvi.jpg";
-import vaticanBenedictions from "@/assets/actu-vatican-benedictions.png";
-import assisesCatechese from "@/assets/actu-assises-catechese.png";
-import encycliqueLeonXIV from "@/assets/actu-encyclique-leon-xiv.png";
-import evangeliserReseaux from "@/assets/actu-evangeliser-reseaux.png";
+import pelerinageImg from "@/assets/basilique-yamoussoukro.jpg";
+import reunionImg from "@/assets/news-reunion-cedf.jpg";
+import voeuxImg from "@/assets/voeux-2026.jpg";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -175,39 +174,30 @@ const citations: Citation[] = [
 const staticArticles: Article[] = [
   {
     id: 1,
-    slug: "encyclique-leon-xiv-magnifica-humanitas",
-    title: "1ère Encyclique du Pape Léon XIV : Magnifica Humanitas",
-    excerpt: "Le Saint-Père publie sa première encyclique consacrée à l'attention portée à la personne humaine à l'ère de l'intelligence artificielle.",
-    image: encycliqueLeonXIV,
-    date: "25 mai 2026",
-    category: "Magistère",
+    slug: "pelerinage-yamoussoukro",
+    title: "Pèlerinage à la Basilique de Yamoussoukro",
+    excerpt: "Des milliers de fidèles ont participé au pèlerinage annuel à la Basilique Notre-Dame de la Paix de Yamoussoukro.",
+    image: pelerinageImg,
+    date: "15 janvier 2026",
+    category: "Événement",
   },
   {
     id: 2,
-    slug: "soiree-evangeliser-reseaux",
-    title: "Soirée : Évangéliser par les Réseaux",
-    excerpt: "Rencontre des missionnaires du numérique à Paris avec Mgr Rey, l'Abbé Raffray et les abbés de CREDO.",
-    image: evangeliserReseaux,
-    date: "28 mai 2026",
-    category: "Événement",
+    slug: "reunion-commission-janvier",
+    title: "Réunion de la Commission Épiscopale",
+    excerpt: "Les membres de la Commission se sont réunis pour planifier les activités de l'année 2026.",
+    image: reunionImg,
+    date: "10 janvier 2026",
+    category: "Vie de la CEDF",
   },
   {
     id: 3,
-    slug: "lancement-assises-catechese-2026",
-    title: "Lancement officiel des Assises Nationales de la Catéchèse",
-    excerpt: "L'Église catholique en Côte d'Ivoire lance les Assises Nationales de la Catéchèse à la Paroisse Notre-Dame de l'Annonciation, Auribat.",
-    image: assisesCatechese,
-    date: "17 mai 2026",
-    category: "Événement",
-  },
-  {
-    id: 4,
-    slug: "vatican-benedictions-couples",
-    title: "Le Vatican interdit les bénédictions officielles pour les couples homosexuels",
-    excerpt: "Le Saint-Siège publie une lettre rappelant la doctrine de l'Église sur le mariage et les bénédictions officielles.",
-    image: vaticanBenedictions,
-    date: "10 mai 2026",
-    category: "Actualité",
+    slug: "voeux-nouvel-an-2026",
+    title: "Vœux du Nouvel An 2026",
+    excerpt: "Que cette nouvelle année soit remplie de la grâce divine et de la paix du Christ.",
+    image: voeuxImg,
+    date: "1er janvier 2026",
+    category: "Message",
   },
 ];
 

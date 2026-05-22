@@ -86,22 +86,6 @@ const emissions: Emission[] = [
     image: emissionEcclesia,
     fullDescription: "Ecclesia Magazine est le rendez-vous hebdomadaire de l'actualité de l'Église catholique en Côte d'Ivoire et dans le monde. Chaque semaine, découvrez les événements marquants, les interviews exclusives et les témoignages inspirants de notre communauté de foi.",
   },
-  {
-    title: "Préparons Ensemble Dimanche",
-    description: "Préparation liturgique et spirituelle pour le dimanche",
-    radio: "Radio Nationale Catholique",
-    schedule: "Samedi 18h",
-    image: emissionRnc,
-    fullDescription: "Chaque samedi, préparez-vous spirituellement pour le dimanche avec nos prêtres et animateurs. Méditation de l'Évangile, chants liturgiques et enseignements pour vivre pleinement la messe dominicale.",
-  },
-  {
-    title: "Questions de Doctrine",
-    description: "Approfondissement de la foi avec la Commission Doctrinale",
-    radio: "Radio Espoir",
-    schedule: "Mercredi 20h",
-    image: radioImage,
-    fullDescription: "L'émission de référence pour approfondir votre connaissance de la foi catholique. En collaboration avec la Commission Épiscopale pour la Doctrine de la Foi, nos théologiens répondent à vos questions et expliquent les enseignements de l'Église.",
-  },
 ];
 
 interface Podcast {
