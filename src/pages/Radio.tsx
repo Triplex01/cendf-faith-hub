@@ -5,7 +5,7 @@ import SEO from "@/components/SEO";
 import { BreadcrumbSchema, RadioStationSchema } from "@/components/StructuredData";
 import radioImage from "@/assets/radio-studio.jpg";
 import emissionEcclesia from "@/assets/emission-ecclesia.jpg";
-import emissionRnc from "@/assets/emission-rnc.jpg";
+
 import logoRadioEspoir from "@/assets/logo-radio-espoir.png";
 import logoRnc from "@/assets/logo-rnc.png";
 import logoRadioSanwi from "@/assets/logo-radio-sanwi.png";
@@ -85,22 +85,6 @@ const emissions: Emission[] = [
     schedule: "Jeudi 8h-8h55",
     image: emissionEcclesia,
     fullDescription: "Ecclesia Magazine est le rendez-vous hebdomadaire de l'actualité de l'Église catholique en Côte d'Ivoire et dans le monde. Chaque semaine, découvrez les événements marquants, les interviews exclusives et les témoignages inspirants de notre communauté de foi.",
-  },
-  {
-    title: "Préparons Ensemble Dimanche",
-    description: "Préparation liturgique et spirituelle pour le dimanche",
-    radio: "Radio Nationale Catholique",
-    schedule: "Samedi 18h",
-    image: emissionRnc,
-    fullDescription: "Chaque samedi, préparez-vous spirituellement pour le dimanche avec nos prêtres et animateurs. Méditation de l'Évangile, chants liturgiques et enseignements pour vivre pleinement la messe dominicale.",
-  },
-  {
-    title: "Questions de Doctrine",
-    description: "Approfondissement de la foi avec la Commission Doctrinale",
-    radio: "Radio Espoir",
-    schedule: "Mercredi 20h",
-    image: radioImage,
-    fullDescription: "L'émission de référence pour approfondir votre connaissance de la foi catholique. En collaboration avec la Commission Épiscopale pour la Doctrine de la Foi, nos théologiens répondent à vos questions et expliquent les enseignements de l'Église.",
   },
 ];
 
