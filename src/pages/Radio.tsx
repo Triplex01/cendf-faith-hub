@@ -5,7 +5,7 @@ import SEO from "@/components/SEO";
 import { BreadcrumbSchema, RadioStationSchema } from "@/components/StructuredData";
 import radioImage from "@/assets/radio-studio.jpg";
 import emissionEcclesia from "@/assets/emission-ecclesia.jpg";
-import emissionRnc from "@/assets/emission-rnc.jpg";
+
 import logoRadioEspoir from "@/assets/logo-radio-espoir.png";
 import logoRnc from "@/assets/logo-rnc.png";
 import logoRadioSanwi from "@/assets/logo-radio-sanwi.png";
