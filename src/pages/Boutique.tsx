@@ -432,6 +432,7 @@ const Boutique = () => {
         </div>
       </section>
     </PageLayout>
+    </>
   );
 };
 
