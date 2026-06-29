@@ -26,6 +26,9 @@ import citationBenoitXVI from "@/assets/citation-benoit-xvi.jpg";
 import pelerinageImg from "@/assets/basilique-yamoussoukro.jpg";
 import reunionImg from "@/assets/news-reunion-cedf.jpg";
 import voeuxImg from "@/assets/voeux-2026.jpg";
+import encycliqueImg from "@/assets/actu-encyclique-leon-xiv.png";
+import evangeliserImg from "@/assets/actu-evangeliser-reseaux.png";
+import vaticanBenedictionsImg from "@/assets/actu-vatican-benedictions.png";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -173,6 +176,33 @@ const citations: Citation[] = [
 
 const staticArticles: Article[] = [
   {
+    id: 10,
+    slug: "encyclique-leon-xiv-magnifica-humanitas",
+    title: "1ère Encyclique du Pape Léon XIV : Magnifica Humanitas",
+    excerpt: "Le Saint-Père Léon XIV publie sa première encyclique « Magnifique humanité » sur l'attention portée à la personne humaine à l'ère de l'intelligence artificielle.",
+    image: encycliqueImg,
+    date: "25 mai 2026",
+    category: "Vatican",
+  },
+  {
+    id: 11,
+    slug: "soiree-evangeliser-par-les-reseaux",
+    title: "Soirée : Évangéliser par les Réseaux",
+    excerpt: "Venez rencontrer les missionnaires du numérique avec Mgr Rey, l'Abbé Raffray, les abbés de CREDO, l'Abbé Laguérie et Paul d'Amen Media.",
+    image: evangeliserImg,
+    date: "28 mai 2026",
+    category: "Évangélisation",
+  },
+  {
+    id: 12,
+    slug: "vatican-lettre-benedictions-couples-homosexuels",
+    title: "Le Vatican publie une lettre sur les bénédictions officielles",
+    excerpt: "Le Saint-Siège publie une lettre clarifiant la doctrine catholique concernant les bénédictions officielles pour les couples de même sexe.",
+    image: vaticanBenedictionsImg,
+    date: "10 mai 2026",
+    category: "Magistère",
+  },
+  {
     id: 1,
     slug: "pelerinage-yamoussoukro",
     title: "Pèlerinage à la Basilique de Yamoussoukro",
@@ -204,12 +234,24 @@ const staticArticles: Article[] = [
 const Actualites = () => {
   const [selectedEvent, setSelectedEvent] = useState<StaticEvent | null>(null);
   const [selectedCitation, setSelectedCitation] = useState<Citation | null>(null);
-
   return (
-    <PageLayout 
-      title="Actualités"
-      subtitle="Restez informé des dernières actualités de l'Église catholique en Côte d'Ivoire"
-    >
+    <>
+      <SEO
+        title="Actualités Catholiques — Église en Côte d'Ivoire & Vatican"
+        description="Toutes les actualités de l'Église catholique en Côte d'Ivoire et au Vatican : encyclique du Pape Léon XIV, magistère, évangélisation, événements de la CEDF, pèlerinages, conférences synodales et nouvelles du Saint-Siège."
+        keywords="actualités catholiques, Église catholique Côte d'Ivoire, Vatican actualités, Pape Léon XIV, encyclique Magnifica Humanitas, magistère, Saint-Siège, Dicastère pour la Doctrine de la Foi, évangélisation numérique, synode, CECCI, Conférence Épiscopale, pèlerinage Yamoussoukro, Basilique Notre-Dame de la Paix, CEDF, cedfci, Abidjan, archidiocèse, doctrine catholique, liturgie, théologie"
+        url="/actualites"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: "Accueil", url: "/" },
+          { name: "Actualités", url: "/actualites" },
+        ]}
+      />
+      <PageLayout 
+        title="Actualités"
+        subtitle="Restez informé des dernières actualités de l'Église catholique en Côte d'Ivoire"
+      >
       {/* 1. Section Événements à la Une */}
       <section className="py-16 bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto px-4">
@@ -475,7 +517,8 @@ const Actualites = () => {
           description={event.fullDescription}
         />
       ))}
-    </PageLayout>
+      </PageLayout>
+    </>
   );
 };
 

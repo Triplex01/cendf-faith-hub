@@ -7,8 +7,38 @@ import { Badge } from "@/components/ui/badge";
 import pelerinageImg from "@/assets/basilique-yamoussoukro.jpg";
 import reunionImg from "@/assets/news-reunion-cedf.jpg";
 import voeuxImg from "@/assets/voeux-2026.jpg";
+import encycliqueImg from "@/assets/actu-encyclique-leon-xiv.png";
+import evangeliserImg from "@/assets/actu-evangeliser-reseaux.png";
+import vaticanBenedictionsImg from "@/assets/actu-vatican-benedictions.png";
 
 const staticArticles = [
+  {
+    id: 10,
+    slug: "encyclique-leon-xiv-magnifica-humanitas",
+    title: "1ère Encyclique du Pape Léon XIV : Magnifica Humanitas",
+    excerpt: "Le Saint-Père Léon XIV publie sa première encyclique consacrée à la personne humaine à l'ère de l'intelligence artificielle.",
+    image: encycliqueImg,
+    date: "25 mai 2026",
+    category: "Vatican",
+  },
+  {
+    id: 11,
+    slug: "soiree-evangeliser-par-les-reseaux",
+    title: "Soirée : Évangéliser par les Réseaux",
+    excerpt: "Rencontre des missionnaires du numérique avec Mgr Rey, l'Abbé Raffray et les abbés de CREDO.",
+    image: evangeliserImg,
+    date: "28 mai 2026",
+    category: "Évangélisation",
+  },
+  {
+    id: 12,
+    slug: "vatican-lettre-benedictions-couples-homosexuels",
+    title: "Le Vatican publie une lettre sur les bénédictions",
+    excerpt: "Le Saint-Siège publie une lettre interdisant les bénédictions officielles pour les couples homosexuels.",
+    image: vaticanBenedictionsImg,
+    date: "10 mai 2026",
+    category: "Magistère",
+  },
   {
     id: 1,
     slug: "pelerinage-yamoussoukro",
@@ -17,24 +47,6 @@ const staticArticles = [
     image: pelerinageImg,
     date: "15 janvier 2026",
     category: "Événement",
-  },
-  {
-    id: 2,
-    slug: "reunion-commission-janvier",
-    title: "Réunion de la Commission Épiscopale",
-    excerpt: "Les membres de la Commission se sont réunis pour planifier les activités de l'année 2026.",
-    image: reunionImg,
-    date: "10 janvier 2026",
-    category: "Vie de la CEDF",
-  },
-  {
-    id: 3,
-    slug: "voeux-nouvel-an-2026",
-    title: "Vœux du Nouvel An 2026",
-    excerpt: "Que cette nouvelle année soit remplie de la grâce divine et de la paix du Christ.",
-    image: voeuxImg,
-    date: "1er janvier 2026",
-    category: "Message",
   },
 ];
 

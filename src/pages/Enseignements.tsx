@@ -83,9 +83,9 @@ const Enseignements = () => {
   return (
     <>
       <SEO
-        title="Enseignements Catholiques"
-        description="Approfondissez votre foi avec nos enseignements catholiques : études bibliques, catéchèse, doctrine, vie spirituelle et familiale."
-        keywords="enseignement catholique, catéchèse, études bibliques, doctrine foi, vie spirituelle, formation catholique, Côte d'Ivoire"
+        title="Enseignements Catholiques — Théologie, Liturgie & Catéchèse"
+        description="Approfondissez votre foi catholique : études bibliques, catéchèse, doctrine, théologie, liturgie romaine, patristique, vie spirituelle et familiale. Enseignements de la CEDF Côte d'Ivoire fidèles au Magistère de l'Église."
+        keywords="enseignement catholique, catéchèse Côte d'Ivoire, études bibliques, doctrine de la foi, théologie catholique, philosophie chrétienne, liturgie romaine, patristique, Pères de l'Église, saint Augustin, saint Thomas d'Aquin, mariologie, christologie, ecclésiologie, sacrements, eucharistie, vie spirituelle, vie familiale chrétienne, formation catéchétique, CEDF, cedfci, Église catholique Abidjan, Vatican, Magistère, encyclique, foi et raison"
         url="/enseignements"
       />
       <BreadcrumbSchema

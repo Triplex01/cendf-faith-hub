@@ -6,8 +6,62 @@ import { sanitizeHtml } from "@/lib/sanitize";
 import pelerinageImg from "@/assets/basilique-yamoussoukro.jpg";
 import reunionImg from "@/assets/news-reunion-cedf.jpg";
 import voeuxImg from "@/assets/voeux-2026.jpg";
+import encycliqueImg from "@/assets/actu-encyclique-leon-xiv.png";
+import evangeliserImg from "@/assets/actu-evangeliser-reseaux.png";
+import vaticanBenedictionsImg from "@/assets/actu-vatican-benedictions.png";
 
 const staticArticles = [
+  {
+    id: 10,
+    slug: "encyclique-leon-xiv-magnifica-humanitas",
+    title: "1ère Encyclique du Pape Léon XIV : Magnifica Humanitas",
+    excerpt: "Le Saint-Père Léon XIV publie sa première encyclique sur la personne humaine à l'ère de l'intelligence artificielle.",
+    content: `
+      <p>Le <strong>25 mai 2026</strong>, le Saint-Père <strong>Léon XIV</strong> a officiellement publié sa première encyclique, intitulée <em>« Magnifica Humanitas »</em> (« Magnifique humanité »).</p>
+      <h2>Une réflexion sur la dignité humaine</h2>
+      <p>Ce document magistériel développe une réflexion profonde sur <em>« l'attention portée à la personne humaine à l'ère de l'intelligence artificielle »</em>, dans la continuité de la doctrine sociale de l'Église.</p>
+      <h2>Foi, raison et technologie</h2>
+      <p>Le Souverain Pontife invite la communauté catholique à relire les avancées technologiques à la lumière de l'Évangile, de la patristique et de la tradition philosophique chrétienne — de saint Augustin à saint Thomas d'Aquin.</p>
+      <p>L'encyclique sera étudiée dans les diocèses de Côte d'Ivoire et fera l'objet d'enseignements approfondis sur cedfci.org.</p>
+    `,
+    image: encycliqueImg,
+    date: "25 Mai 2026",
+    category: "Vatican",
+  },
+  {
+    id: 11,
+    slug: "soiree-evangeliser-par-les-reseaux",
+    title: "Soirée : Évangéliser par les Réseaux",
+    excerpt: "Rencontre missionnaire avec les acteurs de l'évangélisation numérique catholique.",
+    content: `
+      <p>Le <strong>jeudi 28 mai 2026</strong> de <strong>20h00 à 23h30</strong>, à l'<strong>Espace Charenton — Paris 12</strong>, se tiendra la soirée <em>« Évangéliser par les Réseaux »</em>.</p>
+      <h2>Les missionnaires du numérique</h2>
+      <p>Venez rencontrer <strong>Mgr Rey</strong>, l'<strong>Abbé Raffray</strong>, les <strong>abbés de CREDO</strong>, l'<strong>Abbé Laguérie</strong>, le <strong>Catho de Service</strong>, <strong>Paul d'Amen Media</strong> et bien d'autres acteurs de l'évangélisation digitale.</p>
+      <h2>Pourquoi cette rencontre ?</h2>
+      <p>Dans un monde marqué par le numérique, l'Église est appelée à porter la Bonne Nouvelle sur tous les nouveaux aréopages. Cette soirée vise à former et encourager les missionnaires des réseaux sociaux.</p>
+      <p><em>Accès VIP dès 18h30.</em></p>
+    `,
+    image: evangeliserImg,
+    date: "28 Mai 2026",
+    category: "Évangélisation",
+  },
+  {
+    id: 12,
+    slug: "vatican-lettre-benedictions-couples-homosexuels",
+    title: "Le Vatican publie une lettre sur les bénédictions officielles",
+    excerpt: "Le Saint-Siège clarifie la doctrine catholique concernant les bénédictions liturgiques.",
+    content: `
+      <p>Le <strong>Dicastère pour la Doctrine de la Foi</strong> a publié, le <strong>10 mai 2026</strong>, une lettre rappelant la position de l'Église concernant les <strong>bénédictions officielles</strong>.</p>
+      <h2>Un rappel doctrinal</h2>
+      <p>Le document précise que l'Église catholique, fidèle à la <em>Révélation divine</em> et à la <em>Tradition apostolique</em>, ne peut accorder de bénédiction officielle aux unions qui ne correspondent pas au plan de Dieu sur le mariage tel qu'enseigné dans les Écritures et le Magistère.</p>
+      <h2>Une pastorale d'accueil</h2>
+      <p>Cette clarification doctrinale s'accompagne d'un appel renouvelé à <strong>l'accueil pastoral</strong> et à <strong>l'accompagnement spirituel</strong> de toutes les personnes, dans la vérité et la charité du Christ.</p>
+      <p>La <strong>CEDF</strong> proposera prochainement un enseignement détaillé sur ce texte magistériel.</p>
+    `,
+    image: vaticanBenedictionsImg,
+    date: "10 Mai 2026",
+    category: "Magistère",
+  },
   {
     id: 1,
     slug: "pelerinage-yamoussoukro",
