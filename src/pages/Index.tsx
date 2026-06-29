@@ -19,9 +19,9 @@ const Index = () => {
   return (
     <main className="min-h-screen">
       <SEO
-        title="Accueil"
-        description="CENDF - Commission Épiscopale pour la Doctrine de la Foi. Enseignements catholiques, documents magistériels, Radio Espoir 94.8 FM, podcasts et actualités de l'Église en Côte d'Ivoire."
-        keywords="CENDF, église catholique, doctrine foi, enseignement catholique, Radio Espoir, Abidjan, Côte d'Ivoire, homélie, catéchèse, prière, évangélisation"
+        title="CEDF — Église Catholique en Côte d'Ivoire | Doctrine, Théologie & Liturgie"
+        description="CEDF Côte d'Ivoire : Commission Épiscopale pour la Doctrine de la Foi. Enseignements catholiques, théologie, liturgie romaine, magistère de l'Église, encycliques, magazine Credo, Radio Espoir 102.8 FM, prières, catéchèse et actualités du Vatican."
+        keywords="CEDF, CEDF Côte d'Ivoire, cedfci, Église catholique Côte d'Ivoire, doctrine catholique, théologie catholique, philosophie chrétienne, liturgie romaine, magistère, Saint-Siège, Vatican, Pape Léon XIV, encyclique, Magnifica Humanitas, catéchèse, évangélisation, foi catholique, Conférence Épiscopale Côte d'Ivoire, CECCI, archidiocèse Abidjan, Yamoussoukro, paroisses, sacrements, eucharistie, mariologie, christologie, ecclésiologie, patristique, Pères de l'Église, Radio Espoir 102.8 FM, magazine Credo, prières catholiques, Notre Père, Je vous salue Marie, Symbole de Nicée, spiritualité catholique, vie consacrée"
         url="/"
       />
       <OrganizationSchema />

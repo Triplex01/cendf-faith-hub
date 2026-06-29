@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
+import SEO from "@/components/SEO";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 import { Button } from "@/components/ui/button";
 import OrderModal from "@/components/OrderModal";
 import { 
@@ -96,7 +98,15 @@ const Boutique = () => {
   };
 
   return (
-    <PageLayout
+    <>
+      <SEO
+        title="Boutique — Magazine Credo Catholique | CEDF Côte d'Ivoire"
+        description="Achetez et abonnez-vous au magazine Credo de la CEDF : mensuel catholique de doctrine, théologie, liturgie, spiritualité et vie de l'Église en Côte d'Ivoire. Paiement Mobile Money & carte bancaire."
+        keywords="magazine Credo, boutique catholique, abonnement Credo, mensuel catholique Côte d'Ivoire, revue catholique, doctrine, théologie, liturgie, spiritualité chrétienne, formation catholique, CEDF, cedfci, Église catholique Abidjan, Vatican, magistère, catéchèse, paroisses, achat magazine catholique, abonnement religieux, PayDunya, Mobile Money"
+        url="/boutique"
+      />
+      <BreadcrumbSchema items={[{ name: "Accueil", url: "/" }, { name: "Boutique", url: "/boutique" }]} />
+      <PageLayout
       title="Magazine Credo"
       subtitle="Mensuel Catholique de la Commission Épiscopale pour la Doctrine de la Foi"
       backgroundImage={basiliqueCover}

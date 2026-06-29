@@ -260,7 +260,16 @@ const APropos = () => {
   };
 
   return (
-    <PageLayout 
+    <>
+      <SEO
+        title="À Propos de la CEDF — Commission Épiscopale Doctrine de la Foi"
+        description="Découvrez la CEDF, Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire : sa mission de garder, enseigner et promouvoir la foi catholique, son histoire depuis le Dicastère pour la Doctrine de la Foi et son équipe au service de l'Église."
+        keywords="CEDF, CEDF Côte d'Ivoire, cedfci, Commission Épiscopale Doctrine Foi, Dicastère pour la Doctrine de la Foi, CECCI, Conférence Épiscopale Côte d'Ivoire, Église catholique Abidjan, Mgr Beby Gaspard, Mgr Amiézi, Vatican, Saint-Siège, magistère, théologie catholique, philosophie chrétienne, mission ecclésiale, évangélisation, formation doctrinale"
+        url="/a-propos"
+      />
+      <BreadcrumbSchema items={[{ name: "Accueil", url: "/" }, { name: "À Propos", url: "/a-propos" }]} />
+      <OrganizationSchema />
+      <PageLayout 
       title="À Propos de la CEDF" 
       subtitle="Commission Épiscopale pour la Doctrine de la Foi en Côte d'Ivoire"
       backgroundImage={basiliqueYamoussoukro}
@@ -482,6 +491,7 @@ const APropos = () => {
         </div>
       </section>
     </PageLayout>
+    </>
   );
 };
 
